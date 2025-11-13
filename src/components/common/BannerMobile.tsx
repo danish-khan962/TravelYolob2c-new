@@ -22,11 +22,10 @@ const BannerMobile = () => {
 
   return (
     <section
-      className={`md:hidden flex flex-row justify-center items-center w-screen transition-all duration-300 ${
-        isSticky
+      className={`md:hidden flex flex-row justify-center items-center w-screen transition-all duration-300 ${isSticky
           ? 'fixed bottom-0 left-0 right-0 z-[999999]'
           : 'fixed bottom-0 left-0 right-0 z-[999999]'
-      }`}
+        }`}
       style={{ pointerEvents: 'auto' }}
     >
       <div className="w-[50%] h-[56px] font-host-grotesk flex justify-center items-start gap-[8px] bg-white text-black shadow-md py-2">
@@ -41,9 +40,11 @@ const BannerMobile = () => {
         </div>
       </div>
 
-      <div className="w-[50%] h-[56px] flex justify-center items-center font-host-grotesk text-base font-normal bg-[#171C28] text-white cursor-pointer">
-        Request a Quote
-      </div>
+      <Link href={"/contact"} className="w-[50%] h-[56px] flex justify-center items-center font-host-grotesk text-base font-normal bg-[#171C28] text-white cursor-pointer">
+        <div>
+          Request a Quote
+        </div>
+      </Link>
     </section>
   )
 }

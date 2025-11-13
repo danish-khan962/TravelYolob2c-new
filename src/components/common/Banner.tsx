@@ -44,7 +44,7 @@ const Banner = () => {
 
             <div className="flex items-center gap-3">
               <p className="text-[12px] sm:text-[14px] md:text-base lg:text-[18px] font-normal">Or</p>
-              <Link href="/trip-planner">
+              <Link href="/contact">
                 <button className="text-[10px] sm:text-[12px] md:text-[14px] lg:text-base font-normal text-white bg-[#312E29] py-2 px-4 sm:px-5 md:px-6 rounded-full hover:bg-opacity-90 transition-all duration-200">
                   Request a Quote
                 </button>

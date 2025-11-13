@@ -107,7 +107,7 @@ const PackageContent = () => {
                             onClick={handleBookNow}
                             className="w-full sm:w-[223px] h-[54px] bg-[#312E29] text-white rounded-full cursor-pointer hover:scale-105 transition-all ease-in-out duration-200"
                         >
-                            Inquire Now
+                            Enquire Now
                         </button>
                         {/* <Link className='w-full' href={"/contact"}>
                             <button className='w-full sm:w-[223px]  h-[54px] border border-[#312E29] bg-white rounded-full cursor-pointer hover:scale-105 transition-all ease-in-out duration-200'>Book discovery call</button>
@@ -132,7 +132,7 @@ const PackageContent = () => {
                         onClick={handleBookNow}
                         className="w-full sm:w-[223px] h-[54px] bg-[#312E29] text-white rounded-full cursor-pointer hover:scale-105 transition-all ease-in-out duration-200"
                     >
-                        Inquire Now
+                        Enquire Now
                     </button>
 
                     {/* <Link href={"/contact"} className="w-full">
