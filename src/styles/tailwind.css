@@ -1,0 +1,310 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Global Colors */
+    --global-bg-1: #000000;
+    --global-bg-2: #0000008c;
+    --global-bg-3: #09090984;
+    --global-bg-4: #252525;
+    --global-bg-5: #6c3b3f;
+    --global-bg-6: #d9d9d9;
+    --global-bg-7: #e6e6e6;
+    --global-bg-8: #f0ebde;
+    --global-bg-9: #f1e8ce;
+    --global-bg-10: #f7f4eb;
+    --global-bg-11: #f8f8f8;
+    --global-bg-12: #ffffff;
+    --global-bg-13: #312e29;
+    --global-text-1: #000000;
+    --global-text-2: #312e29;
+    --global-text-3: #6c3b3f;
+    --global-text-4: #e5d0a1;
+    --global-text-5: #ffffff;
+    --global-text-6: #fae9c2;
+
+    /* Header Colors */
+    --header-bg-1: #171c28;
+    --header-text-1: #fae9c2;
+
+    /* Button Colors */
+    --button-bg-1: #312e29;
+
+    /* Footer Colors */
+    --footer-bg-1: #262421;
+    --footer-bg-2: #494743;
+    --footer-bg-3: #4b4843;
+    --footer-text-1: #5b554b;
+    --footer-text-2: #c8c8c8;
+  }
+}
+
+@layer utilities {
+
+  /* Container */
+  .container-enterprise {
+    width: 100%;
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Global */
+  .bg-global-1 {
+    background-color: var(--global-bg-1);
+  }
+
+  .bg-global-2 {
+    background-color: var(--global-bg-2);
+  }
+
+  .bg-global-3 {
+    background-color: var(--global-bg-3);
+  }
+
+  .bg-global-4 {
+    background-color: var(--global-bg-4);
+  }
+
+  .bg-global-5 {
+    background-color: var(--global-bg-5);
+  }
+
+  .bg-global-6 {
+    background-color: var(--global-bg-6);
+  }
+
+  .bg-global-7 {
+    background-color: var(--global-bg-7);
+  }
+
+  .bg-global-8 {
+    background-color: var(--global-bg-8);
+  }
+
+  .bg-global-9 {
+    background-color: var(--global-bg-9);
+  }
+
+  .bg-global-10 {
+    background-color: var(--global-bg-10);
+  }
+
+  .bg-global-11 {
+    background-color: var(--global-bg-11);
+  }
+
+  .bg-global-12 {
+    background-color: var(--global-bg-12);
+  }
+
+  .bg-global-13 {
+    background-color: var(--global-bg-13);
+  }
+
+  .text-global-1 {
+    color: var(--global-text-1);
+  }
+
+  .text-global-2 {
+    color: var(--global-text-2);
+  }
+
+  .text-global-3 {
+    color: var(--global-text-3);
+  }
+
+  .text-global-4 {
+    color: var(--global-text-4);
+  }
+
+  .text-global-5 {
+    color: var(--global-text-5);
+  }
+
+  .text-global-6 {
+    color: var(--global-text-6);
+  }
+
+  /* Header */
+  .bg-header-1 {
+    background-color: var(--header-bg-1);
+  }
+
+  .text-header-1 {
+    color: var(--header-text-1);
+  }
+
+  /* Button */
+  .bg-button-1 {
+    background-color: var(--button-bg-1);
+  }
+
+  /* Footer */
+  .bg-footer-1 {
+    background-color: var(--footer-bg-1);
+  }
+
+  .bg-footer-2 {
+    background-color: var(--footer-bg-2);
+  }
+
+  .bg-footer-3 {
+    background-color: var(--footer-bg-3);
+  }
+
+  .text-footer-1 {
+    color: var(--footer-text-1);
+  }
+
+  .text-footer-2 {
+    color: var(--footer-text-2);
+  }
+
+  /* Enterprise scrollbars for modern browsers */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--global-text-4) transparent;
+  }
+
+  .no-scrollbar {
+    /* Hide scrollbar but keep scrollability */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(229, 208, 161, 0.6);
+    border-radius: 9999px;
+  }
+
+  /* Text balance and nice wrapping */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hyphens-auto {
+    hyphens: auto;
+  }
+
+  /* Line clamp utility (fallback simple) */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-clamp: 3;
+  }
+
+  /* Safe area paddings for mobile */
+  .px-safe {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .py-safe {
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* Focus ring subtle */
+  .focus-ring {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(229, 208, 161, 0.6);
+  }
+
+  /* Wavy carousel enhancements */
+  .wavy-carousel-container {
+    perspective: 1000px;
+    perspective-origin: center center;
+  }
+
+  .wavy-carousel-item {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .wavy-carousel-item:hover {
+    transform-origin: center bottom !important;
+  }
+
+  /* Enhanced shadow for elevated items */
+  .wavy-shadow {
+    filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.15)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+  }
+
+  .wavy-shadow-strong {
+    filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.2)) drop-shadow(0 6px 15px rgba(0, 0, 0, 0.15));
+  }
+
+
+  /*BACKGROUND IMAGES CLASSES FOR DESKTOP AND MOBILE*/
+
+
+
+  /*Trip-Planner */
+  .tripPlannerHero-bg{
+    background-image: url('/trip-planner/banner_mobile.png');
+  }
+  @media (min-width:500px){
+    .tripPlannerHero-bg{
+      background-image: url('/trip-planner/banner.png.png')
+    }
+  }
+
+  /*Destinations */
+  .destinationsHero-bg{
+    background-image: url('/destinations/banner_mobile.png');
+  }
+  @media (min-width:500px){
+    .destinationsHero-bg{
+      background-image: url('/destinations/banner.png')
+    }
+  }
+
+  /*Itirenary */
+  .itineraryHero-bg{
+    background-image: url('/destinations/itinerary/banner_mobile.png');
+  }
+  @media (min-width:500px){
+    .itineraryHero-bg{
+      background-image: url('/destinations/itinerary/banner.png');
+    }
+  }
+}
+
+
+
+select {
+  -webkit-appearance: none; /* Remove default chevron on Chrome */
+  -moz-appearance: none;    /* Remove default chevron on Firefox */
+  appearance: none;
+}

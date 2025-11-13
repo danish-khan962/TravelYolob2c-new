@@ -1,0 +1,33 @@
+[
+  {
+    "image": "/destinations/itinerary/india_gate.png",
+    "title": "India Gate",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+  },
+  {
+    "image": "/destinations/itinerary/taj_mahal.png",
+    "title": "Taj Mahal",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+  },
+  {
+    "image": "/destinations/itinerary/hawa_mahal.png",
+    "title": "Hawa Mahal",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+  },
+  {
+    "image": "/destinations/itinerary/india_gate.png",
+    "title": "India Gate",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+  },
+  {
+    "image": "/destinations/itinerary/taj_mahal.png",
+    "title": "Taj Mahal",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+  },
+  {
+    "image": "/destinations/itinerary/hawa_mahal.png",
+    "title": "Hawa Mahal",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+  }
+  
+]

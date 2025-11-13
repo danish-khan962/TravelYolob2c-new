@@ -1,0 +1,91 @@
+/* customCalendar.css */
+
+.calendar-wrapper {
+  height: 300px; 
+  overflow: hidden;
+  position: relative;
+}
+
+.calendar-wrapper .rdrCalendarWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make months container scrollable if needed */
+.calendar-wrapper .rdrMonths {
+  height: 100% !important;
+  overflow-y: auto;
+}
+
+/* Optional: Smooth out scrollbars */
+.calendar-wrapper .rdrMonths::-webkit-scrollbar {
+  width: 6px;
+}
+
+.calendar-wrapper .rdrMonths::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.rdrCalendarWrapper {
+  font-family: 'Inter', sans-serif;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rdrDayNumber span {
+  color: #111827;
+}
+
+.rdrStartEdge,
+.rdrEndEdge,
+.rdrInRange {
+  background-color: #824040 !important;
+}
+
+.rdrDayToday .rdrDayNumber span {
+  font-weight: bold;
+}
+
+.custom-slider {
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 10px;
+  margin-top: 8px;
+  outline: none;
+  background: linear-gradient(
+    to right,
+    #6C3B3F 0%,
+    #6C3B3F var(--progress),
+    #e5e5e5 var(--progress),
+    #e5e5e5 100%
+  );
+  cursor: pointer;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #824040;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #824040;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+/* Hide the date inputs above the calendar */
+.rdrDateDisplayWrapper {
+  display: none !important;
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "image": "/blog/card_image_1.png",
+    "author": "John Wick",
+    "date": "Feb 14, 2025",
+    "title": "The Art of Slow Travel in Tuscany",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  {
+    "image": "/blog/card_image_2.png",
+    "author": "Jane Doe",
+    "date": "Feb 14, 2025",
+    "title": "Packing Light, Living Large: Essentials for Luxury Travel",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  {
+    "image": "/blog/card_image_3.png",
+    "author": "Alan Smith",
+    "date": "Feb 14, 2025",
+    "title": "Exploring the Swiss Alps",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  {
+    "image": "/blog/card_image_2.png",
+    "author": "Emily Rose",
+    "date": "Feb 14, 2025",
+    "title": "Packing Light, Living Large: Essentials for Luxury Travel",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  {
+    "image": "/blog/card_image_3.png",
+    "author": "Tom Hardy",
+    "date": "Feb 14, 2025",
+    "title": "Sailing the Greek Islands",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  },
+  {
+    "image": "/blog/card_image_1.png",
+    "author": "Lara Croft",
+    "date": "Feb 14, 2025",
+    "title": "Packing Light, Living Large: Essentials for Luxury Travel",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  }
+]

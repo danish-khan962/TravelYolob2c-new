@@ -1,0 +1,61 @@
+[
+  {
+    "step": 1,
+    "title": "Delhi – The Adventure Begins",
+    "details": [
+      "VIP Arrival Meet & Assist",
+      "Airport – Vehicle/Driver/Representative",
+      "Hotel: Delhi – Taj Palace – Deluxe Room"
+    ]
+  },
+  {
+    "step": 2,
+    "title": "Delhi Explore a City of Contrasts",
+    "details": [
+      "Full Day Old & New Delhi Tour – Vehicle/Driver/Guide",
+      "Hotel: Delhi – Taj Palace – Deluxe Room"
+    ]
+  },
+  {
+    "step": 3,
+    "title": "Delhi to Agra The Journey Continues…",
+    "details": [
+      "Transfer [Private ] – Delhi – Agra [4 hrs] – Vehicle/Driver",
+      "Beyond the Taj Mahal – Walking the Heritage Trail – Vehicle/Driver/Guide",
+      "Hotel: Agra – Taj Hotel & Convention Centre – Deluxe Room"
+    ]
+  },
+  {
+    "step": 4,
+    "title": "Agra Cross an Item off the Bucket List",
+    "details": [
+      "Taj Mahal & Agra Fort – Private Tour",
+      "Hotel: Agra – Taj Hotel & Convention Centre – Deluxe Room"
+    ]
+  },
+  {
+    "step": 5,
+    "title": "Agra to Jaipur A Dazzling Drive",
+    "details": [
+      "Transfer [Private ] – Agra – Jaipur",
+      "[via Fatehpur Sikri (6 hrs)] – Vehicle/Driver/Guide",
+      "Hotel: Jaipur – Samode Haveli – Deluxe Suite"
+    ]
+  },
+  {
+    "step": 6,
+    "title": "Jaipur See the Signature Sights in Style",
+    "details": [
+      "Amber Fort, City Palace, Observatory & Hawa Mahal (5 hrs) – Private Tour",
+      "Hotel: Jaipur – Samode Haveli – Deluxe Suite"
+    ]
+  },
+  {
+    "step": 7,
+    "title": "Jaipur to Delhi Bon Voyage",
+    "details": [
+      "Transfer [Private ] – Jaipur – Delhi [5.5 hrs] – Vehicle/Driver",
+      "VIP Departure"
+    ]
+  }
+]

@@ -1,0 +1,101 @@
+[
+  {
+    "id": "1",
+    "content": "Our trip was beautifully organized and stress-free. TravelYollo made every day feel special, from the scenic train rides to the charming alpine stays.",
+    "rating": 5,
+    "tripTitle": "Swiss Alps Escape",
+    "profile": {
+      "id": "p1",
+      "name": "Priya & Karan Mehta",
+      "avatar": "/testimonials/Priya & Karan Mehta.jpeg"
+    }
+  },
+  {
+    "id": "2",
+    "content": "Every day brought something new and exciting. TravelYollo handled everything with care, making our family trip smooth and unforgettable.",
+    "rating": 4,
+    "tripTitle": "New Zealand Adventure",
+    "profile": {
+      "id": "p2",
+      "name": "The Fernandez Family",
+      "avatar": "/testimonials/Fernandez Family.jpeg"
+    }
+  },
+  {
+    "id": "3",
+    "content": "The cherry blossoms were even more beautiful than I imagined. Thanks to TravelYollo, I could enjoy every detail without worrying about a thing.",
+    "rating": 5,
+    "tripTitle": "Japan Spring Discovery",
+    "profile": {
+      "id": "p3",
+      "name": "Isabelle Turner",
+      "avatar": "/testimonials/Isabelle Turner.jpeg"
+    }
+  },
+  {
+    "id": "4",
+    "content": "TravelYollo blended history, food, and culture beautifully. Every experience felt authentic and thoughtfully curated.",
+    "rating": 4,
+    "tripTitle": "Turkey Cultural Trail",
+    "profile": {
+      "id": "p4",
+      "name": "Maya Kapoor",
+      "avatar": "/testimonials/Maya Kapoor.jpeg"
+    }
+  },
+  {
+    "id": "5",
+    "content": "Every moment felt seamless and romantic. TravelYollo understood exactly what we wanted and turned our honeymoon into a dream come true.",
+    "rating": 5,
+    "tripTitle": "Amalfi Coast Getaway",
+    "profile": {
+      "id": "p5",
+      "name": "Lucas & Emma Roberts",
+      "avatar": "/testimonials/Lucas & Emma Roberts.jpeg"
+    }
+  },
+  {
+    "id": "6",
+    "content": "It felt like our trip was designed just for us. TravelYollo made exploring Europe easy, elegant, and full of little surprises.",
+    "rating": 5,
+    "tripTitle": "Paris & Beyond",
+    "profile": {
+      "id": "p6",
+      "name": "Daniel & Sofia Clark",
+      "avatar": "/testimonials/Daniel & Sofia Clark.jpeg"
+    }
+  },
+  {
+    "id": "7",
+    "content": "From the game drives to the ocean views, everything was thoughtfully planned. TravelYollo made it feel like an adventure designed just for us.",
+    "rating": 5,
+    "tripTitle": "South African Safari",
+    "profile": {
+      "id": "p7",
+      "name": "Aarav, Sneha & Family",
+      "avatar": "/testimonials/Aarav, Sneha & Family.jpg"
+    }
+  },
+  {
+    "id": "8",
+    "content": "Peaceful, calm, and perfectly timed. TravelYollo took care of every detail so I could truly disconnect and recharge.",
+    "rating": 5,
+    "tripTitle": "Bali Wellness Retreat",
+    "profile": {
+      "id": "p8",
+      "name": "Nisha Rao",
+      "avatar": "/testimonials/Nisha Rao.jpeg"
+    }
+  },
+  {
+    "id": "9",
+    "content": "Seeing the northern lights was pure magic. TravelYollo made the whole experience effortless, from start to finish.",
+    "rating": 5,
+    "tripTitle": "Iceland Northern Lights Tour",
+    "profile": {
+      "id": "p9",
+      "name": "Ravi & Ananya Patel",
+      "avatar": "/testimonials/Ravi and ananya patel.jpg"
+    }
+  }
+]
