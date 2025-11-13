@@ -219,7 +219,7 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
                 disabled={isSubmitting}
                 className="w-full sm:w-[220px] h-[50px] bg-[#312E29] text-white hover:scale-105 cursor-pointer transition-all ease-in-out duration-200 rounded-full font-host-grotesk disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isSubmitting ? 'Submitting...' : 'Talk to our Expert'}
+                {isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
               </button>
             </div>
           </form>
