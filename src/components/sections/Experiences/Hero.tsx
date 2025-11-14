@@ -7,31 +7,48 @@ import { useParams } from "next/navigation"
 import Black_Tint_for_Image from "../../../../public/images/black_tint.png"
 import Black_Tint_Mobile from "../../../../public/images/black_tint_mobile.png"
 
-// Desktop images
-import image1 from "../../../../public/experiences/experience_1.png"
-import image2 from "../../../../public/experiences/experience_2.png"
-import image3 from "../../../../public/experiences/experience_3.png"
-import image4 from "../../../../public/experiences/experience_4.png"
+// Romantic Escapes images
+import romantic_escapes_desktop from "../../../../public/experiences/romantic_escapes_desktop.png"
+import romantic_escapes_mobile from "../../../../public/experiences/romantic_escapes_mobile.png"
 
-// Mobile images
-import image1_mobile from "../../../../public/experiences/experience_1_mobile.png"
-import image2_mobile from "../../../../public/experiences/experience_2_mobile.png"
-import image3_mobile from "../../../../public/experiences/experience_3_mobile.png"
-import image4_mobile from "../../../../public/experiences/experience_4_mobile.png"
+// Family getaways images
+import family_getaways_desktop from "../../../../public/experiences/family_getaways_desktop.png"
+import family_getaways_mobile from "../../../../public/experiences/family_getaways_mobile.png"
 
-const SwiperImages = [
-  { backgroundImage: image1 },
-  { backgroundImage: image2 },
-  { backgroundImage: image3 },
-  { backgroundImage: image4 },
-]
+// Cultural Sojourns images
+import cultural_soujourns_desktop from "../../../../public/experiences/cultural_soujourn_desktop.png"
+import cultural_soujourns_mobile from "../../../../public/experiences/cultural_soujourn_mobile.png"
 
-const SwiperImagesMobile = [
-  { backgroundImage: image1_mobile },
-  { backgroundImage: image2_mobile },
-  { backgroundImage: image3_mobile },
-  { backgroundImage: image4_mobile },
-]
+// Scenic Escapes images
+import scenic_escapes_desktop from "../../../../public/experiences/scenic_escapes_desktop.png"
+import scenic_escapes_mobile from "../../../../public/experiences/scenic_escapes_mobile.png"
+
+// Wildlife Encounters images
+import wildlife_encounters_desktop from "../../../../public/experiences/wildlife_encounters_desktop.png"
+import wildlife_encounters_mobile from "../../../../public/experiences/wildlife_encounters_mobile.png"
+
+const imagesBySlug = {
+  "romantic-escapes": {
+    desktop: [romantic_escapes_desktop],
+    mobile: [romantic_escapes_mobile],
+  },
+  "family-getaways": {
+    desktop: [family_getaways_desktop],
+    mobile: [family_getaways_mobile],
+  },
+  "cultural-soujourns": {
+    desktop: [cultural_soujourns_desktop],
+    mobile: [cultural_soujourns_mobile],
+  },
+  "scenic-escapes": {
+    desktop: [scenic_escapes_desktop],
+    mobile: [scenic_escapes_mobile],
+  },
+  "wildlife-encounters": {
+    desktop: [wildlife_encounters_desktop],
+    mobile: [wildlife_encounters_mobile],
+  },
+}
 
 const Hero = () => {
   const [activeIndex, setActiveIndex] = useState(0)
@@ -61,16 +78,6 @@ const Hero = () => {
 
   const bannerText = getBannerText(slug)
 
-  // 🔹 Auto-slide effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prevIndex) =>
-        prevIndex === SwiperImages.length - 1 ? 0 : prevIndex + 1
-      )
-    }, 5200)
-    return () => clearInterval(interval)
-  }, [])
-
   // 🔹 Detect screen size for mobile adjustment
   useEffect(() => {
     const checkScreenSize = () => setIsMobile(window.innerWidth < 640)
@@ -79,8 +86,27 @@ const Hero = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  // Select image set based on screen size
+  // 🔹 Select images based on slug (fallback to empty)
+  const slugImages = imagesBySlug[slug as keyof typeof imagesBySlug] || {
+    desktop: [],
+    mobile: [],
+  }
+
+  const SwiperImages = slugImages.desktop.map((img) => ({ backgroundImage: img }))
+  const SwiperImagesMobile = slugImages.mobile.map((img) => ({ backgroundImage: img }))
+
   const currentImages = isMobile ? SwiperImagesMobile : SwiperImages
+
+  // 🔹 Auto-slide effect
+  useEffect(() => {
+    if (!currentImages.length) return
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) =>
+        prevIndex === currentImages.length - 1 ? 0 : prevIndex + 1
+      )
+    }, 5200)
+    return () => clearInterval(interval)
+  }, [currentImages])
 
   return (
     <section className="relative w-screen h-full text-white">
