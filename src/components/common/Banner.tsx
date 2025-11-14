@@ -37,7 +37,7 @@ const Banner = () => {
 
             <div className="flex items-center gap-2 text-[12px] sm:text-[14px] lg:text-[18px] font-normal">
               <FaPhoneAlt />
-              <Link href="tel:5619414991" className="hover:cursor-pointer hover:underline">
+              <Link href="tel:+15619414991" className="hover:cursor-pointer hover:underline">
                 +1 561-941-4991
               </Link>
             </div>

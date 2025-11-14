@@ -89,7 +89,7 @@ const Footer = () => {
                                         className='h-[16px] w-[16px]'
                                     />
                                 </span>
-                                <Link href={"tel:5619414991"} className='text-[14px] sm:text-base text-[#C9C9C9] font-host-grotesk hover:underline hover:text-white hover:font-medium transition-all ease-in-out duration-200 cursor-pointer'> +1 561-941-4991 </Link >
+                                <Link href={"tel:+15619414991"} className='text-[14px] sm:text-base text-[#C9C9C9] font-host-grotesk hover:underline hover:text-white hover:font-medium transition-all ease-in-out duration-200 cursor-pointer'> +1 561-941-4991 </Link >
                             </Link>
 
                             <Link href={"mailto:contact@travelyollo.com"} className='flex flex-row items-center gap-x-2 justify-center'>

@@ -31,7 +31,7 @@ const BannerMobile = () => {
       <div className="w-[50%] h-[56px] font-host-grotesk flex justify-center items-start gap-[8px] bg-white text-black shadow-md py-2">
         <FaPhoneAlt />
         <div className="flex flex-col justify-start items-start">
-          <Link href="tel:5619414991" className="hover:cursor-pointer hover:underline">
+          <Link href="tel:+15619414991" className="hover:cursor-pointer hover:underline">
             +1 561-941-4991
           </Link>
           <p className="font-host-grotesk text-sm">
