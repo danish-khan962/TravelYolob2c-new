@@ -5,7 +5,7 @@ import TripPlannerForm from '@/components/sections/TripPlanner/TripPlannerForm';
 import Hero from '@/components/sections/TripPlanner/Hero';
 import PackageCardGrid from '@/components/sections/TripPlanner/PackageCardGrid';
 import PackageGrid2 from '@/components/sections/TripPlanner/PackageGrid2';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Page: React.FC = () => {
   const [destinations, setDestinations] = useState<any[]>([]);
@@ -83,6 +83,8 @@ const Page: React.FC = () => {
 
   return (
     <div>
+      <Toaster position="top-right" />
+
       <Hero />
 
       <div className='px-4 md:px-10 lg:px-16 flex flex-col sm:flex-row gap-x-[130px] gap-y-[20px] mt-[60px] items-start sm:items-center'>

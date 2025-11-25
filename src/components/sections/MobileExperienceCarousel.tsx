@@ -66,7 +66,7 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
   useEffect(() => {
     async function fetchDestinations() {
       try {
-        const res = await fetch("/api/packages?package_type=signature");
+        const res = await fetch("/api/packages?package_type=destination");
         if (!res.ok) throw new Error("Failed to fetch signature packages");
 
         const json = await res.json();
