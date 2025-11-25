@@ -83,7 +83,7 @@ const Page: React.FC = () => {
 
   return (
     <div>
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
 
       <Hero />
 

@@ -191,25 +191,25 @@ const HomePage: React.FC = () => {
           <div className="hidden md:flex justify-center mt-[37px] sm:mt-[45px] lg:mt-[50px] px-4 sm:px-6 lg:px-8">
             <Link href={"/destinations"}>
               <Button
-              variant="primary"
-              size="md"
-              className="bg-global-13 text-global-5 rounded-full px-4 sm:px-7 lg:px-[40px] py-2 sm:py-3 lg:py-[14px] text-sm sm:text-base lg:text-[18px] font-host-grotesk font-normal leading-[17px] sm:leading-[20px] lg:leading-[24px] hover:scale-105 transition-all ease-in-out duration-200"
-            >
-              View All Destinations
-            </Button>            
+                variant="primary"
+                size="md"
+                className="bg-global-13 text-global-5 rounded-full px-4 sm:px-7 lg:px-[40px] py-2 sm:py-3 lg:py-[14px] text-sm sm:text-base lg:text-[18px] font-host-grotesk font-normal leading-[17px] sm:leading-[20px] lg:leading-[24px] hover:scale-105 transition-all ease-in-out duration-200"
+              >
+                View All Destinations
+              </Button>
             </Link>
           </div>
         </div>
 
-        <div className="flex md:hidden justify-center mt-[37px] px-4">
-          <Link className='w-full' href={"/destinations"}>
-              <Button
-            variant="primary"
-            size="md"
-            className="bg-global-13 text-global-5 rounded-full w-[241px] h-[54px] text-[18px] font-host-grotesk font-normal hover:scale-105 transition-all duration-200"
-          >
-            View All Destinations
-          </Button>
+        <div className="w-full flex md:hidden justify-center mt-[37px] px-4">
+          <Link className='flex justify-center items-center' href={"/destinations"}>
+            <Button
+              variant="primary"
+              size="md"
+              className="bg-global-13 text-global-5 rounded-full w-[241px] h-[54px] text-[18px] font-host-grotesk font-normal hover:scale-105 transition-all duration-200"
+            >
+              View All Destinations
+            </Button>
           </Link>
         </div>
 

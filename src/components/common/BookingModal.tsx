@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -61,9 +61,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
       email,
       country_code: countryCode,
       phone,
-      trip_details: `Package: ${packageTitle || 'N/A'}\nPackage ID: ${
-        packageId || 'N/A'
-      }\n\n${tripDetails}`,
+      trip_details: `Package: ${packageTitle || 'N/A'}\nPackage ID: ${packageId || 'N/A'
+        }\n\n${tripDetails}`,
     };
 
     try {
@@ -114,6 +113,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 p-4 overflow-y-auto">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="relative bg-white rounded-2xl max-w-[900px] w-full max-h-[90vh] overflow-y-auto shadow-2xl">
         {/* Close button */}
         <button
@@ -155,9 +155,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
               <input
                 type="email"
                 placeholder="Email*"
-                className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk ${
-                  emailError ? 'border-red-500' : 'border-[#98B6E2]'
-                }`}
+                className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk ${emailError ? 'border-red-500' : 'border-[#98B6E2]'
+                  }`}
                 value={email}
                 onChange={handleEmailChange}
                 required
@@ -173,11 +172,26 @@ const BookingModal: React.FC<BookingModalProps> = ({
                   className="w-full text-[16px] sm:text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 pl-4 pr-9 font-host-grotesk appearance-none cursor-pointer bg-white"
                   style={{ textAlign: 'center' }}
                 >
-                  <option value="+1">🇺🇸 +1</option>
-                  <option value="+91">🇮🇳 +91</option>
-                  <option value="+44">🇬🇧 +44</option>
-                  <option value="+61">🇦🇺 +61</option>
-                  <option value="+971">🇦🇪 +971</option>
+                  <option value='+1'>🇺🇸 +1</option>
+                  <option value='+44'>🇬🇧 +44</option>
+                  <option value='+91'>🇮🇳 +91</option>
+                  <option value='+61'>🇦🇺 +61</option>
+                  <option value='+81'>🇯🇵 +81</option>
+                  <option value='+86'>🇨🇳 +86</option>
+                  <option value='+33'>🇫🇷 +33</option>
+                  <option value='+49'>🇩🇪 +49</option>
+                  <option value='+39'>🇮🇹 +39</option>
+                  <option value='+34'>🇪🇸 +34</option>
+                  <option value='+7'>🇷🇺 +7</option>
+                  <option value='+55'>🇧🇷 +55</option>
+                  <option value='+27'>🇿🇦 +27</option>
+                  <option value='+52'>🇲🇽 +52</option>
+                  <option value='+82'>🇰🇷 +82</option>
+                  <option value='+65'>🇸🇬 +65</option>
+                  <option value='+971'>🇦🇪 +971</option>
+                  <option value='+966'>🇸🇦 +966</option>
+                  <option value='+60'>🇲🇾 +60</option>
+                  <option value='+66'>🇹🇭 +66</option>
                 </select>
                 <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
                   <svg className="w-4 h-4 text-[#727272]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,7 +233,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                 disabled={isSubmitting}
                 className="w-full sm:w-[220px] h-[50px] bg-[#312E29] text-white hover:scale-105 cursor-pointer transition-all ease-in-out duration-200 rounded-full font-host-grotesk disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
+                {isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
               </button>
             </div>
           </form>

@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import { useState } from 'react'
-import toast from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 
 const Contact = () => {
 
@@ -88,6 +88,7 @@ const Contact = () => {
 
   return (
     <div className='relative w-full flex justify-center items-center'>
+      <Toaster position="top-center" reverseOrder={false} />
       <form className='max-w-[800px] w-full flex flex-col gap-y-[19px]' onSubmit={handleFormSubmit}>
         <input
           type='text'
