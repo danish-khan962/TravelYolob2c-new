@@ -36,11 +36,32 @@ const Footer = () => {
             });
 
             if (!res.ok) {
-                const errData = await res.text();
-                console.error("Newsletter error:", errData);
+                let msg = "";
+
+                try {
+                    const json = await res.json();
+                    msg = json?.message || json?.error || "";
+                } catch {
+                    msg = await res.text();
+                }
+
+                const lower = msg.toLowerCase();
+
+                // Detect already subscribed cases
+                if (
+                    lower.includes("already subscribed") ||
+                    lower.includes("already exists") ||
+                    lower.includes("exists") ||
+                    res.status === 409
+                ) {
+                    toast.error("You’re already subscribed to our newsletter!");
+                    return;
+                }
+
                 toast.error("Subscription failed. Please try again later.");
                 return;
             }
+
 
             setEmail("");
             toast.success("Subscribed to newsletter!");

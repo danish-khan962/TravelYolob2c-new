@@ -15,7 +15,7 @@ import linkedIn_icon from "../../../../public/images/linkedin_icon.png";
 import x_icon from "../../../../public/images/x_icon.png";
 import facebook_icon from "../../../../public/images/facebook_icon.png";
 import instagram_icon from "../../../../public/images/instagram_icon.png";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import blogInternalData from "../../../../public/json/blogInternalData.json";
 
@@ -112,8 +112,7 @@ const Page = () => {
   useEffect(() => {
     async function fetchBlogDetails() {
       try {
-        if (!slug || typeof slug !== "string") return; // 
-        console.log("Fetching blog for slug:", slug);
+        if (!slug || typeof slug !== "string") return;
         const res = await fetch(`/api/blogs/${slug}`, {
           headers: { "Content-Type": "application/json" },
           cache: "no-store",
@@ -126,7 +125,6 @@ const Page = () => {
         }
 
         const data = await res.json();
-        console.log("Blog fetched successfully:", data);
 
         // set blog and stop loading
         setBlogDetails(data);
@@ -220,7 +218,6 @@ const Page = () => {
   }, [slug]);
 
 
-
   useEffect(() => {
     if (!slug) return;
     const liked = localStorage.getItem(`liked_${slug}`);
@@ -245,6 +242,7 @@ const Page = () => {
 
   return (
     <div className="relative w-screen">
+      <Toaster position="top-center" reverseOrder={false} />
       <Banner featured_image={blogDetails?.featured_image} />
 
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col mdplus:flex-row md:justify-between md:items-start mt-[25px] md:mt-[37px] gap-x-[26px]">
@@ -437,11 +435,32 @@ const Page = () => {
                   });
 
                   if (!res.ok) {
-                    const errData = await res.text();
-                    console.error("Newsletter error:", errData);
+                    let msg = "";
+
+                    try {
+                      const json = await res.json();
+                      msg = json?.message || json?.error || "";
+                    } catch {
+                      msg = await res.text();
+                    }
+
+                    const lower = msg.toLowerCase();
+
+                    // Detect already subscribed cases
+                    if (
+                      lower.includes("already subscribed") ||
+                      lower.includes("already exists") ||
+                      lower.includes("exists") ||
+                      res.status === 409
+                    ) {
+                      toast.error("You’re already subscribed to our newsletter!");
+                      return;
+                    }
+
                     toast.error("Subscription failed. Please try again later.");
                     return;
                   }
+
 
                   setEmail("");
                   toast.success("Subscribed to newsletter!");

@@ -11,7 +11,7 @@ const Contact = () => {
   const [countryCode, setCountryCode] = useState('+1');
   const [emailError, setEmailError] = useState('');
   const [helpDetails, setHelpDetails] = useState('');
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
 
   const validateEmail = (email: string): boolean => {
