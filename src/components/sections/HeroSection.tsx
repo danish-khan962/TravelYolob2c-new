@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import scrollDown from "../../../public/scroll_down.gif"
+import scrollDownWhite from "../../../public/scroll_down_white.gif"
 
 import Hero_background_1 from "../../../public/images/bg-1.png"
 import Hero_background_2 from "../../../public/images/bg-2.png"
@@ -133,9 +135,8 @@ const HeroSection = () => {
         {/* Content (All your original styles preserved exactly) */}
         <div className="relative z-10 flex flex-col justify-between md:justify-center items-center gap-y-[66px] px-4 pt-[67px] md:pt-0 pb-[42px] md:pb-0 h-full text-center">
           <div
-            className={`flex flex-col justify-center items-center text-center transition-all duration-1000 ease-in-out ${
-              fade ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-            }`}
+            className={`flex flex-col justify-center items-center text-center transition-all duration-1000 ease-in-out ${fade ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+              }`}
           >
             <h1 className="font-noto-serif font-light italic text-[34px] sm:text-[40px] md:text-[45px] lg:text-[52px] capitalize leading-[42px] sm:leading-[45px] md:leading-[55px] lg:leading-[65px]">
               {SwiperImages[activeIndex].heading}
@@ -159,6 +160,15 @@ const HeroSection = () => {
             </Link>
           </div>
         </div>
+
+        <Image
+          src={scrollDownWhite}
+          alt="scroll down"
+          height={1000}
+          width={1000}
+          className="absolute left-1/2 transform -translate-x-1/2 bottom-56 sm:bottom-36 md:bottom-24 lg:bottom-16 z-[100] pointer-events-none h-[150px] w-auto"
+        />
+
       </div>
     </section>
   )

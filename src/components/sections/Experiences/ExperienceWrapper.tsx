@@ -1,8 +1,8 @@
-import React from "react";
-import ExperienceDesktop from "./ExperienceDesktop"; // desktop swiper component
+import React, { forwardRef } from "react";
+import ExperienceDesktop, { ExperienceDesktopHandle } from "./ExperienceDesktop"; // desktop swiper component
 import ExperienceMobile from "./ExperienceMobile"; // mobile swiper component
 
-const ExperienceWrapper = () => {
+const ExperienceWrapper = forwardRef<ExperienceDesktopHandle, any>((props, ref) => {
   return (
     <>
       <ExperienceMobile
@@ -13,6 +13,7 @@ const ExperienceWrapper = () => {
       />
 
       <ExperienceDesktop
+        ref={ref}
         applySigTransforms={() => {}}
         scheduleSigTransforms={() => {}}
         sigCarouselRef={React.createRef()}
@@ -20,6 +21,6 @@ const ExperienceWrapper = () => {
       />
     </>
   );
-};
+});
 
 export default ExperienceWrapper;

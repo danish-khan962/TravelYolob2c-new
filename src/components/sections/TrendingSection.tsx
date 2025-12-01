@@ -129,6 +129,8 @@ const TrendingSection: React.FC = () => {
                 {/* Swiper */}
                 <div className="block mt-6 sm:mt-8 lg:mt-16">
                     <Swiper
+                    simulateTouch={true}
+                    allowTouchMove={true}
                         spaceBetween={16}
                         loop={true}
                         autoplay={{ delay: 2500, disableOnInteraction: false }}

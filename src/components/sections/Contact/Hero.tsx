@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Black_Tint_for_Image from "../../../../public/images/black_tint.png"
 import Black_Tint_Mobile from "../../../../public/images/black_tint_mobile.png"
+import scrollDown from "../../../../public/scroll_down.gif"
+import scrollDownWhite from "../../../../public/scroll_down_white.gif"
 
 // Desktop images
 import hot_air_balloon from "../../../../public/contact/1_hot_air_balloon.jpg"
@@ -108,6 +110,14 @@ const Hero = () => {
             unforgettable journey.
           </h1> */}
         </div>
+
+         <Image
+          src={scrollDownWhite}
+          alt="scroll down"
+          height={1000}
+          width={1000}
+          className="absolute left-1/2 transform -translate-x-1/2 bottom-48 sm:bottom-36 md:bottom-24 lg:bottom-16 z-[100] pointer-events-none h-[150px] w-auto"
+        />
       </div>
     </section>
   )

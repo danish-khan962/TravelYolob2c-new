@@ -121,6 +121,8 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
             {experiences.length > 0 && (
               <Swiper
                 modules={[Navigation, Pagination]}
+                simulateTouch={false}
+                allowTouchMove={false}
                 spaceBetween={32}
                 slidesPerView={1.2}
                 centeredSlides={true}

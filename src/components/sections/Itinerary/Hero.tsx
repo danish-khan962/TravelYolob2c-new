@@ -2,13 +2,15 @@ import React from "react"
 import Image from "next/image"
 import Black_Tint_for_Image from "../../../../public/images/black_tint.png"
 import Black_Tint_Mobile from "../../../../public/images/black_tint_mobile.png"
+import scrollDown from "../../../../public/scroll_down.gif"
+import scrollDownWhite from "../../../../public/scroll_down_white.gif"
 
 const Hero = ({ title, image, duration }: { title: string, image: string, duration: string }) => {
   return (
     <section className="relative w-screen h-full text-white">
       <div className="relative w-full h-screen">
         <div
-          className="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out bg-cover bg-no-repeat bg-center itineraryHero-bg"
+          className="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out bg-cover bg-no-repeat bg-center"
         />
         <Image
           src={image}
@@ -47,6 +49,14 @@ const Hero = ({ title, image, duration }: { title: string, image: string, durati
             {duration}
           </p>
         </div>
+
+        <Image
+          src={scrollDownWhite}
+          alt="scroll down"
+          height={1000}
+          width={1000}
+          className="absolute left-1/2 transform -translate-x-1/2 bottom-48 sm:bottom-36 md:bottom-24 lg:bottom-16 z-[100] pointer-events-none h-[150px] w-auto"
+        />
       </div>
     </section>
   )

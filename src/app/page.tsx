@@ -14,11 +14,18 @@ import TrendingSection from '@/components/sections/TrendingSection';
 import CallToActionSection from '@/components/sections/CallToActionSection';
 import SignatureExperiencesWrapper from '@/components/sections/SignatureExperienceWrapper';
 
-
+import ChevronsLeft from "../../public/images/double_chevrons_left.png"
+import ChevronsRight from "../../public/images/double_chevrons_right.png"
+import Image from 'next/image';
+import { SignatureExperiencesSectionHandle } from '@/components/sections/SignatureExperiencesSection';
 
 const HomePage: React.FC = () => {
   const sigCarouselRef = useRef<HTMLDivElement | null>(null);
   const sigRafRef = useRef<number | null>(null);
+
+  // control ref for the signature swiper (exposed methods next/prev)
+ const sigControlRef = useRef<SignatureExperiencesSectionHandle | null>(null);
+
 
   const scrollSigCarousel = (direction: -1 | 1) => {
     const el = sigCarouselRef.current;
@@ -103,7 +110,6 @@ const HomePage: React.FC = () => {
   }, [experiencesLoading]);
 
 
-
   // Gentle auto-scroll for Trending carousel
   const trendingRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -165,11 +171,31 @@ const HomePage: React.FC = () => {
 />
 */}
         <div className='mt-[75px] md:mt-[80px]'>
-          <div className="hidden md:flex relative z-10 flex-col justify-center items-center sm:justify-start sm:items-start h-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="flex flex-col items-start text-start sm:items-center sm:block">
-              <h1 className="text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] font-light italic leading-[40px] sm:leading-[55px] md:leading-[65px] lg:leading-[79px] capitalize mb-2 sm:mb-4 lg:mb-[8px] text-balance font-noto-serif">
-                Dream Destinations, Designed For You.
-              </h1>
+          <div className="hidden md:flex relative z-10 flex-col justify-center items-center sm:justify-start sm:items-start h-full max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-12">
+            <div className="w-full flex flex-col items-start text-start sm:items-center sm:block">
+              <div className='flex flex-row justify-between items-center'>
+                <h1 className="text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] font-light italic leading-[40px] sm:leading-[55px] md:leading-[65px] lg:leading-[79px] capitalize mb-2 sm:mb-4 lg:mb-[8px] text-balance font-noto-serif">
+                  Dream Destinations, Designed For You.
+                </h1>
+                <div className='grid grid-cols-2 items-center gap-[60px]'>
+                  <Image
+                    src={ChevronsLeft}
+                    alt='left chevrons'
+                    height={38}
+                    width={42}
+                    className='cursor-pointer'
+                    onClick={() => sigControlRef.current?.prev?.()}
+                  />
+                  <Image
+                    src={ChevronsRight}
+                    alt='right chevrons'
+                    height={38}
+                    width={42}
+                    className='cursor-pointer'
+                    onClick={() => sigControlRef.current?.next?.()}
+                  />
+                </div>
+              </div>
               <p className="text-[#312E29] text-[14px] sm:text-[16px] md:text-[18px] font-host-grotesk font-light leading-[19px] sm:leading-[22px] md:leading-[24px] lg:leading-[27px] mb-[28px] sm:mb-[36px] lg:mb-[48px] mt-3 sm:mt-4 lg:mt-5 max-w-[535px] w-full">
                 From romantic coastlines to vibrant cities and hidden retreats, discover places that inspire your wanderlust and turn every journey into a story worth telling.
               </p>
@@ -184,9 +210,15 @@ const HomePage: React.FC = () => {
               <p className="text-[#312E29] text-[16px] font-host-grotesk font-light leading-[22px] mb-[28px] mt-3 max-w-[535px] w-full">
                 From romantic coastlines to vibrant cities and hidden retreats, discover places that inspire your wanderlust and turn every journey into a story worth telling.
               </p>
+             {/* <div className='w-full flex justify-start items-center mt-2'>
+               <div className='grid grid-cols-2 items-center gap-[60px]'>
+                <Image src={ChevronsLeft} alt='left chevrons' height={38} width={42} className='cursor-pointer' />
+                <Image src={ChevronsRight} alt='right chevrons' height={38} width={42} className='cursor-pointer' />
+              </div>
+             </div> */}
             </div>
           </div>
-          <SignatureExperiencesWrapper />
+          <SignatureExperiencesWrapper ref={sigControlRef} />
 
           <div className="hidden md:flex justify-center mt-[37px] sm:mt-[45px] lg:mt-[50px] px-4 sm:px-6 lg:px-8">
             <Link href={"/destinations"}>

@@ -9,6 +9,8 @@ import greece from "../../../../public/destinations/greece.png"
 import eiffel from "../../../../public/destinations/eiffel.png"
 import eiffelMobile from "../../../../public/destinations/eiffel_mobile.png"
 import sea from "../../../../public/destinations/sea.png"
+import scrollDown from "../../../../public/scroll_down.gif"
+import scrollDownWhite from "../../../../public/scroll_down_white.gif"
 
 const SwiperImages = [
   { backgroundImage: greece },
@@ -117,6 +119,14 @@ const Hero = () => {
             </h1>
           </div>
         </div>
+
+         <Image
+          src={scrollDownWhite}
+          alt="scroll down"
+          height={1000}
+          width={1000}
+          className="absolute left-1/2 transform -translate-x-1/2 bottom-48 sm:bottom-36 md:bottom-24 lg:bottom-16 z-[100] pointer-events-none h-[150px] w-auto"
+        />
       </div>
     </section>
   )

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -25,12 +25,23 @@ interface SignatureExperiencesSectionProps {
   scrollSigCarousel: (direction: -1 | 1) => void;
 }
 
-const SignatureExperiencesSection: React.FC<SignatureExperiencesSectionProps> = ({
-  applySigTransforms,
-  scheduleSigTransforms,
-  sigCarouselRef,
-  scrollSigCarousel,
-}) => {
+export type SignatureExperiencesSectionHandle = {
+  next: () => void;
+  prev: () => void;
+};
+
+const SignatureExperiencesSection = forwardRef<
+  SignatureExperiencesSectionHandle,
+  SignatureExperiencesSectionProps
+>(function SignatureExperiencesSection(
+  {
+    applySigTransforms,
+    scheduleSigTransforms,
+    sigCarouselRef,
+    scrollSigCarousel,
+  },
+  ref
+) {
   const [activeIndex, setActiveIndex] = useState(2); // Start with 3rd slide
   const [progress, setProgress] = useState(0);
   const swiperRef = useRef<SwiperType>();
@@ -101,6 +112,12 @@ const SignatureExperiencesSection: React.FC<SignatureExperiencesSectionProps> = 
     }
   };
 
+  // Expose next/prev to parent via ref
+  useImperativeHandle(ref, () => ({
+    next: handleNextSlide,
+    prev: handlePrevSlide,
+  }), []);
+
   const handleSlideChange = (swiper: SwiperType) => {
     setActiveIndex(swiper.activeIndex);
 
@@ -160,6 +177,8 @@ const SignatureExperiencesSection: React.FC<SignatureExperiencesSectionProps> = 
           >
             <Swiper
               modules={[Navigation, Pagination]}
+              simulateTouch={false}
+              allowTouchMove={false}
               spaceBetween={12}
               slidesPerView={1.2}
               centeredSlides={true}
@@ -319,6 +338,6 @@ const SignatureExperiencesSection: React.FC<SignatureExperiencesSectionProps> = 
       `}</style>
     </div>
   );
-};
+});
 
 export default SignatureExperiencesSection;

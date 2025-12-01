@@ -1,8 +1,13 @@
-import React from "react";
-import SignatureExperiencesSection from "./SignatureExperiencesSection"; // desktop swiper component
+import React, { forwardRef } from "react";
+import SignatureExperiencesSection, {
+  SignatureExperiencesSectionHandle,
+} from "./SignatureExperiencesSection"; // desktop swiper component
 import MobileExperienceCarousel from "./MobileExperienceCarousel"; // mobile swiper component
 
-const SignatureExperiencesWrapper = () => {
+const SignatureExperiencesWrapper = forwardRef<
+  SignatureExperiencesSectionHandle,
+  any
+>((props, ref) => {
   return (
     <>
       <MobileExperienceCarousel
@@ -13,6 +18,7 @@ const SignatureExperiencesWrapper = () => {
       />
 
       <SignatureExperiencesSection
+        ref={ref}
         applySigTransforms={() => {}}
         scheduleSigTransforms={() => {}}
         sigCarouselRef={React.createRef()}
@@ -20,6 +26,6 @@ const SignatureExperiencesWrapper = () => {
       />
     </>
   );
-};
+});
 
 export default SignatureExperiencesWrapper;

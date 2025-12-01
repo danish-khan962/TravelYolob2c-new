@@ -88,7 +88,7 @@ const NotJustTravelSection: React.FC = () => {
           {travelItems.map((item) => (
             <div
               key={item.id}
-              className="relative group max-w-[292px] w-full h-[370px] flex items-center justify-center text-center cursor-pointer"
+              className="relative group max-w-[292px] w-full h-[370px] flex items-center justify-center text-center"
             >
               {/* Background Image (hidden initially) */}
               <Image

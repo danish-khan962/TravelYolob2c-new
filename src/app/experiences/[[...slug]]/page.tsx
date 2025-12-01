@@ -1,16 +1,20 @@
 "use client"
 
 import Hero from '@/components/sections/Experiences/Hero'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import WhatIsIncluded from '../../../components/sections/Experiences/WhatIsIncluded'
 import Testimonials from '../../../components/sections/Experiences/Testimonials'
 import BlogCard from '@/components/sections/Blog/BlogCard'
 import EnquiryForm from '@/components/sections/Experiences/EnquiryForm'
 import vector from "../../../../public/images/img_vector.svg"
 import Image from 'next/image'
+import ChevronsLeft from "../../../../public/images/double_chevrons_left.png"
+import ChevronsRight from "../../../../public/images/double_chevrons_right.png"
 import ExperienceWrapper from '@/components/sections/Experiences/ExperienceWrapper'
 
 import { useParams } from "next/navigation";
+
+import type { ExperienceDesktopHandle } from '@/components/sections/Experiences/ExperienceDesktop';
 
 
 type BlogPost = {
@@ -109,6 +113,9 @@ const page = () => {
 
   const experienceTitle = getExperienceTitle(slug);
 
+  // control ref for the signature swiper (exposed methods next/prev)
+  const sigControlRef = useRef<ExperienceDesktopHandle | null>(null);
+
   return (
     <div className='overflow-x-hidden'>
       <Hero />
@@ -123,15 +130,35 @@ const page = () => {
           </p>
         </div>
 
-        <div className='flex flex-col items-start mt-[55px] sm:mt-[60px]'>
-          <h1 className='text-[32px] sm:text-[40px] font-noto-serif font-light italic'>Experiences Itinerary</h1>
+        <div className='w-full flex flex-col items-start mt-[55px] sm:mt-[60px]'>
+          <div className='w-full flex flex-row justify-between items-center'>
+            <h1 className='text-[32px] sm:text-[40px] font-noto-serif font-light italic'>Experiences Itinerary</h1>
+            <div className='hidden md:grid grid-cols-2 items-center gap-[60px]'>
+              <Image
+                src={ChevronsLeft}
+                alt='left chevrons'
+                height={38}
+                width={42}
+                className='cursor-pointer'
+                onClick={() => sigControlRef.current?.prev?.()}
+              />
+              <Image
+                src={ChevronsRight}
+                alt='right chevrons'
+                height={38}
+                width={42}
+                className='cursor-pointer'
+                onClick={() => sigControlRef.current?.next?.()}
+              />
+            </div>
+          </div>
           <p className='max-w-[351px] sm:max-w-[810px] w-full font-host-grotesk font-light text-base sm:text-[20px] mt-[17px] sm:mt-[12px] sm:leading-snug text-[#312E29]'>
             {itinerary}
           </p>
         </div>
 
         <div className='w-full sm:w-screen mt-[56px] sm:mt-[100px]'>
-          <ExperienceWrapper />
+          <ExperienceWrapper ref={sigControlRef} />
         </div>
       </div>
 
@@ -143,7 +170,7 @@ const page = () => {
 
         {/* Testimonials */}
         <div className='pt-[120px] sm:pt-[150px]'>
-          <Testimonials packageId=""  />
+          <Testimonials packageId="" />
         </div>
 
         {/* Blogs */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -27,12 +27,20 @@ interface ExperienceDesktopProps {
   scrollSigCarousel: (direction: -1 | 1) => void;
 }
 
-const ExperienceDesktop: React.FC<ExperienceDesktopProps> = ({
-  applySigTransforms,
-  scheduleSigTransforms,
-  sigCarouselRef,
-  scrollSigCarousel,
-}) => {
+export type ExperienceDesktopHandle = {
+  next: () => void;
+  prev: () => void;
+};
+
+const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopProps>(function ExperienceDesktop(
+  {
+    applySigTransforms,
+    scheduleSigTransforms,
+    sigCarouselRef,
+    scrollSigCarousel,
+  },
+  ref
+) {
   const params = useParams();
   const parentSlug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || 'romantic-escapes';
 
@@ -106,6 +114,12 @@ const ExperienceDesktop: React.FC<ExperienceDesktopProps> = ({
     }
   };
 
+  // expose next/prev to parent via forwarded ref
+  useImperativeHandle(ref, () => ({
+    next: handleNextSlide,
+    prev: handlePrevSlide,
+  }), []);
+
   const handleSlideChange = (swiper: SwiperType) => {
     setActiveIndex(swiper.activeIndex);
 
@@ -165,6 +179,8 @@ const ExperienceDesktop: React.FC<ExperienceDesktopProps> = ({
           >
             <Swiper
               modules={[Navigation, Pagination]}
+              simulateTouch={false}
+              allowTouchMove={false}
               spaceBetween={12}
               slidesPerView={1.2}
               centeredSlides={true}
@@ -325,6 +341,6 @@ const ExperienceDesktop: React.FC<ExperienceDesktopProps> = ({
       `}</style>
     </div>
   );
-};
+});
 
 export default ExperienceDesktop;
