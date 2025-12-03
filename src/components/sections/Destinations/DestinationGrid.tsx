@@ -1,3 +1,4 @@
+// DestinationGrid.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -5,6 +6,7 @@ import DestinationCard from './DestinationCard';
 import TripPlannerForm from '../TripPlanner/TripPlannerForm';
 import PackageGrid2 from '../TripPlanner/PackageGrid2';
 import { FiChevronDown } from 'react-icons/fi';
+import DestinationPlannerForm from './DestinationPlannerForm';
 
 interface Destination {
   title: string;
@@ -31,48 +33,38 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
   const [visibleCount, setVisibleCount] = useState(6);
   const [screenWidth, setScreenWidth] = useState<number>(0);
 
- useEffect(() => {
-  const fetchDestinations = async () => {
-    try {
-      const params = new URLSearchParams({ package_type: 'destination' });
+  useEffect(() => {
+    const fetchDestinations = async () => {
+      try {
+        const params = new URLSearchParams({ package_type: 'destination' });
+        if (regionId) params.append('regions', regionId);
+        if (seasonId) params.append('seasons', seasonId);
 
-      // Apply filters only when present
-      if (regionId) params.append('region', regionId);
-      if (seasonId) params.append('season', seasonId);
+        const res = await fetch(`/api/packages/?${params.toString()}`);
+        if (!res.ok) throw new Error(`Failed to fetch destinations: ${res.status}`);
 
-      const res = await fetch(`/api/packages?${params.toString()}`);
-      if (!res.ok) throw new Error(`Failed to fetch destinations: ${res.status}`);
+        const data = await res.json();
+        const raw = data.results || [];
 
-      const data = await res.json();
-      console.log("Fetched destination packages for:", { regionId, seasonId });
+        const formattedData = raw.map((pkg: any) => ({
+          id: pkg.id,
+          slug: pkg.slug,
+          title: pkg.title || "Untitled",
+          duration: pkg.duration_days && pkg.duration_nights
+            ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
+            : "",
+          image: pkg.image || "/images/default-package.jpg",
+        }));
 
-      const formattedData = data.results.map((pkg: any) => ({
-        id: pkg.id,
-        slug: pkg.slug,
-        title: pkg.title || "Untitled",
-        duration: pkg.duration_days && pkg.duration_nights
-          ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
-          : "",
-        image: pkg.image || "/images/default-package.jpg",
-      }));
+        setDestinations(formattedData);
+      } catch (err) {
+      }
+    };
 
-      setDestinations(formattedData);
-    } catch (err) {
-      console.error("Error loading destination packages:", err);
-    }
-  };
-
-  // ✅Only fetch after regionId or seasonId are defined (avoids early fetch)
-  if (regionId || seasonId) {
     fetchDestinations();
-  } else {
-    // Optional: fetch all destinations when no filter is applied
-    fetchDestinations();
-  }
-}, [regionId, seasonId]);
+  }, [regionId, seasonId]);
 
 
-  //  Track screen size for responsiveness
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
@@ -109,7 +101,7 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
             </p>
 
             <div className="w-full">
-              <TripPlannerForm />
+              <DestinationPlannerForm regionId={regionId} seasonId={seasonId} />
             </div>
           </div>
 

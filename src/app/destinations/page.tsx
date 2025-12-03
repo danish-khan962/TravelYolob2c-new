@@ -17,67 +17,51 @@ interface Season {
   name: string;
 }
 
-const page = () => {
-  // dropdown toggles
+const Page: React.FC = () => {
   const [regionChevron, setRegionChevron] = useState(false);
   const [seasonsChevron, setSeasonsChevron] = useState(false);
-
-  // selected states
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [selectedSeason, setSelectedSeason] = useState<Season | null>(null);
-
-  // dropdown options from backend
   const [regions, setRegions] = useState<Region[]>([]);
   const [seasons, setSeasons] = useState<Season[]>([]);
-
-  // Suggested packages
   const [suggestedPackages, setSuggestedPackages] = useState<any[]>([]);
   const [loadingPackages, setLoadingPackages] = useState(true);
 
-  // Fetch regions and seasons from backend
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        // Fetch regions
         const regionsRes = await fetch(buildApiUrl('regions/'));
         if (regionsRes.ok) {
           const regionsData = await regionsRes.json();
           setRegions(regionsData.results || regionsData);
         }
 
-        // Fetch seasons
         const seasonsRes = await fetch(buildApiUrl('seasons/'));
         if (seasonsRes.ok) {
           const seasonsData = await seasonsRes.json();
           setSeasons(seasonsData.results || seasonsData);
         }
       } catch (error) {
-        console.error('Error fetching filters:', error);
       }
     };
 
     fetchFilters();
   }, []);
 
-  // Fetch suggested/popular packages
   useEffect(() => {
     const fetchSuggestedPackages = async () => {
       try {
-        const res = await fetch("/api/packages?package_type=popular");
+        const res = await fetch('/api/packages?package_type=popular');
         const data = await res.json();
-        const formatted = data.results?.map((pkg: any) => ({
+        const formatted = (data.results || []).map((pkg: any) => ({
           id: pkg.id,
-          slug: pkg.slug || "",
-          title: pkg.title || "Untitled",
-          image: pkg.image || "/images/default-package.jpg",
-          duration:
-            pkg.duration_days && pkg.duration_nights
-              ? `${pkg.duration_days}D / ${pkg.duration_nights}N`
-              : "",
+          slug: pkg.slug || '',
+          title: pkg.title || 'Untitled',
+          image: pkg.image || '/images/default-package.jpg',
+          duration: pkg.duration_days && pkg.duration_nights ? `${pkg.duration_days}D / ${pkg.duration_nights}N` : '',
         }));
         setSuggestedPackages(formatted || []);
       } catch (err) {
-        console.error("Error fetching suggested packages:", err);
       } finally {
         setLoadingPackages(false);
       }
@@ -85,41 +69,23 @@ const page = () => {
     fetchSuggestedPackages();
   }, []);
 
-  // Scroll to filters after region is preselected
-useEffect(() => {
-  const savedFilters = sessionStorage.getItem("preselectedFilters");
+  useEffect(() => {
+    const savedFilters = sessionStorage.getItem('preselectedFilters');
+    if (!savedFilters) return;
+    const { regionName } = JSON.parse(savedFilters);
+    if (!regionName) return;
+    if (regions.length === 0) return;
+    const matchedRegion = regions.find((r) => r.name.toLowerCase() === regionName.toLowerCase()) || { id: regionName, name: regionName };
+    setSelectedRegion(matchedRegion as Region);
+    sessionStorage.removeItem('preselectedFilters');
+    setTimeout(() => {
+      const filterSection = document.getElementById('destination-filters');
+      if (filterSection) {
+        filterSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 600);
+  }, [regions]);
 
-  if (!savedFilters) return; // nothing saved
-
-  const { regionName } = JSON.parse(savedFilters);
-
-  if (!regionName) return;
-
-  // Wait until regions are loaded
-  if (regions.length === 0) return;
-
-  // Try to find region from backend OR use fallback
-  const matchedRegion =
-    regions.find(
-      (r) => r.name.toLowerCase() === regionName.toLowerCase()
-    ) || { id: regionName, name: regionName }; // fallback for titles like "Bali", "India"
-
-  setSelectedRegion(matchedRegion);
-
-  // Cleanup saved filter
-  sessionStorage.removeItem("preselectedFilters");
-
-  // Smooth scroll
-  setTimeout(() => {
-    const filterSection = document.getElementById("destination-filters");
-    if (filterSection) {
-      filterSection.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, 600);
-}, [regions]);
-
-
-  // toggle functions
   const handleRegionChevronOpen = () => {
     setRegionChevron(!regionChevron);
     setSeasonsChevron(false);
@@ -130,7 +96,6 @@ useEffect(() => {
     setRegionChevron(false);
   }
 
-  // handle selection
   const handleRegionSelect = (region: Region) => {
     setSelectedRegion(region);
     setRegionChevron(false);
@@ -141,7 +106,6 @@ useEffect(() => {
     setSeasonsChevron(false);
   }
 
-  // Clear filters
   const clearRegion = () => {
     setSelectedRegion(null);
   }
@@ -268,7 +232,7 @@ useEffect(() => {
       <div className='mt-[51px] sm:mt-[124px] mb-[100px] sm:mb-[78px]'>
         {regions.length > 0 && (
           <DestinationGrid
-            key={selectedRegion?.id || 'all'}
+            key={`${selectedRegion?.id || 'all'}-${selectedSeason?.id || 'all'}`}
             regionId={selectedRegion?.id}
             seasonId={selectedSeason?.id}
             suggestedPackages={suggestedPackages}
@@ -277,7 +241,7 @@ useEffect(() => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;

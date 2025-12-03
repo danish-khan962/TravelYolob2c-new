@@ -67,8 +67,6 @@ const Contact = () => {
       if (!res.ok) throw new Error("Failed to submit inquiry");
 
       const data = await res.json();
-      console.log("Inquiry submitted:", data);
-
       toast.success("Thank you! We’ve received your message.");
 
       // Reset form

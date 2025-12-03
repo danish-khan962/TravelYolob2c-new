@@ -1,3 +1,4 @@
+// CalendarSection.tsx
 'use client'
 import { useEffect, useState } from 'react'
 import { DateRange } from 'react-date-range'
@@ -9,8 +10,8 @@ import './customCalendar.css'
 export default function CalendarSection({ onDataChange }: { onDataChange?: (data: any) => void }) {
   const [dateRange, setDateRange] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: null as Date | null,
+      endDate: null as Date | null,
       key: 'selection',
     },
   ])
@@ -18,7 +19,8 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
   const [budget, setBudget] = useState([3000, 75000])
   const [isDestinationOpen, setIsDestinationOpen] = useState(false)
   const [travelers, setTravelers] = useState('')
-  const [destination, setDestination] = useState('');
+  const [destination, setDestination] = useState('')
+  const [datesTouched, setDatesTouched] = useState(false)
 
   const now = new Date()
   const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -26,23 +28,27 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
   const maxDate = new Date(now.getFullYear(), maxMonth + 1, 0)
 
   useEffect(() => {
-    if (!onDataChange) return;
+    if (!onDataChange) return
+    const start_date = datesTouched && dateRange[0].startDate ? dateRange[0].startDate.toISOString().split('T')[0] : null
+    const end_date = datesTouched && dateRange[0].endDate ? dateRange[0].endDate.toISOString().split('T')[0] : null
+    const number_of_travellers = travelers ? parseInt(travelers) : null
+    const travel_budget = budget[1] != null ? Number(budget[1]).toFixed(2) : null
+
     onDataChange({
       destination,
-      traveler_count: travelers ? parseInt(travelers) : null,
-      budget_min: budget[0]?.toFixed(2),
-      budget_max: budget[1]?.toFixed(2),
-      start_date: dateRange[0].startDate?.toISOString().split('T')[0],
-      end_date: dateRange[0].endDate?.toISOString().split('T')[0],
-    });
-  }, [destination, travelers, budget, dateRange, onDataChange]);
-
+      traveler_count: number_of_travellers,
+      budget_min: budget[0] != null ? Number(budget[0]).toFixed(2) : null,
+      budget_max: budget[1] != null ? Number(budget[1]).toFixed(2) : null,
+      start_date,
+      end_date,
+      number_of_travellers,
+      travel_budget,
+    })
+  }, [destination, travelers, budget, dateRange, datesTouched, onDataChange])
 
   return (
     <div className='flex flex-col md:flex-row gap-y-8 gap-x-10 bg-[#FAFAFA] px-4 md:px-6 lg:px-8 py-[60px] md:py-8 rounded-xl font-host-grotesk max-w-[866px] w-full'>
-      {/* Left Inputs */}
       <div className='max-w-[700px] w-full space-y-6'>
-        {/* Destination */}
         <div>
           <label className='block mb-2 font-normal text-[20px] ml-2'>Plan your journey</label>
           <div className='relative'>
@@ -72,7 +78,6 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
           </div>
         </div>
 
-        {/* Travelers */}
         <div>
           <label className='block mb-2 font-normal text-[20px] ml-2'>Number of travellers</label>
           <div className='relative'>
@@ -82,20 +87,17 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
               className='w-full bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border border-[#98B6E2] focus:outline-none'
               value={travelers}
               onChange={e => {
-                // Only update if value is empty or positive integer (no negatives or zero)
-                const val = e.target.value;
+                const val = e.target.value
                 if (val === '' || (/^\d+$/.test(val) && Number(val) >= 1)) {
-                  setTravelers(val);
+                  setTravelers(val)
                 }
               }}
               aria-label="Number of travelers"
               placeholder="Enter number of travelers"
             />
-            {/* Optionally, you may add an icon or spinner here for a better UI */}
           </div>
         </div>
 
-        {/* Budget Slider */}
         <div>
           <label className='block mb-2 font-normal text-[20px] mt-0 md:mt-8 ml-2'>What’s your travel budget?</label>
           <div className='flex items-center justify-between text-sm font-semibold mt-2 mb-1'>
@@ -116,15 +118,23 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
         </div>
       </div>
 
-      {/* Calendar */}
       <div className='flex-1'>
         <p className='block mb-2 font-normal text-[20px] text-start sm:text-center'>When would you like to travel?</p>
         <div className="calendar-wrapper">
           <DateRange
             editableDateInputs={true}
-            onChange={(item: any) => setDateRange([item.selection])}
+            onChange={(item: any) => {
+              setDateRange([item.selection])
+              setDatesTouched(true)
+            }}
             moveRangeOnFirstSelection={false}
-            ranges={dateRange}
+            ranges={[
+              {
+                startDate: dateRange[0].startDate || new Date(),
+                endDate: dateRange[0].endDate || new Date(),
+                key: 'selection',
+              },
+            ]}
             rangeColors={['#824040']}
             minDate={minDate}
             maxDate={maxDate}
