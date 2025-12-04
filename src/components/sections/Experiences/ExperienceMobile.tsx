@@ -27,6 +27,10 @@ interface ExperienceMobileProps {
   scrollSigCarousel: (direction: -1 | 1) => void;
 }
 
+function slugify(text: string) {
+  return text.toLowerCase().replace(/ /g, "-");
+}
+
 const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
   applySigTransforms,
   scheduleSigTransforms,
@@ -35,6 +39,7 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
 }) => {
   const params = useParams();
   const parentSlug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || 'romantic-escapes';
+    const stableSlug = React.useMemo(() => parentSlug, [parentSlug]);
 
   const [activeIndex, setActiveIndex] = useState(2);
   const [progress, setProgress] = useState(0);
@@ -79,12 +84,29 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
     window.addEventListener('resize', updateLoop);
     return () => window.removeEventListener('resize', updateLoop);
   }, []);
-
   useEffect(() => {
     async function fetchDestinations() {
       try {
-        const res = await fetch("/api/packages?package_type=experience");
-        if (!res.ok) throw new Error("Failed to fetch signature packages");
+        const subtypeRes = await fetch("/api/experience-subtypes");
+        if (!subtypeRes.ok) throw new Error("Failed to fetch experience subtypes");
+
+        const subtypeJson = await subtypeRes.json();
+        const subtypeList: any[] = subtypeJson?.data?.results || [];
+
+        const matchedSubtype = subtypeList.find((item) => slugify(item.name) === stableSlug);
+
+        if (!matchedSubtype) {
+          setExperiences([]);
+          setIsLoop(false);
+          return;
+        }
+
+        const subtypeId = matchedSubtype.id;
+
+        const res = await fetch(
+          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch packages for subtype");
 
         const json = await res.json();
         const data: Experience[] = json.results.map((item: any) => ({
@@ -97,13 +119,19 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
         }));
 
         setExperiences(data);
+
+        // Ensure loop only if there are multiple items and viewport large enough
+        setIsLoop(window.innerWidth >= 640 && data.length > 1);
       } catch (error) {
         console.error("Error loading signature packages:", error);
+        setExperiences([]);
+        setIsLoop(false);
       }
     }
 
     fetchDestinations();
-  }, []);
+  }, [stableSlug]);
+
 
   return (
     <div className="block sm:hidden w-full">

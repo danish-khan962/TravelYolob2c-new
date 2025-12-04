@@ -32,6 +32,10 @@ export type ExperienceDesktopHandle = {
   prev: () => void;
 };
 
+function slugify(text: string) {
+  return text.toLowerCase().replace(/ /g, "-");
+}
+
 const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopProps>(function ExperienceDesktop(
   {
     applySigTransforms,
@@ -56,10 +60,27 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("/api/packages?package_type=experience");
-        if (!res.ok) throw new Error("Failed to fetch signature packages");
+        const subtypeRes = await fetch("/api/experience-subtypes");
+        const subtypeJson = await subtypeRes.json();
+        const subtypeList = subtypeJson?.data?.results || [];
+
+        const matchedSubtype = subtypeList.find(
+          (item: any) => slugify(item.name) === parentSlug
+        );
+
+        if (!matchedSubtype) {
+          setDisplayData([]);
+          return;
+        }
+
+        const subtypeId = matchedSubtype.id;
+
+        const res = await fetch(
+          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}`
+        );
 
         const json = await res.json();
+
         const data: Experience[] = json.results.map((item: any) => ({
           id: item.id || "",
           slug: item.slug || item.id || "",
@@ -71,18 +92,20 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
 
         setRealDataLength(data.length);
 
-        // Duplicate slides for the pseudo-loop effect
+        if (data.length <= slidesToDuplicate) {
+          setDisplayData(data);
+          return;
+        }
+
         const frontDuplicates = data.slice(-slidesToDuplicate);
         const backDuplicates = data.slice(0, slidesToDuplicate);
         const loopedData = [...frontDuplicates, ...data, ...backDuplicates];
 
         setDisplayData(loopedData);
-      } catch (error) {
-        console.error("Error loading signature packages:", error);
-      }
+      } catch (error) { }
     }
     fetchData();
-  }, []);
+  }, [parentSlug]);
 
   const getYTransform = (slideIndex: number) => {
     const diff = slideIndex - activeIndex;
