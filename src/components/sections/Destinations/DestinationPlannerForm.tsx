@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import CalendarSection from '../TripPlanner/CalendarSection';
+import DestinationCalendar from './DestinationCalendar';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface DestinationPlannerFormProps {
@@ -20,6 +20,8 @@ const DestinationPlannerForm: React.FC<DestinationPlannerFormProps> = ({ onSubmi
     const [emailError, setEmailError] = useState('');
     const [tripDetails, setTripDetails] = useState('');
     const [plannerData, setPlannerData] = useState<any>({});
+    const [resetCalendar, setResetCalendar] = useState(false);
+
 
     const validateEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -98,6 +100,8 @@ const DestinationPlannerForm: React.FC<DestinationPlannerFormProps> = ({ onSubmi
             setEmail('');
             setPhone('');
             setTripDetails('');
+            setPlannerData({});
+            setResetCalendar(prev => !prev);
 
             if (onSubmitSuccess) {
                 onSubmitSuccess();
@@ -112,7 +116,7 @@ const DestinationPlannerForm: React.FC<DestinationPlannerFormProps> = ({ onSubmi
         <>
             <Toaster position="top-center" reverseOrder={false} />
             <div className='flex justify-center items-center'>
-                <CalendarSection onDataChange={setPlannerData} />
+                <DestinationCalendar onDataChange={setPlannerData} resetTrigger={resetCalendar} />
             </div>
 
             <div className='w-full flex justify-center items-center mt-[45px] px-4'>

@@ -29,8 +29,13 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
 
   useEffect(() => {
     if (!onDataChange) return
-    const start_date = datesTouched && dateRange[0].startDate ? dateRange[0].startDate.toISOString().split('T')[0] : null
-    const end_date = datesTouched && dateRange[0].endDate ? dateRange[0].endDate.toISOString().split('T')[0] : null
+    const start_date = datesTouched && dateRange[0].startDate
+      ? dateRange[0].startDate.toLocaleDateString('en-CA')
+      : null;
+
+    const end_date = datesTouched && dateRange[0].endDate
+      ? dateRange[0].endDate.toLocaleDateString('en-CA')
+      : null;
     const number_of_travellers = travelers ? parseInt(travelers) : null
     const travel_budget = budget[1] != null ? Number(budget[1]).toFixed(2) : null
 
