@@ -62,7 +62,7 @@ const SignatureExperiencesSection = forwardRef<
           title: item.title || "Untitled",
           duration_days: item.duration_days || "",
           duration_nights: item.duration_nights || "",
-          image: item.image || "",
+          image: item.image_portrait || "",
           slug: item.slug || "",
         }));
 

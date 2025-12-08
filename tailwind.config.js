@@ -3,12 +3,13 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-       screens: {
+      screens: {
         mdx: "1074px",
         'min-[500px]': '500px',
         xxs: "450px",
         mdplus: "950px",
         'max-380': { max: "380px" },
+        'min-465': { min: "465px" }
       },
       colors: {
         global: {

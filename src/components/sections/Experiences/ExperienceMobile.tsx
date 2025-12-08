@@ -115,7 +115,7 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
           title: item.title || "Untitled",
           duration_days: item.duration_days || "",
           duration_nights: item.duration_nights || "",
-          image: item.image || "",
+          image: item.image_portrait || "",
         }));
 
         setExperiences(data);

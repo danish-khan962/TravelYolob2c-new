@@ -87,7 +87,7 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
           title: item.title || "Untitled",
           duration_days: item.duration_days || "",
           duration_nights: item.duration_nights || "",
-          image: item.image || "",
+          image: item.image_portrait || "",
         }));
 
         setRealDataLength(data.length);

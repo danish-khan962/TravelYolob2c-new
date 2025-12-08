@@ -74,7 +74,7 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
           title: item.title || "Untitled",
           duration_days: item.duration_days || "",
           duration_nights: item.duration_nights || "",
-          image: item.image || "",
+          image: item.image_portrait || "",
         }));
 
         setDestinations(data);

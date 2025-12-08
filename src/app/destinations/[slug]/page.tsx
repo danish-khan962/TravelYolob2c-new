@@ -62,7 +62,7 @@ const page = () => {
     return (
         <div>
             {/* Hero section */}
-            <Hero title={pkg.title} image={pkg.image} duration={`(${pkg.duration_days}D / ${pkg.duration_nights}N)`} />
+            <Hero title={pkg.title} image={pkg.image_landscape} duration={`(${pkg.duration_days}D / ${pkg.duration_nights}N)`} />
 
 
             {/* Overview */}

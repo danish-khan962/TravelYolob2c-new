@@ -48,7 +48,6 @@ const TravelerStoriesSection: React.FC = () => {
       }
 
       toast.success("Thank you for your comment!");
-      console.log(comment)
       setComment("");
     } catch (err) {
       console.error(err);
@@ -93,7 +92,7 @@ const TravelerStoriesSection: React.FC = () => {
 
 
   if (loading) {
-    return <p className='text-center'>Loading testimonials...</p>;
+    return <p className='text-center text-gray-400 mt-[40px]'>Loading testimonials...</p>;
   }
 
   return (
@@ -111,7 +110,7 @@ const TravelerStoriesSection: React.FC = () => {
               Traveler Stories
             </h2>
             <p
-              className="text-[14px] sm:text-[16px] lg:text-[18px] font-host-grotesk font-light leading-relaxed mt-4 max-w-[400px] w-full pr-32 sm:pr-20"
+              className="text-[14px] sm:text-[16px] lg:text-[18px] font-host-grotesk font-light leading-relaxed mt-4 max-w-[320px] min-465:max-w-[350px] w-full pr-32 sm:pr-20 lg:pr-0"
               style={{ color: '#312E29' }}
             >
               Stories shared by explorers who turned trips into lasting memories.

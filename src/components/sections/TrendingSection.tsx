@@ -61,7 +61,7 @@ const TrendingSection: React.FC = () => {
                         title: pkg.title,
                         duration_days: pkg.duration_days,
                         duration_nights: pkg.duration_nights,
-                        image: pkg.image || "/images/default-package.jpg",
+                        image: pkg.image_landscape || "",
                         region: pkg.region && typeof pkg.region === "object"
                             ? pkg.region
                             : { id: pkg.region_id || pkg.region, name: pkg.region_name || pkg.region },

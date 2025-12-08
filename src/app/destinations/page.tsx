@@ -57,7 +57,7 @@ const Page: React.FC = () => {
           id: pkg.id,
           slug: pkg.slug || '',
           title: pkg.title || 'Untitled',
-          image: pkg.image || '/images/default-package.jpg',
+          image: pkg.image_portrait || '',
           duration: pkg.duration_days && pkg.duration_nights ? `${pkg.duration_days}D / ${pkg.duration_nights}N` : '',
         }));
         setSuggestedPackages(formatted || []);

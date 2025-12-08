@@ -53,7 +53,7 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
           duration: pkg.duration_days && pkg.duration_nights
             ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
             : "",
-          image: pkg.image || "/images/default-package.jpg",
+          image: pkg.image_portrait || "",
         }));
 
         setDestinations(formattedData);
