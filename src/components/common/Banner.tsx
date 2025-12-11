@@ -32,7 +32,7 @@ const Banner = () => {
           {/* Center Section: Call and Quote Info */}
           <div className="flex flex-wrap justify-start sm:justify-center items-center text-center gap-3 sm:gap-4 font-host-grotesk">
             <p className="text-[12px] sm:text-[14px] lg:text-[18px] font-normal">
-              Call us today until 6 pm
+              Call us today until 6 pm ET
             </p>
 
             <div className="flex items-center gap-2 text-[12px] sm:text-[14px] lg:text-[18px] font-normal">

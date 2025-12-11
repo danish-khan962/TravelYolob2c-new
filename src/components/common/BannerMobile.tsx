@@ -35,7 +35,7 @@ const BannerMobile = () => {
             +1 561-941-4991
           </Link>
           <p className="font-host-grotesk text-sm">
-            until 6 pm
+            until 6 pm ET
           </p>
         </div>
       </div>

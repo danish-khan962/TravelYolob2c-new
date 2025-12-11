@@ -57,12 +57,10 @@ const page = () => {
     };
 
 
-
-
     return (
         <div>
             {/* Hero section */}
-            <Hero title={pkg.title} image={pkg.image_landscape} duration={`(${pkg.duration_days}D / ${pkg.duration_nights}N)`} />
+            <Hero title={pkg.title} image={pkg.image_landscape || pkg.image} duration={`(${pkg.duration_days}D / ${pkg.duration_nights}N)`} />
 
 
             {/* Overview */}
@@ -92,9 +90,9 @@ const page = () => {
                         <div>
                             <Timeline packageSlug={slug as string} />
                         </div>
-                        <div className='h-[280px] sm:h-[400px] md:h-[750px] lg:h-[920px] xl:h-[880px] max-w-[660px] w-screen sm:w-full z-0'>
+                        {/* <div className='h-[280px] sm:h-[400px] md:h-[750px] lg:h-[920px] xl:h-[880px] max-w-[660px] w-screen sm:w-full z-0'>
                             <LeafletMap slug={slug as string} />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
