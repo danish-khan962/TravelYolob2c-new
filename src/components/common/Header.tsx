@@ -23,7 +23,7 @@ export function Header({ className = '' }: HeaderProps): JSX.Element {
   const travelCategories = [
     { id: '1', title: 'Romantic Escapes' },
     { id: '2', title: 'Family Getaways' },
-    { id: '3', title: 'Cultural Soujourns' },
+    { id: '3', title: 'Cultural Sojourns' },
     { id: '4', title: 'Scenic Escapes' },
     { id: '5', title: 'Wildlife Encounters' }
   ];

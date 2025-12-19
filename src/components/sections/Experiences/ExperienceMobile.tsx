@@ -84,32 +84,53 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
     window.addEventListener('resize', updateLoop);
     return () => window.removeEventListener('resize', updateLoop);
   }, []);
+
+  
   useEffect(() => {
-    async function fetchDestinations() {
-      try {
-        const subtypeRes = await fetch("/api/experience-subtypes");
-        if (!subtypeRes.ok) throw new Error("Failed to fetch experience subtypes");
+  async function fetchExperiences() {
+    try {
+      const subtypeRes = await fetch("/api/experience-subtypes");
+      if (!subtypeRes.ok) {
+        setExperiences([]);
+        setIsLoop(false);
+        return;
+      }
 
-        const subtypeJson = await subtypeRes.json();
-        const subtypeList: any[] = subtypeJson?.data?.results || [];
+      const subtypeJson = await subtypeRes.json();
+      const subtypeList: any[] = subtypeJson?.data?.results || [];
 
-        const matchedSubtype = subtypeList.find((item) => slugify(item.name) === stableSlug);
+      const matchedSubtype = subtypeList.find(
+        (item) => slugify(item.name) === stableSlug
+      );
 
-        if (!matchedSubtype) {
+      if (!matchedSubtype) {
+        setExperiences([]);
+        setIsLoop(false);
+        return;
+      }
+
+      const subtypeId = matchedSubtype.id;
+
+      let allData: Experience[] = [];
+      let page = 1;
+      const pageSize = 20;
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await fetch(
+          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}&page=${page}`
+        );
+
+        if (!res.ok) {
           setExperiences([]);
           setIsLoop(false);
           return;
         }
 
-        const subtypeId = matchedSubtype.id;
-
-        const res = await fetch(
-          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}`
-        );
-        if (!res.ok) throw new Error("Failed to fetch packages for subtype");
-
         const json = await res.json();
-        const data: Experience[] = json.results.map((item: any) => ({
+        const results = json.results || [];
+
+        const mapped: Experience[] = results.map((item: any) => ({
           id: item.id || "",
           slug: item.slug || item.id || "",
           title: item.title || "Untitled",
@@ -118,19 +139,26 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
           image: item.image_portrait || "",
         }));
 
-        setExperiences(data);
+        allData.push(...mapped);
 
-        // Ensure loop only if there are multiple items and viewport large enough
-        setIsLoop(window.innerWidth >= 640 && data.length > 1);
-      } catch (error) {
-        console.error("Error loading signature packages:", error);
-        setExperiences([]);
-        setIsLoop(false);
+        if (results.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
+        }
       }
-    }
 
-    fetchDestinations();
-  }, [stableSlug]);
+      setExperiences(allData);
+      setIsLoop(window.innerWidth >= 640 && allData.length > 1);
+    } catch {
+      setExperiences([]);
+      setIsLoop(false);
+    }
+  }
+
+  fetchExperiences();
+}, [stableSlug]);
+
 
 
   return (
@@ -156,7 +184,7 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
                 centeredSlides={true}
                 slidesPerGroup={1}
                 speed={600}
-                loop={isLoop}
+                loop={true}
                 navigation={false}
                 initialSlide={initialSlideIndex}
                 breakpoints={{

@@ -33,10 +33,10 @@ const travelCategories: TravelCategory[] = [
     },
     {
         id: '3',
-        title: 'Cultural Soujourns',
+        title: 'Cultural Sojourns',
         subtitle: 'Travel that brings everyone closer.',
         image: '/images/cultural_soujourns.jpeg',
-        hrefUrl: '/experiences/cultural-soujourns'
+        hrefUrl: '/experiences/cultural-sojourns'
     },
     {
         id: '4',

@@ -58,30 +58,44 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
   const slidesToDuplicate = 5; // Number of slides to duplicate at each end
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const subtypeRes = await fetch("/api/experience-subtypes");
-        const subtypeJson = await subtypeRes.json();
-        const subtypeList = subtypeJson?.data?.results || [];
+  async function fetchData() {
+    try {
+      const subtypeRes = await fetch("/api/experience-subtypes");
+      if (!subtypeRes.ok) throw new Error("Failed to fetch experience subtypes");
 
-        const matchedSubtype = subtypeList.find(
-          (item: any) => slugify(item.name) === parentSlug
+      const subtypeJson = await subtypeRes.json();
+      const subtypeList = subtypeJson?.data?.results || [];
+
+      const matchedSubtype = subtypeList.find(
+        (item: any) => slugify(item.name) === parentSlug
+      );
+
+      if (!matchedSubtype) {
+        console.warn("No matching subtype for:", parentSlug);
+        setDisplayData([]);
+        setRealDataLength(0);
+        return;
+      }
+
+      const subtypeId = matchedSubtype.id;
+
+      let allData: Experience[] = [];
+      let page = 1;
+      const pageSize = 20; // CMS default
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await fetch(
+          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}&page=${page}`
         );
 
-        if (!matchedSubtype) {
-          setDisplayData([]);
-          return;
+        if (!res.ok) {
+          throw new Error(`Failed to fetch experiences (page ${page})`);
         }
 
-        const subtypeId = matchedSubtype.id;
-
-        const res = await fetch(
-          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}`
-        );
-
         const json = await res.json();
-
-        const data: Experience[] = json.results.map((item: any) => ({
+        const results = json.results || [];
+        const mapped: Experience[] = results.map((item: any) => ({
           id: item.id || "",
           slug: item.slug || item.id || "",
           title: item.title || "Untitled",
@@ -90,22 +104,35 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
           image: item.image_portrait || "",
         }));
 
-        setRealDataLength(data.length);
+        allData.push(...mapped);
 
-        if (data.length <= slidesToDuplicate) {
-          setDisplayData(data);
-          return;
+        if (results.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
         }
+      }
 
-        const frontDuplicates = data.slice(-slidesToDuplicate);
-        const backDuplicates = data.slice(0, slidesToDuplicate);
-        const loopedData = [...frontDuplicates, ...data, ...backDuplicates];
+      setRealDataLength(allData.length);
 
-        setDisplayData(loopedData);
-      } catch (error) { }
+      if (allData.length <= slidesToDuplicate) {
+        setDisplayData(allData);
+        return;
+      }
+
+      const frontDuplicates = allData.slice(-slidesToDuplicate);
+      const backDuplicates = allData.slice(0, slidesToDuplicate);
+      const loopedData = [...frontDuplicates, ...allData, ...backDuplicates];
+
+      setDisplayData(loopedData);
+    } catch (error) {
+      console.error("Error loading experiences:", error);
     }
-    fetchData();
-  }, [parentSlug]);
+  }
+
+  fetchData();
+}, [parentSlug]);
+
 
   const getYTransform = (slideIndex: number) => {
     const diff = slideIndex - activeIndex;

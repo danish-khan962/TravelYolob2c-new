@@ -64,27 +64,50 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
   const [isLoop, setIsLoop] = useState(false);
 
   useEffect(() => {
-    async function fetchDestinations() {
-      try {
-        const res = await fetch("/api/packages?package_type=destination");
-        if (!res.ok) throw new Error("Failed to fetch signature packages");
+  async function fetchDestinations() {
+    try {
+      let allData: Destination[] = [];
+      let page = 1;
+      const pageSize = 20; // CMS default
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await fetch(
+          `/api/packages?package_type=destination&page=${page}`
+        );
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch destinations (page ${page})`);
+        }
 
         const json = await res.json();
-        const data: Destination[] = json.results.map((item: any) => ({
+        const results = json.results || [];
+
+        const mapped: Destination[] = results.map((item: any) => ({
           title: item.title || "Untitled",
           duration_days: item.duration_days || "",
           duration_nights: item.duration_nights || "",
           image: item.image_portrait || "",
         }));
 
-        setDestinations(data);
-      } catch (error) {
-        console.error("Error loading signature packages:", error);
-      }
-    }
+        allData.push(...mapped);
 
-    fetchDestinations();
-  }, []);
+        if (results.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
+        }
+      }
+
+      setDestinations(allData);
+    } catch (error) {
+      console.error("Error loading mobile destinations:", error);
+    }
+  }
+
+  fetchDestinations();
+}, []);
+
 
   return (
     <div className="block sm:hidden w-full">

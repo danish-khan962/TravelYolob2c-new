@@ -63,7 +63,7 @@ const page = () => {
           itinerary:
             "Curated journeys that bring laughter and togetherness. From adventure trails and wildlife encounters to storytelling evenings and family-friendly activities, every moment is crafted to inspire connection and shared memories."
         };
-      case "cultural-soujourns":
+      case "cultural-sojourns":
         return {
           overview:
             "Step into living history, taste heritage in every meal, and lose yourself in the rhythm of a world rich in stories.",
@@ -103,7 +103,7 @@ const page = () => {
     const titleMap: Record<string, string> = {
       "romantic-escapes": "Romantic Escapes",
       "family-getaways": "Family Getaways",
-      "cultural-soujourns": "Cultural Soujourns",
+      "cultural-sojourns": "Cultural Sojourns",
       "scenic-escapes": "Scenic Escapes",
       "wildlife-encounters": "Wildlife Encounters"
     };
@@ -121,7 +121,7 @@ const page = () => {
       <Hero />
 
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mt-[17px]">
-        <p className='font-host-grotesk text-base sm:text-[18px] md:text-[22px] lg:text-[24px]'> Experiences{"  >>  "} <span className='text-[#6C3B3F]'> {experienceTitle} </span> </p>
+        {/* <p className='font-host-grotesk text-base sm:text-[18px] md:text-[22px] lg:text-[24px]'> Experiences{"  >>  "} <span className='text-[#6C3B3F]'> {experienceTitle} </span> </p> */}
 
         <div className='flex flex-col items-start mt-[55px] sm:mt-[70px]'>
           <h1 className='text-[32px] sm:text-[40px] text-[#000000] font-noto-serif font-light italic'>Package Overview</h1>
@@ -163,7 +163,7 @@ const page = () => {
       </div>
 
 
-      <div className='w-full bg-[#F9F9F9] mt-[73px] sm:mt-[120px]'>
+      <div className='w-full bg-[#F9F9F9] mt-[55px] sm:mt-[70px]'>
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mt-[17px]">
           <WhatIsIncluded />
         </div>

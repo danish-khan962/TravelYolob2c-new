@@ -50,7 +50,7 @@ const travelItems = [
 
 const NotJustTravelSection: React.FC = () => {
   return (
-    <section className="w-full h-auto sm:h-[1000px] md:h-[630px] lg:h-[700px] bg-global-10 py-[48px] sm:py-[68px] lg:py-[96px] mt-[-1px]">
+    <section className="w-full h-auto sm:h-[1120px] md:h-[630px] lg:h-[700px] bg-global-10 py-[48px] sm:py-[68px] lg:py-[96px] mt-[-1px]">
       <div className="w-full  max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-[24px] sm:text-[32px] lg:text-[40px] font-light italic leading-[33px] sm:leading-[44px] lg:leading-[55px] text-global-1 mb-[54px] sm:mb-[76px] lg:mb-[108px] font-noto-serif">
           <span className="uppercase">N</span>
@@ -84,7 +84,7 @@ const NotJustTravelSection: React.FC = () => {
         </div>
 
         {/* Desktop View: Hover reveal */}
-        <div className="hidden sm:grid grid-cols-2 md:grid-cols-4 gap-y-2 gap-x-8 justify-evenly items-center -mt-[50px]">
+        <div className="hidden sm:grid grid-cols-2 md:grid-cols-4 gap-y-28 gap-x-8 justify-evenly items-center -mt-[50px]">
           {travelItems.map((item) => (
             <div
               key={item.id}
@@ -95,14 +95,14 @@ const NotJustTravelSection: React.FC = () => {
                 src={item.image}
                 alt="Travel Feature"
                 fill
-                className="absolute top-0 left-0 w-full h-full object-cover rounded-t-[146px] rounded-b-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out"
+                className="absolute top-0 left-0 w-full h-full object-cover rounded-t-[146px] rounded-b-[20px]"
               />
 
               {/* Overlay for dark effect */}
               {/* <div className="absolute inset-0 bg-black bg-opacity-30 rounded-t-[146px] rounded-b-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out" /> */}
 
               {/* Text (centered, moves down on hover) */}
-              <p className="relative z-10 text-[20px] lg:text-[24px] font-light italic leading-[26px] lg:leading-[31px] text-black font-noto-serif transition-all duration-700 ease-in-out group-hover:translate-y-[235px]">
+              <p className="relative z-10 text-[20px] lg:text-[24px] font-light italic leading-[26px] lg:leading-[31px] text-black font-noto-serif transition-all duration-700 ease-in-out translate-y-[235px]">
                 {item.text}
               </p>
             </div>

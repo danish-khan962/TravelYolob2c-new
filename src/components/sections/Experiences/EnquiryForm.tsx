@@ -5,12 +5,16 @@ import toast, { Toaster } from "react-hot-toast";
 
 const EnquiryForm = () => {
   const [firstName, setFirstName] = useState('');
+  const [firstNameError, setFirstNameError] = useState('');
   const [lastName, setLastName] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [countryCode, setCountryCode] = useState('+1');
   const [emailError, setEmailError] = useState('');
+  const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [countryCode, setCountryCode] = useState('+1');
   const [message, setMessage] = useState('');
+  const [messageError, setMessageError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
   const validateEmail = (email: string): boolean => {
@@ -22,7 +26,9 @@ const EnquiryForm = () => {
     const value = e.target.value;
     setEmail(value);
 
-    if (value && !validateEmail(value)) {
+    if (!value) {
+      setEmailError('Email is required');
+    } else if (!validateEmail(value)) {
       setEmailError('Please enter a valid email address');
     } else {
       setEmailError('');
@@ -33,21 +39,53 @@ const EnquiryForm = () => {
     const value = e.target.value;
     if (value === '' || /^\d+$/.test(value)) {
       setPhone(value);
+      setPhoneError(value ? '' : 'Phone number is required');
     }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate all required fields
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !phone.trim() || !message.trim()) {
-      toast.error("Please fill in all required fields!");
-      return;
+    let hasError = false;
+
+    if (!firstName.trim()) {
+      setFirstNameError('First name is required');
+      hasError = true;
+    } else {
+      setFirstNameError('');
+    }
+
+    if (!lastName.trim()) {
+      setLastNameError('Last name is required');
+      hasError = true;
+    } else {
+      setLastNameError('');
+    }
+
+    if (!email.trim()) {
+      setEmailError('Email is required');
+      hasError = true;
     }
 
     if (email && !validateEmail(email)) {
-      setEmailError("Please enter a valid email address");
-      toast.error("Please enter a valid email address.");
+      setEmailError('Please enter a valid email address');
+      hasError = true;
+    }
+
+    if (!phone.trim()) {
+      setPhoneError('Phone number is required');
+      hasError = true;
+    }
+
+    if (!message.trim()) {
+      setMessageError('Message is required');
+      hasError = true;
+    } else {
+      setMessageError('');
+    }
+
+    if (hasError) {
+      toast.error("Please fill in all required fields!");
       return;
     }
 
@@ -82,6 +120,11 @@ const EnquiryForm = () => {
       setEmail("");
       setPhone("");
       setMessage("");
+      setFirstNameError("");
+      setLastNameError("");
+      setEmailError("");
+      setPhoneError("");
+      setMessageError("");
 
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 4000);
@@ -119,33 +162,52 @@ const EnquiryForm = () => {
 
       <form className='max-w-[800px] w-full flex flex-col gap-y-[19px]' onSubmit={handleFormSubmit}>
         <div className="flex flex-row gap-4">
-          <input
-            type='text'
-            placeholder='First Name*'
-            className='w-full text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk'
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          /><input
-            type='text'
-            placeholder='Last Name*'
-            className='w-full text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk'
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
+          <div className="w-full">
+            <input
+              type='text'
+              placeholder='First Name*'
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+                firstNameError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
+              value={firstName}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+                setFirstNameError(e.target.value ? '' : 'First name is required');
+              }}
+            />
+            {firstNameError && <p className='text-red-500 text-sm mt-1 ml-1'>{firstNameError}</p>}
+          </div>
+
+          <div className="w-full">
+            <input
+              type='text'
+              placeholder='Last Name*'
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+                lastNameError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+                setLastNameError(e.target.value ? '' : 'Last name is required');
+              }}
+            />
+            {lastNameError && <p className='text-red-500 text-sm mt-1 ml-1'>{lastNameError}</p>}
+          </div>
         </div>
+
         <div className='w-full'>
           <input
             type='email'
             placeholder='Email*'
-            className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${emailError ? 'border-red-500' : 'border-[#98B6E2]'
-              }`}
+            className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+              emailError ? 'border-red-500' : 'border-[#98B6E2]'
+            }`}
             value={email}
             onChange={handleEmailChange}
           />
-          {emailError && (
-            <p className='text-red-500 text-sm mt-1 ml-1'>{emailError}</p>
-          )}
+          {emailError && <p className='text-red-500 text-sm mt-1 ml-1'>{emailError}</p>}
         </div>
+
         <div className='w-full flex gap-2'>
           <div className='relative w-[110px]'>
             <select
@@ -181,23 +243,38 @@ const EnquiryForm = () => {
               </svg>
             </div>
           </div>
-          <input
-            type='tel'
-            placeholder='Phone*'
-            className='flex-1 text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk'
-            value={phone}
-            onChange={handlePhoneChange}
-            inputMode='numeric'
-            pattern='[0-9]*'
-          />
+
+          <div className="flex-1">
+            <input
+              type='tel'
+              placeholder='Phone*'
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+                phoneError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
+              value={phone}
+              onChange={handlePhoneChange}
+              inputMode='numeric'
+              pattern='[0-9]*'
+            />
+            {phoneError && <p className='text-red-500 text-sm mt-1 ml-1'>{phoneError}</p>}
+          </div>
         </div>
-        <textarea
-          placeholder='Tell us more about your travel plans*'
-          className='w-full text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk resize-vertical min-h-[100px]'
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows={4}
-        />
+
+        <div>
+          <textarea
+            placeholder='Tell us more about your travel plans*'
+            className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk resize-vertical min-h-[100px] ${
+              messageError ? 'border-red-500' : 'border-[#98B6E2]'
+            }`}
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+              setMessageError(e.target.value ? '' : 'Message is required');
+            }}
+            rows={4}
+          />
+          {messageError && <p className='text-red-500 text-sm mt-1 ml-1'>{messageError}</p>}
+        </div>
 
         <div className="w-full flex justify-center items-center mt-[67px] md:mt-[55px]">
           <button

@@ -11,11 +11,14 @@ interface TripPlannerFormProps {
 
 const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSubmitError }) => {
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [countryCode, setCountryCode] = useState('+1');
   const [emailError, setEmailError] = useState('');
+  const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [countryCode, setCountryCode] = useState('+1');
   const [tripDetails, setTripDetails] = useState('');
+  const [tripDetailsError, setTripDetailsError] = useState('');
   const [plannerData, setPlannerData] = useState<any>({});
 
   const validateEmail = (email: string): boolean => {
@@ -27,7 +30,9 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
     const value = e.target.value;
     setEmail(value);
 
-    if (value && !validateEmail(value)) {
+    if (!value) {
+      setEmailError('Email is required');
+    } else if (!validateEmail(value)) {
       setEmailError('Please enter a valid email address');
     } else {
       setEmailError('');
@@ -38,19 +43,46 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
     const value = e.target.value;
     if (value === '' || /^\d+$/.test(value)) {
       setPhone(value);
+      setPhoneError(value ? '' : 'Phone number is required');
     }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !email || !phone || !tripDetails) {
-      toast.error("Please fill in all required fields!");
-      return;
+    let hasError = false;
+
+    if (!name) {
+      setNameError('Full name is required');
+      hasError = true;
+    } else {
+      setNameError('');
     }
 
-    if (emailError) {
-      toast.error("Please enter a valid email address!");
+    if (!email) {
+      setEmailError('Email is required');
+      hasError = true;
+    }
+
+    if (!phone) {
+      setPhoneError('Phone number is required');
+      hasError = true;
+    }
+
+    if (!tripDetails) {
+      setTripDetailsError('Trip details are required');
+      hasError = true;
+    } else {
+      setTripDetailsError('');
+    }
+
+    if (email && !validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      hasError = true;
+    }
+
+    if (hasError) {
+      toast.error('Please fill in all required fields!');
       return;
     }
 
@@ -64,9 +96,9 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
     };
 
     try {
-      const res = await fetch("/api/trip-inquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/trip-inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
@@ -76,13 +108,16 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
       }
 
       const data = await res.json();
-      console.log("Trip inquiry submitted:", data);
+      console.log('Trip inquiry submitted:', data);
 
-      // Reset form
       setName('');
       setEmail('');
       setPhone('');
       setTripDetails('');
+      setNameError('');
+      setEmailError('');
+      setPhoneError('');
+      setTripDetailsError('');
 
       if (onSubmitSuccess) {
         onSubmitSuccess();
@@ -90,8 +125,8 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
         onSubmitError();
       }
     } catch (err) {
-      console.error("Submission error:", err);
-      toast.error("Error submitting trip inquiry!");
+      console.error('Submission error:', err);
+      toast.error('Error submitting trip inquiry!');
     }
   };
 
@@ -103,26 +138,35 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
 
       <div className='w-full flex justify-center items-center mt-[45px] px-4'>
         <form className='max-w-[800px] w-full flex flex-col gap-y-[19px]'>
-          <input
-            type='text'
-            placeholder='Full name*'
-            className='w-full text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <div>
+            <input
+              type='text'
+              placeholder='Full name*'
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+                nameError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setNameError(e.target.value ? '' : 'Full name is required');
+              }}
+            />
+            {nameError && <p className='text-red-500 text-sm mt-1 ml-1'>{nameError}</p>}
+          </div>
+
           <div className='w-full'>
             <input
               type='email'
               placeholder='Email*'
-              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${emailError ? 'border-red-500' : 'border-[#98B6E2]'
-                }`}
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+                emailError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
               value={email}
               onChange={handleEmailChange}
             />
-            {emailError && (
-              <p className='text-red-500 text-sm mt-1 ml-1'>{emailError}</p>
-            )}
+            {emailError && <p className='text-red-500 text-sm mt-1 ml-1'>{emailError}</p>}
           </div>
+
           <div className='w-full flex gap-2'>
             <div className='relative w-[110px]'>
               <select
@@ -158,23 +202,38 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
                 </svg>
               </div>
             </div>
-            <input
-              type='tel'
-              placeholder='Phone*'
-              className='flex-1 text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk'
-              value={phone}
-              onChange={handlePhoneChange}
-              inputMode='numeric'
-              pattern='[0-9]*'
-            />
+
+            <div className='flex-1'>
+              <input
+                type='tel'
+                placeholder='Phone*'
+                className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
+                  phoneError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
+                value={phone}
+                onChange={handlePhoneChange}
+                inputMode='numeric'
+                pattern='[0-9]*'
+              />
+              {phoneError && <p className='text-red-500 text-sm mt-1 ml-1'>{phoneError}</p>}
+            </div>
           </div>
-          <textarea
-            placeholder='Tell us more about your trip*'
-            className='w-full text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk resize-vertical min-h-[100px]'
-            value={tripDetails}
-            onChange={(e) => setTripDetails(e.target.value)}
-            rows={4}
-          />
+
+          <div>
+            <textarea
+              placeholder='Tell us more about your trip*'
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk resize-vertical min-h-[100px] ${
+                tripDetailsError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
+              value={tripDetails}
+              onChange={(e) => {
+                setTripDetails(e.target.value);
+                setTripDetailsError(e.target.value ? '' : 'Trip details are required');
+              }}
+              rows={4}
+            />
+            {tripDetailsError && <p className='text-red-500 text-sm mt-1 ml-1'>{tripDetailsError}</p>}
+          </div>
 
           <div className='w-full flex justify-center items-center'>
             <button

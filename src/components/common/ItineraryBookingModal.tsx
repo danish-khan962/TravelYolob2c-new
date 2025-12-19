@@ -17,11 +17,14 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
   packageId,
 }) => {
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [countryCode, setCountryCode] = useState('+1');
   const [emailError, setEmailError] = useState('');
+  const [phone, setPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+  const [countryCode, setCountryCode] = useState('+1');
   const [tripDetails, setTripDetails] = useState('');
+  const [tripDetailsError, setTripDetailsError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
@@ -33,24 +36,58 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
-    setEmailError(value && !validateEmail(value) ? 'Please enter a valid email address' : '');
+
+    if (!value) {
+      setEmailError('Email is required');
+    } else if (!validateEmail(value)) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError('');
+    }
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value === '' || /^\d+$/.test(value)) setPhone(value);
+    if (value === '' || /^\d+$/.test(value)) {
+      setPhone(value);
+      setPhoneError(value ? '' : 'Phone number is required');
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !email || !phone || !tripDetails) {
-      toast.error('Please fill in all required fields!');
-      return;
+    let hasError = false;
+
+    if (!name.trim()) {
+      setNameError('Full name is required');
+      hasError = true;
+    } else {
+      setNameError('');
     }
 
-    if (emailError) {
-      toast.error('Please enter a valid email address!');
+    if (!email.trim()) {
+      setEmailError('Email is required');
+      hasError = true;
+    } else if (!validateEmail(email)) {
+      setEmailError('Please enter a valid email address');
+      hasError = true;
+    }
+
+    if (!phone.trim()) {
+      setPhoneError('Phone number is required');
+      hasError = true;
+    }
+
+    if (!tripDetails.trim()) {
+      setTripDetailsError('This field is required');
+      hasError = true;
+    } else {
+      setTripDetailsError('');
+    }
+
+    if (hasError) {
+      toast.error('Please fill in all required fields!');
       return;
     }
 
@@ -61,8 +98,7 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
       email,
       country_code: countryCode,
       phone,
-      trip_details: `Package: ${packageTitle || 'N/A'}\nPackage ID: ${packageId || 'N/A'
-        }\n\n${tripDetails}`,
+      trip_details: `Package: ${packageTitle || 'N/A'}\nPackage ID: ${packageId || 'N/A'}\n\n${tripDetails}`,
     };
 
     try {
@@ -81,7 +117,7 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
 
       console.log('Client interest submitted:', data);
       toast.success('Your booking inquiry has been submitted successfully!');
-      setSubmissionSuccess(true); // Trigger success
+      setSubmissionSuccess(true);
     } catch (err) {
       console.error('Submission error:', err);
       toast.error('Error submitting booking inquiry!');
@@ -93,13 +129,15 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
   // useEffect handles post-submit actions (reset + close)
   useEffect(() => {
     if (submissionSuccess) {
-      // Reset form
       setName('');
       setEmail('');
       setPhone('');
       setTripDetails('');
+      setNameError('');
+      setEmailError('');
+      setPhoneError('');
+      setTripDetailsError('');
 
-      // Close modal after a short delay
       const timer = setTimeout(() => {
         onClose();
         setSubmissionSuccess(false);
@@ -142,21 +180,30 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
 
           {/* Form */}
           <form className="flex flex-col gap-y-4" onSubmit={handleFormSubmit}>
-            <input
-              type="text"
-              placeholder="Full name*"
-              className="w-full text-[16px] sm:text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] font-host-grotesk"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <div>
+              <input
+                type="text"
+                placeholder="Full name*"
+                className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk ${
+                  nameError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setNameError(e.target.value ? '' : 'Full name is required');
+                }}
+                required
+              />
+              {nameError && <p className="text-red-500 text-sm mt-1 ml-1">{nameError}</p>}
+            </div>
 
             <div className="w-full">
               <input
                 type="email"
                 placeholder="Email*"
-                className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk ${emailError ? 'border-red-500' : 'border-[#98B6E2]'
-                  }`}
+                className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk ${
+                  emailError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
                 value={email}
                 onChange={handleEmailChange}
                 required
@@ -199,26 +246,39 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
                   </svg>
                 </div>
               </div>
-              <input
-                type="tel"
-                placeholder="Phone*"
-                className="flex-1 text-[16px] sm:text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] font-host-grotesk"
-                value={phone}
-                onChange={handlePhoneChange}
-                inputMode="numeric"
-                pattern="[0-9]*"
-                required
-              />
+              <div className="flex-1">
+                <input
+                  type="tel"
+                  placeholder="Phone*"
+                  className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk ${
+                    phoneError ? 'border-red-500' : 'border-[#98B6E2]'
+                  }`}
+                  value={phone}
+                  onChange={handlePhoneChange}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  required
+                />
+                {phoneError && <p className="text-red-500 text-sm mt-1 ml-1">{phoneError}</p>}
+              </div>
             </div>
 
-            <textarea
-              placeholder="How can we help?*"
-              className="w-full text-[16px] sm:text-[18px] font-normal outline-none border border-[#98B6E2] rounded p-3 placeholder:text-[#727272] font-host-grotesk resize-vertical min-h-[100px]"
-              value={tripDetails}
-              onChange={(e) => setTripDetails(e.target.value)}
-              rows={4}
-              required
-            />
+            <div>
+              <textarea
+                placeholder="How can we help?*"
+                className={`w-full text-[16px] sm:text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] font-host-grotesk resize-vertical min-h-[100px] ${
+                  tripDetailsError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
+                value={tripDetails}
+                onChange={(e) => {
+                  setTripDetails(e.target.value);
+                  setTripDetailsError(e.target.value ? '' : 'This field is required');
+                }}
+                rows={4}
+                required
+              />
+              {tripDetailsError && <p className="text-red-500 text-sm mt-1 ml-1">{tripDetailsError}</p>}
+            </div>
 
             <div className="w-full flex justify-center items-center gap-4 mt-4">
               {/* <button

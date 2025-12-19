@@ -52,13 +52,24 @@ const SignatureExperiencesSection = forwardRef<
   const slidesToDuplicate = 5; // Number of slides to duplicate at each end
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/api/packages?package_type=destination");
+  async function fetchData() {
+    try {
+      let allData: Destination[] = [];
+      let page = 1;
+      const pageSize = 20; // CMS default
+      let hasMore = true;
+
+      while (hasMore) {
+        const res = await fetch(
+          `/api/packages?package_type=destination&page=${page}`
+        );
+
         if (!res.ok) throw new Error("Failed to fetch destination packages");
 
         const json = await res.json();
-        const data: Destination[] = json.results.map((item: any) => ({
+        const results = json.results || [];
+    
+        const mapped: Destination[] = results.map((item: any) => ({
           title: item.title || "Untitled",
           duration_days: item.duration_days || "",
           duration_nights: item.duration_nights || "",
@@ -66,20 +77,32 @@ const SignatureExperiencesSection = forwardRef<
           slug: item.slug || "",
         }));
 
-        setRealDataLength(data.length);
+        allData.push(...mapped);
 
-        // Duplicate slides for the pseudo-loop effect
-        const frontDuplicates = data.slice(-slidesToDuplicate);
-        const backDuplicates = data.slice(0, slidesToDuplicate);
-        const loopedData = [...frontDuplicates, ...data, ...backDuplicates];
-
-        setDisplayData(loopedData);
-      } catch (error) {
-        console.error("Error loading destination packages:", error);
+        if (results.length < pageSize) {
+          hasMore = false;
+        } else {
+          page++;
+        }
       }
+
+      setRealDataLength(allData.length);
+
+      // Duplicate slides for pseudo-loop
+      const slidesToDuplicate = 5;
+      const frontDuplicates = allData.slice(-slidesToDuplicate);
+      const backDuplicates = allData.slice(0, slidesToDuplicate);
+      const loopedData = [...frontDuplicates, ...allData, ...backDuplicates];
+
+      setDisplayData(loopedData);
+    } catch (error) {
+      console.error("Error loading destination packages:", error);
     }
-    fetchData();
-  }, []);
+  }
+
+  fetchData();
+}, []);
+
 
 
   const getYTransform = (slideIndex: number) => {

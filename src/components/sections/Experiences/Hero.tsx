@@ -18,8 +18,8 @@ import family_getaways_desktop from "../../../../public/experiences/family_getaw
 import family_getaways_mobile from "../../../../public/experiences/family_getaways_mobile.png"
 
 // Cultural Sojourns images
-import cultural_soujourns_desktop from "../../../../public/experiences/cultural_soujourn_desktop.png"
-import cultural_soujourns_mobile from "../../../../public/experiences/cultural_soujourn_mobile.png"
+import cultural_sojourns_desktop from "../../../../public/experiences/cultural_soujourn_desktop.png"
+import cultural_sojourns_mobile from "../../../../public/experiences/cultural_soujourn_mobile.png"
 
 // Scenic Escapes images
 import scenic_escapes_desktop from "../../../../public/experiences/scenic_escapes_desktop.png"
@@ -38,9 +38,9 @@ const imagesBySlug = {
     desktop: [family_getaways_desktop],
     mobile: [family_getaways_mobile],
   },
-  "cultural-soujourns": {
-    desktop: [cultural_soujourns_desktop],
-    mobile: [cultural_soujourns_mobile],
+  "cultural-sojourns": {
+    desktop: [cultural_sojourns_desktop],
+    mobile: [cultural_sojourns_mobile],
   },
   "scenic-escapes": {
     desktop: [scenic_escapes_desktop],
@@ -67,7 +67,7 @@ const Hero = () => {
         return "Love. Explore. Cherish every moment."
       case "family-getaways":
         return "Together, where memories begin."
-      case "cultural-soujourns":
+      case "cultural-sojourns":
         return "Discover stories that shaped the world."
       case "scenic-escapes":
         return "Find peace where beauty meets horizon."
