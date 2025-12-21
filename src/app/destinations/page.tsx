@@ -123,7 +123,7 @@ const Page: React.FC = () => {
         <div className='max-w-[748px] w-full mt-[72px] sm:mt-32'>
           {/* Desktop */}
           <div className='w-full px-12 hidden sm:block'>
-            <p className='text-[#6C3B3F] text-[24px] font-light italic font-noto-serif text-center leading-normal'>We’ve spent years on the ground, building trusted connections and curating one-of-a-kind experiences - so you don’t have to.
+            <p className='text-[#6C3B3F] text-[24px] font-light italic font-noto-serif text-center leading-normal'>We&apos;ve spent years on the ground, building trusted connections and curating one-of-a-kind experiences - so you don&apos;t have to.
             </p>
             <p className='text-[#6C3B3F] text-[24px] font-light italic font-noto-serif text-center leading-normal'>Every journey is designed by us, with insight, care, and an instinct
               for what feels personal and truly unforgettable.
@@ -131,7 +131,7 @@ const Page: React.FC = () => {
           </div>
           {/* Mobile */}
           <div className='max-w-[375px w-[100%] sm:hidden'>
-            <p className='text-[#6C3B3F] text-[16px] font-light italic font-noto-serif text-start leading-normal'>We’ve spent years on the ground, building trusted connections and curating one-of-a-kind experiences - so you don’t have to. Every journey is designed by us, with insight, care, and an instinct
+            <p className='text-[#6C3B3F] text-[16px] font-light italic font-noto-serif text-start leading-normal'>We&apos;ve spent years on the ground, building trusted connections and curating one-of-a-kind experiences - so you don&apos;t have to. Every journey is designed by us, with insight, care, and an instinct
               for what feels personal and truly unforgettable.</p>
           </div>
           <p className='text-[#6C3B3F] text-[16px] sm:text-[24px] font-light italic font-noto-serif text-start  sm:text-center leading-normal mt-[40px] w-[250px] sm:w-full'>Here are a few regions we know intimately, and love designing around: </p>

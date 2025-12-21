@@ -18,7 +18,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ title, duration, imag
       <Link href={`/destinations/${slug}`}>
         <Image
           src={image}
-          alt="image"
+          alt=""
           fill
           className="object-cover"
         />

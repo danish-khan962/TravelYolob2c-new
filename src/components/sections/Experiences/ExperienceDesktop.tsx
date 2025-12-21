@@ -46,165 +46,143 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
   ref
 ) {
   const params = useParams();
-  const parentSlug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || 'romantic-escapes';
+  const parentSlug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || "romantic-escapes";
 
-  const [activeIndex, setActiveIndex] = useState(2); // Start with 3rd slide
+  const [activeIndex, setActiveIndex] = useState(2);
   const [progress, setProgress] = useState(0);
   const swiperRef = useRef<SwiperType>();
   const [displayData, setDisplayData] = useState<Experience[]>([]);
   const [realDataLength, setRealDataLength] = useState(0);
 
   const initialSlideIndex = 3;
-  const slidesToDuplicate = 5; // Number of slides to duplicate at each end
+  const slidesToDuplicate = 5;
+
+  const isShortData = realDataLength <= 5;
 
   useEffect(() => {
-  async function fetchData() {
-    try {
-      const subtypeRes = await fetch("/api/experience-subtypes");
-      if (!subtypeRes.ok) throw new Error("Failed to fetch experience subtypes");
+    async function fetchData() {
+      try {
+        const subtypeRes = await fetch("/api/experience-subtypes");
+        if (!subtypeRes.ok) throw new Error("Failed to fetch experience subtypes");
 
-      const subtypeJson = await subtypeRes.json();
-      const subtypeList = subtypeJson?.data?.results || [];
+        const subtypeJson = await subtypeRes.json();
+        const subtypeList = subtypeJson?.data?.results || [];
 
-      const matchedSubtype = subtypeList.find(
-        (item: any) => slugify(item.name) === parentSlug
-      );
-
-      if (!matchedSubtype) {
-        console.warn("No matching subtype for:", parentSlug);
-        setDisplayData([]);
-        setRealDataLength(0);
-        return;
-      }
-
-      const subtypeId = matchedSubtype.id;
-
-      let allData: Experience[] = [];
-      let page = 1;
-      const pageSize = 20; // CMS default
-      let hasMore = true;
-
-      while (hasMore) {
-        const res = await fetch(
-          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}&page=${page}`
+        const matchedSubtype = subtypeList.find(
+          (item: any) => slugify(item.name) === parentSlug
         );
 
-        if (!res.ok) {
-          throw new Error(`Failed to fetch experiences (page ${page})`);
+        if (!matchedSubtype) {
+          setDisplayData([]);
+          setRealDataLength(0);
+          return;
         }
 
-        const json = await res.json();
-        const results = json.results || [];
-        const mapped: Experience[] = results.map((item: any) => ({
-          id: item.id || "",
-          slug: item.slug || item.id || "",
-          title: item.title || "Untitled",
-          duration_days: item.duration_days || "",
-          duration_nights: item.duration_nights || "",
-          image: item.image_portrait || "",
-        }));
+        const subtypeId = matchedSubtype.id;
 
-        allData.push(...mapped);
+        let allData: Experience[] = [];
+        let page = 1;
+        const pageSize = 20;
+        let hasMore = true;
 
-        if (results.length < pageSize) {
-          hasMore = false;
-        } else {
+        while (hasMore) {
+          const res = await fetch(
+            `/api/packages?package_type=experience&experience_subtypes=${subtypeId}&page=${page}`
+          );
+
+          const json = await res.json();
+          const results = json.results || [];
+
+          allData.push(
+            ...results.map((item: any) => ({
+              id: item.id || "",
+              slug: item.slug || item.id || "",
+              title: item.title || "Untitled",
+              duration_days: item.duration_days || "",
+              duration_nights: item.duration_nights || "",
+              image: item.image_portrait || "",
+            }))
+          );
+
+          hasMore = results.length === pageSize;
           page++;
         }
+
+        setRealDataLength(allData.length);
+
+        if (allData.length <= slidesToDuplicate) {
+          setDisplayData(allData);
+        } else {
+          setDisplayData([
+            ...allData.slice(-slidesToDuplicate),
+            ...allData,
+            ...allData.slice(0, slidesToDuplicate),
+          ]);
+        }
+      } catch (e) {
+        console.error(e);
       }
-
-      setRealDataLength(allData.length);
-
-      if (allData.length <= slidesToDuplicate) {
-        setDisplayData(allData);
-        return;
-      }
-
-      const frontDuplicates = allData.slice(-slidesToDuplicate);
-      const backDuplicates = allData.slice(0, slidesToDuplicate);
-      const loopedData = [...frontDuplicates, ...allData, ...backDuplicates];
-
-      setDisplayData(loopedData);
-    } catch (error) {
-      console.error("Error loading experiences:", error);
     }
-  }
 
-  fetchData();
-}, [parentSlug]);
-
-
-  const getYTransform = (slideIndex: number) => {
-    const diff = slideIndex - activeIndex;
-    switch (diff) {
-      case -1:
-        return "translateY(-50px)";
-      case 0:
-        return "translateY(30px)";
-      case 1:
-        return "translateY(100px)";
-      case 2:
-        return "translateY(150px)";
-      case -3:
-        return "translateY(200px)";
-      default:
-        return "translateY(100px)";
-    }
-  };
+    fetchData();
+  }, [parentSlug]);
 
   const handlePrevSlide = () => {
-    if (swiperRef.current) {
+    if (!swiperRef.current) return;
+
+    if (isShortData) {
+      const last = displayData.length - 1;
+      swiperRef.current.slideTo(activeIndex === 0 ? last : activeIndex - 1);
+    } else {
       swiperRef.current.slidePrev();
     }
   };
 
   const handleNextSlide = () => {
-    if (swiperRef.current) {
+    if (!swiperRef.current) return;
+
+    if (isShortData) {
+      const last = displayData.length - 1;
+      swiperRef.current.slideTo(activeIndex === last ? 0 : activeIndex + 1);
+    } else {
       swiperRef.current.slideNext();
     }
   };
 
-  // expose next/prev to parent via forwarded ref
   useImperativeHandle(ref, () => ({
     next: handleNextSlide,
     prev: handlePrevSlide,
-  }), []);
+  }), [activeIndex, displayData, isShortData]);
 
   const handleSlideChange = (swiper: SwiperType) => {
     setActiveIndex(swiper.activeIndex);
 
-    // Looping logic for continuous effect
+    if (isShortData) return;
+
     const totalSlides = swiper.slides.length;
     const isAtEnd = swiper.activeIndex >= totalSlides - slidesToDuplicate;
     const isAtBeginning = swiper.activeIndex < slidesToDuplicate;
 
     if (isAtEnd) {
-      // Jump to the corresponding slide at the beginning
       swiper.slideTo(swiper.activeIndex - realDataLength, 0);
-    } else if (isAtBeginning && swiper.previousIndex !== undefined) {
-      // Jump to the corresponding slide at the end only if moving backward
-      if (swiper.previousIndex > swiper.activeIndex) {
-        swiper.slideTo(swiper.activeIndex + realDataLength, 0);
-      }
+    } else if (isAtBeginning && swiper.previousIndex! > swiper.activeIndex) {
+      swiper.slideTo(swiper.activeIndex + realDataLength, 0);
     }
   };
 
-  const handleProgress = (swiper: SwiperType, progressValue: number) => {
-    const clamped = Math.min(Math.max(progressValue, 0), 1);
-    setProgress(clamped);
+  const handleProgress = (_: SwiperType, value: number) => {
+    setProgress(Math.min(Math.max(value, 0), 1));
   };
 
-  const [isLoop, setIsLoop] = useState(false);
-
-  useEffect(() => {
-    const updateLoop = () => {
-      setIsLoop(window.innerWidth >= 640);
-    };
-
-    updateLoop();
-    window.addEventListener("resize", updateLoop);
-    return () => window.removeEventListener("resize", updateLoop);
-  }, []);
+  const getYTransform = (i: number) => {
+    const d = i - activeIndex;
+    if (d === -1) return "translateY(-50px)";
+    if (d === 0) return "translateY(30px)";
+    if (d === 1) return "translateY(100px)";
+    if (d === 2) return "translateY(150px)";
+    if (d === -3) return "translateY(200px)";
+    return "translateY(100px)";
+  };
 
   const renderTitleWithBreaks = (title: string) =>
     title.split("||").map((line, idx, arr) => (
@@ -213,6 +191,7 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
         {idx < arr.length - 1 && <br />}
       </React.Fragment>
     ));
+
 
   return (
     <div className="hidden sm:block w-full">
@@ -257,7 +236,7 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
                 },
                 1024: {
                   slidesPerView: 5,
-                  spaceBetween: 12,
+                  spaceBetween: 18,
                   slidesPerGroup: 1,
                 },
               }}
