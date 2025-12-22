@@ -99,6 +99,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
       country_code: countryCode,
       phone,
       trip_details: `Package: ${packageTitle || 'N/A'}\nPackage ID: ${packageId || 'N/A'}\n\n${tripDetails}`,
+      help_text: tripDetails, // Maps textarea data to the HELP TEXT field in CMS
     };
 
     try {

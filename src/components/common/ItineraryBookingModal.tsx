@@ -99,6 +99,7 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
       country_code: countryCode,
       phone,
       trip_details: `Package: ${packageTitle || 'N/A'}\nPackage ID: ${packageId || 'N/A'}\n\n${tripDetails}`,
+      help_text: tripDetails, // Added help_text field to map textarea data to CMS
     };
 
     try {
@@ -192,7 +193,6 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
                   setName(e.target.value);
                   setNameError(e.target.value ? '' : 'Full name is required');
                 }}
-                required
               />
               {nameError && <p className="text-red-500 text-sm mt-1 ml-1">{nameError}</p>}
             </div>
@@ -206,7 +206,6 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
                 }`}
                 value={email}
                 onChange={handleEmailChange}
-                required
               />
               {emailError && <p className="text-red-500 text-sm mt-1 ml-1">{emailError}</p>}
             </div>
@@ -257,7 +256,6 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
                   onChange={handlePhoneChange}
                   inputMode="numeric"
                   pattern="[0-9]*"
-                  required
                 />
                 {phoneError && <p className="text-red-500 text-sm mt-1 ml-1">{phoneError}</p>}
               </div>
@@ -275,19 +273,11 @@ const ItineararyBookingModal: React.FC<BookingModalProps> = ({
                   setTripDetailsError(e.target.value ? '' : 'This field is required');
                 }}
                 rows={4}
-                required
               />
               {tripDetailsError && <p className="text-red-500 text-sm mt-1 ml-1">{tripDetailsError}</p>}
             </div>
 
             <div className="w-full flex justify-center items-center gap-4 mt-4">
-              {/* <button
-                type="button"
-                onClick={onClose}
-                className="w-full sm:w-[180px] h-[50px] border border-[#312E29] text-[#312E29] hover:bg-gray-50 cursor-pointer transition-all ease-in-out duration-200 rounded-full font-host-grotesk"
-              >
-                Cancel
-              </button> */}
               <button
                 type="submit"
                 disabled={isSubmitting}
