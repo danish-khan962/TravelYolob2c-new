@@ -235,7 +235,7 @@ const SignatureExperiencesSection = forwardRef<
                 },
                 1200: {
                   slidesPerView: 5,
-                  spaceBetween: 18,
+                  spaceBetween: 20,
                   slidesPerGroup: 1,
                 },
               }}

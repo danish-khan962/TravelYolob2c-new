@@ -51,21 +51,43 @@ const Page: React.FC = () => {
   useEffect(() => {
     const fetchSuggestedPackages = async () => {
       try {
-        const res = await fetch('/api/packages?package_type=popular');
-        const data = await res.json();
-        const formatted = (data.results || []).map((pkg: any) => ({
-          id: pkg.id,
-          slug: pkg.slug || '',
-          title: pkg.title || 'Untitled',
-          image: pkg.image_portrait || '',
-          duration: pkg.duration_days && pkg.duration_nights ? `${pkg.duration_days}D / ${pkg.duration_nights}N` : '',
-        }));
-        setSuggestedPackages(formatted || []);
+        let allPackages: any[] = [];
+        let page = 1;
+        const pageSize = 20;
+        let hasMore = true;
+
+        while (hasMore) {
+          const res = await fetch(`/api/packages?package_type=destination&page=${page}`);
+          const data = await res.json();
+          const results = data.results || [];
+
+          allPackages.push(
+            ...results.map((pkg: any) => ({
+              id: pkg.id,
+              slug: pkg.slug || '',
+              title: pkg.title || 'Untitled',
+              image: pkg.image_portrait || '',
+              duration: pkg.duration_days && pkg.duration_nights ? `${pkg.duration_days}D / ${pkg.duration_nights}N` : '',
+            }))
+          );
+
+          if (data.next) {
+            page++;
+          } else {
+            hasMore = false;
+          }
+
+        }
+        console.log('TOTAL PACKAGES:', allPackages.length);
+
+
+        setSuggestedPackages(allPackages);
       } catch (err) {
       } finally {
         setLoadingPackages(false);
       }
     };
+
     fetchSuggestedPackages();
   }, []);
 

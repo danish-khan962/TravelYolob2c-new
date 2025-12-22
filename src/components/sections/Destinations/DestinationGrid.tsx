@@ -34,35 +34,53 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
   const [screenWidth, setScreenWidth] = useState<number>(0);
 
   useEffect(() => {
-    const fetchDestinations = async () => {
-      try {
-        const params = new URLSearchParams({ package_type: 'destination' });
-        if (regionId) params.append('regions', regionId);
-        if (seasonId) params.append('seasons', seasonId);
+  const fetchDestinations = async () => {
+    try {
+      const params = new URLSearchParams({ package_type: 'destination' });
+      if (regionId) params.append('regions', regionId);
+      if (seasonId) params.append('seasons', seasonId);
 
-        const res = await fetch(`/api/packages/?${params.toString()}`);
+      let allData: any[] = [];
+      let page = 1;
+      let hasMore = true;
+
+      while (hasMore) {
+        const pageParams = new URLSearchParams(params);
+        pageParams.append('page', String(page));
+
+        const res = await fetch(`/api/packages/?${pageParams.toString()}`);
         if (!res.ok) throw new Error(`Failed to fetch destinations: ${res.status}`);
 
         const data = await res.json();
-        const raw = data.results || [];
+        const results = data.results || [];
 
-        const formattedData = raw.map((pkg: any) => ({
-          id: pkg.id,
-          slug: pkg.slug,
-          title: pkg.title || "Untitled",
-          duration: pkg.duration_days && pkg.duration_nights
-            ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
-            : "",
-          image: pkg.image_portrait || "",
-        }));
+        allData.push(...results);
 
-        setDestinations(formattedData);
-      } catch (err) {
+        if (data.next) {
+          page++;
+        } else {
+          hasMore = false;
+        }
       }
-    };
 
-    fetchDestinations();
-  }, [regionId, seasonId]);
+      const formattedData = allData.map((pkg: any) => ({
+        id: pkg.id,
+        slug: pkg.slug,
+        title: pkg.title || "Untitled",
+        duration: pkg.duration_days && pkg.duration_nights
+          ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
+          : "",
+        image: pkg.image_portrait || "",
+      }));
+
+      setDestinations(formattedData);
+    } catch (err) {
+    }
+  };
+
+  fetchDestinations();
+}, [regionId, seasonId]);
+
 
 
   useEffect(() => {
