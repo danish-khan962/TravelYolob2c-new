@@ -15,6 +15,7 @@ import ExperienceWrapper from '@/components/sections/Experiences/ExperienceWrapp
 import { useParams } from "next/navigation";
 
 import type { ExperienceDesktopHandle } from '@/components/sections/Experiences/ExperienceDesktop';
+import TravelerStoriesSection from '@/components/sections/TravelerStoriesSection'
 
 
 type BlogPost = {
@@ -133,7 +134,7 @@ const page = () => {
         <div className='w-full flex flex-col items-start mt-[55px] sm:mt-[60px]'>
           <div className='w-full flex flex-row justify-between items-center'>
             <h1 className='text-[32px] sm:text-[40px] font-noto-serif font-light italic'>Experiences Itinerary</h1>
-            <div className='hidden md:grid grid-cols-2 items-center gap-[60px]'>
+            {/* <div className='hidden md:grid grid-cols-2 items-center gap-[60px]'>
               <Image
                 src={ChevronsLeft}
                 alt='left chevrons'
@@ -150,7 +151,7 @@ const page = () => {
                 className='cursor-pointer'
                 onClick={() => sigControlRef.current?.next?.()}
               />
-            </div>
+            </div> */}
           </div>
           <p className='max-w-[351px] sm:max-w-[810px] w-full font-host-grotesk font-light text-base sm:text-[20px] mt-[17px] sm:mt-[12px] sm:leading-snug text-[#312E29]'>
             {itinerary}
@@ -169,9 +170,14 @@ const page = () => {
         </div>
 
         {/* Testimonials */}
-        <div className='pt-[120px] sm:pt-[150px]'>
-          <Testimonials packageId="" />
+        {/* */}
+        <div className='bg-[#F9F9F9] mt-[55px] sm:mt-[70px] pb-[94px] sm:pb-[218px]'>
+          <TravelerStoriesSection
+            title={"Testimonials"}
+            description={" Real stories from travelers who discovered journeys made just for them."}
+          />
         </div>
+
 
         {/* Blogs */}
         {/* <div className='w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mt-[75px] sm:mt-[120px] pb-[86px] sm:pb-[120px]'>

@@ -1,6 +1,5 @@
 "use client"
 
-import Testimonials from '@/components/sections/Experiences/Testimonials'
 import WhatIsIncluded from '@/components/sections/Experiences/WhatIsIncluded'
 import Hero from '@/components/sections/Itinerary/Hero'
 import ItinerarySwiper from '@/components/sections/Itinerary/ItinerarySwiper'
@@ -11,6 +10,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import ItinerarySkeleton from '@/components/sections/Itinerary/ItinerarySkeleton'
 import BookingModal from '@/components/common/BookingModal'
+import TravelerStoriesSection from '@/components/sections/TravelerStoriesSection'
 
 const LeafletMap = dynamic(() => import('@/components/sections/Itinerary/LeafletMap'), {
     ssr: false,
@@ -117,9 +117,10 @@ const page = () => {
 
             {/* Testimonials */}
             <div className='bg-[#F9F9F9] mt-[55px] sm:mt-[70px] pb-[94px] sm:pb-[218px]'>
-                <div className='w-full pt-[124px] md:pt-[192px]'>
-                    <Testimonials packageId="" />
-                </div>
+                <TravelerStoriesSection 
+                title={"Testimonials"}
+                description={"Stories shared by explorers who turned trips into lasting memories."}
+                />
             </div>
 
 

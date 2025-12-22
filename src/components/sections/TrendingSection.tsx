@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import Link from 'next/link';
+import newChevronLeft from "../../../public/images/new_chevron_left.png"
+import newChevronRight from "../../../public/images/new_chevron_right.png"
 
 import { useRouter } from "next/navigation";
 
@@ -22,6 +24,7 @@ interface TrendingPackage {
 
 const TrendingSection: React.FC = () => {
     const router = useRouter();
+    const [swiper, setSwiper] = useState<any>(null);
 
     const handleCardClick = (item: any) => {
         // Store region & season temporarily
@@ -127,16 +130,39 @@ const TrendingSection: React.FC = () => {
                 </p>
 
                 {/* Swiper */}
-                <div className="block mt-6 sm:mt-8 lg:mt-16">
+                <div className="relative block mt-6 sm:mt-8 lg:mt-16">
+                    {/* Left Chevron */}
+                    <Image
+                        src={newChevronLeft}
+                        alt="left swiper"
+                        height={1000}
+                        width={1000}
+                        className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -left-3 md:-left-5 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                        onClick={() => swiper?.slidePrev()}
+                    />
+                    {/* Right Chevron */}
+                    <Image
+                        src={newChevronRight}
+                        alt="right swiper"
+                        height={1000}
+                        width={1000}
+                        className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -right-3 md:-right-5 top-1/2 -translate-y-1/2 swiper-button-next-custom"
+                        onClick={() => swiper?.slideNext()}
+                    />
                     <Swiper
-                    simulateTouch={true}
-                    allowTouchMove={true}
+                        // ref={swiperRef}
+                        onSwiper={setSwiper}
+                        simulateTouch={true}
+                        allowTouchMove={true}
                         spaceBetween={16}
                         loop={true}
                         autoplay={{ delay: 2500, disableOnInteraction: false }}
                         modules={[Autoplay]}
                         breakpoints={{
                             0: {
+                                slidesPerView: 1, // below sm
+                            },
+                            450: {
                                 slidesPerView: 1.1, // below sm
                             },
                             640: {

@@ -7,7 +7,17 @@ import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import './customCalendar.css'
 
-export default function CalendarSection({ onDataChange }: { onDataChange?: (data: any) => void }) {
+export default function CalendarSection({ 
+  onDataChange,
+  destinationError,
+  travelersError,
+  datesError 
+}: { 
+  onDataChange?: (data: any) => void,
+  destinationError?: string,
+  travelersError?: string,
+  datesError?: string
+}) {
   const [dateRange, setDateRange] = useState([
     {
       startDate: null as Date | null,
@@ -58,7 +68,9 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
           <label className='block mb-2 font-normal text-[20px] ml-2'>Plan your journey</label>
           <div className='relative'>
             <select
-              className='w-full appearance-none bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border border-[#98B6E2] pr-10'
+              className={`w-full appearance-none bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border pr-10 ${
+                destinationError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
               onFocus={() => setIsDestinationOpen(true)}
               onBlur={() => setIsDestinationOpen(false)}
               value={destination}
@@ -81,6 +93,7 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
               <GoTriangleDown className='pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-[#6C3B3F] text-xl' />
             )}
           </div>
+          {destinationError && <p className='text-red-500 text-sm mt-1 ml-2'>{destinationError}</p>}
         </div>
 
         <div>
@@ -89,7 +102,9 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
             <input
               type="number"
               min={1}
-              className='w-full bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border border-[#98B6E2] focus:outline-none'
+              className={`w-full bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border focus:outline-none ${
+                travelersError ? 'border-red-500' : 'border-[#98B6E2]'
+              }`}
               value={travelers}
               onChange={e => {
                 const val = e.target.value
@@ -101,6 +116,7 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
               placeholder="Enter number of travelers"
             />
           </div>
+          {travelersError && <p className='text-red-500 text-sm mt-1 ml-2'>{travelersError}</p>}
         </div>
 
         <div>
@@ -125,7 +141,7 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
 
       <div className='flex-1'>
         <p className='block mb-2 font-normal text-[20px] text-start sm:text-center'>When would you like to travel?</p>
-        <div className="calendar-wrapper">
+        <div className={`calendar-wrapper border rounded-lg ${datesError ? 'border-red-500' : 'border-transparent'}`}>
           <DateRange
             editableDateInputs={true}
             onChange={(item: any) => {
@@ -145,6 +161,7 @@ export default function CalendarSection({ onDataChange }: { onDataChange?: (data
             maxDate={maxDate}
           />
         </div>
+        {datesError && <p className='text-red-500 text-sm mt-1 text-center'>{datesError}</p>}
       </div>
     </div>
   )

@@ -20,6 +20,9 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
   const [tripDetails, setTripDetails] = useState('');
   const [tripDetailsError, setTripDetailsError] = useState('');
   const [plannerData, setPlannerData] = useState<any>({});
+  const [destinationError, setDestinationError] = useState('');
+  const [travelersError, setTravelersError] = useState('');
+  const [datesError, setDatesError] = useState('');
 
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,12 +78,25 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
     } else {
       setTripDetailsError('');
     }
+    if (!plannerData.destination) {
+      setDestinationError('Please select a destination');
+      hasError = true;
+    } else { setDestinationError(''); }
+
+    if (!plannerData.traveler_count) {
+      setTravelersError('Number of travelers is required');
+      hasError = true;
+    } else { setTravelersError(''); }
+
+    if (!plannerData.start_date) {
+      setDatesError('Please select your travel dates');
+      hasError = true;
+    } else { setDatesError(''); }
 
     if (email && !validateEmail(email)) {
       setEmailError('Please enter a valid email address');
       hasError = true;
     }
-
     if (hasError) {
       toast.error('Please fill in all required fields!');
       return;
@@ -133,7 +149,12 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
   return (
     <>
       <div className='flex justify-center items-center'>
-        <CalendarSection onDataChange={setPlannerData} />
+        <CalendarSection
+          onDataChange={setPlannerData}
+          destinationError={destinationError}
+          travelersError={travelersError}
+          datesError={datesError}
+        />
       </div>
 
       <div className='w-full flex justify-center items-center mt-[45px] px-4'>
@@ -142,9 +163,8 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
             <input
               type='text'
               placeholder='Full name*'
-              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
-                nameError ? 'border-red-500' : 'border-[#98B6E2]'
-              }`}
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${nameError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -158,9 +178,8 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
             <input
               type='email'
               placeholder='Email*'
-              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
-                emailError ? 'border-red-500' : 'border-[#98B6E2]'
-              }`}
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${emailError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
               value={email}
               onChange={handleEmailChange}
             />
@@ -207,9 +226,8 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
               <input
                 type='tel'
                 placeholder='Phone*'
-                className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${
-                  phoneError ? 'border-red-500' : 'border-[#98B6E2]'
-                }`}
+                className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk ${phoneError ? 'border-red-500' : 'border-[#98B6E2]'
+                  }`}
                 value={phone}
                 onChange={handlePhoneChange}
                 inputMode='numeric'
@@ -222,9 +240,8 @@ const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmitSuccess, onSu
           <div>
             <textarea
               placeholder='Tell us more about your trip*'
-              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk resize-vertical min-h-[100px] ${
-                tripDetailsError ? 'border-red-500' : 'border-[#98B6E2]'
-              }`}
+              className={`w-full text-[18px] font-normal outline-none border rounded p-3 placeholder:text-[#727272] placeholder:text-[16px] font-host-grotesk resize-vertical min-h-[100px] ${tripDetailsError ? 'border-red-500' : 'border-[#98B6E2]'
+                }`}
               value={tripDetails}
               onChange={(e) => {
                 setTripDetails(e.target.value);

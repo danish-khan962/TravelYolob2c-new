@@ -9,6 +9,8 @@ import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import newChevronsLeft from "../../../public/images/new_chevron_left.png"
+import newChevronsRight from "../../../public/images/new_chevron_right.png"
 
 interface Destination {
   title: string;
@@ -52,56 +54,56 @@ const SignatureExperiencesSection = forwardRef<
   const slidesToDuplicate = 5; // Number of slides to duplicate at each end
 
   useEffect(() => {
-  async function fetchData() {
-    try {
-      let allData: Destination[] = [];
-      let page = 1;
-      const pageSize = 20; // CMS default
-      let hasMore = true;
+    async function fetchData() {
+      try {
+        let allData: Destination[] = [];
+        let page = 1;
+        const pageSize = 20; // CMS default
+        let hasMore = true;
 
-      while (hasMore) {
-        const res = await fetch(
-          `/api/packages?package_type=destination&page=${page}`
-        );
+        while (hasMore) {
+          const res = await fetch(
+            `/api/packages?package_type=destination&page=${page}`
+          );
 
-        if (!res.ok) throw new Error("Failed to fetch destination packages");
+          if (!res.ok) throw new Error("Failed to fetch destination packages");
 
-        const json = await res.json();
-        const results = json.results || [];
-    
-        const mapped: Destination[] = results.map((item: any) => ({
-          title: item.title || "Untitled",
-          duration_days: item.duration_days || "",
-          duration_nights: item.duration_nights || "",
-          image: item.image_portrait || "",
-          slug: item.slug || "",
-        }));
+          const json = await res.json();
+          const results = json.results || [];
 
-        allData.push(...mapped);
+          const mapped: Destination[] = results.map((item: any) => ({
+            title: item.title || "Untitled",
+            duration_days: item.duration_days || "",
+            duration_nights: item.duration_nights || "",
+            image: item.image_portrait || "",
+            slug: item.slug || "",
+          }));
 
-        if (results.length < pageSize) {
-          hasMore = false;
-        } else {
-          page++;
+          allData.push(...mapped);
+
+          if (results.length < pageSize) {
+            hasMore = false;
+          } else {
+            page++;
+          }
         }
+
+        setRealDataLength(allData.length);
+
+        // Duplicate slides for pseudo-loop
+        const slidesToDuplicate = 5;
+        const frontDuplicates = allData.slice(-slidesToDuplicate);
+        const backDuplicates = allData.slice(0, slidesToDuplicate);
+        const loopedData = [...frontDuplicates, ...allData, ...backDuplicates];
+
+        setDisplayData(loopedData);
+      } catch (error) {
+        console.error("Error loading destination packages:", error);
       }
-
-      setRealDataLength(allData.length);
-
-      // Duplicate slides for pseudo-loop
-      const slidesToDuplicate = 5;
-      const frontDuplicates = allData.slice(-slidesToDuplicate);
-      const backDuplicates = allData.slice(0, slidesToDuplicate);
-      const loopedData = [...frontDuplicates, ...allData, ...backDuplicates];
-
-      setDisplayData(loopedData);
-    } catch (error) {
-      console.error("Error loading destination packages:", error);
     }
-  }
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
 
 
@@ -227,6 +229,11 @@ const SignatureExperiencesSection = forwardRef<
                   slidesPerGroup: 1,
                 },
                 1024: {
+                  slidesPerView: 4,
+                  spaceBetween: 18,
+                  slidesPerGroup: 1,
+                },
+                1200: {
                   slidesPerView: 5,
                   spaceBetween: 18,
                   slidesPerGroup: 1,
@@ -250,6 +257,24 @@ const SignatureExperiencesSection = forwardRef<
                 setProgress(swiper.progress ?? 0);
               }}
             >
+              {/* Left Swiper Top */}
+              <Image
+                src={newChevronsLeft}
+                alt="left swiper"
+                height={1000}
+                width={1000}
+                className="h-14 w-14 absolute z-100 cursor-pointer left-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                onClick={handlePrevSlide}
+              />
+              {/* Right swiper top */}
+              <Image
+                src={newChevronsRight}
+                alt="right swiper"
+                height={1000}
+                width={1000}
+                className="h-14 w-14 absolute z-100 cursor-pointer right-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                onClick={handleNextSlide}
+              />
               {displayData.map((experience, index) => (
                 <SwiperSlide key={index}>
                   <Link
@@ -357,6 +382,14 @@ const SignatureExperiencesSection = forwardRef<
 
         .signature-experiences-swiper .swiper-slide-active {
           z-index: 10;
+        }
+          .signature-experiences-swiper .swiper-button-prev-custom,
+          .signature-experiences-swiper .swiper-button-next-custom {
+          z-index: 100 !important;
+          }
+
+        .signature-experiences-swiper {
+        z-index: 1;
         }
       `}</style>
     </div>

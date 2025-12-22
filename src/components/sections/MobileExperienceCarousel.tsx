@@ -8,6 +8,8 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import newChevronLeft from "../../../public/images/new_chevron_left.png"
+import newChevronRight from "../../../public/images/new_chevron_right.png"
 
 interface Destination {
   title: string;
@@ -64,49 +66,49 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
   const [isLoop, setIsLoop] = useState(false);
 
   useEffect(() => {
-  async function fetchDestinations() {
-    try {
-      let allData: Destination[] = [];
-      let page = 1;
-      const pageSize = 20; // CMS default
-      let hasMore = true;
+    async function fetchDestinations() {
+      try {
+        let allData: Destination[] = [];
+        let page = 1;
+        const pageSize = 20; // CMS default
+        let hasMore = true;
 
-      while (hasMore) {
-        const res = await fetch(
-          `/api/packages?package_type=destination&page=${page}`
-        );
+        while (hasMore) {
+          const res = await fetch(
+            `/api/packages?package_type=destination&page=${page}`
+          );
 
-        if (!res.ok) {
-          throw new Error(`Failed to fetch destinations (page ${page})`);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch destinations (page ${page})`);
+          }
+
+          const json = await res.json();
+          const results = json.results || [];
+
+          const mapped: Destination[] = results.map((item: any) => ({
+            title: item.title || "Untitled",
+            duration_days: item.duration_days || "",
+            duration_nights: item.duration_nights || "",
+            image: item.image_portrait || "",
+          }));
+
+          allData.push(...mapped);
+
+          if (results.length < pageSize) {
+            hasMore = false;
+          } else {
+            page++;
+          }
         }
 
-        const json = await res.json();
-        const results = json.results || [];
-
-        const mapped: Destination[] = results.map((item: any) => ({
-          title: item.title || "Untitled",
-          duration_days: item.duration_days || "",
-          duration_nights: item.duration_nights || "",
-          image: item.image_portrait || "",
-        }));
-
-        allData.push(...mapped);
-
-        if (results.length < pageSize) {
-          hasMore = false;
-        } else {
-          page++;
-        }
+        setDestinations(allData);
+      } catch (error) {
+        console.error("Error loading mobile destinations:", error);
       }
-
-      setDestinations(allData);
-    } catch (error) {
-      console.error("Error loading mobile destinations:", error);
     }
-  }
 
-  fetchDestinations();
-}, []);
+    fetchDestinations();
+  }, []);
 
 
   return (
@@ -160,6 +162,24 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
                   setActiveIndex(initialSlideIndex);
                 }}
               >
+                {/* Left Swiper Top */}
+                <Image
+                  src={newChevronLeft}
+                  alt="left swiper"
+                  height={1000}
+                  width={1000}
+                  className="h-14 w-14 absolute z-100 cursor-pointer left-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                  onClick={handlePrevSlide}
+                />
+                {/* Right swiper top */}
+                <Image
+                  src={newChevronRight}
+                  alt="right swiper"
+                  height={1000}
+                  width={1000}
+                  className="h-14 w-14 absolute z-100 cursor-pointer right-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                  onClick={handleNextSlide}
+                />
                 {destinations.map((experience, index) => (
                   <SwiperSlide key={index}>
                     <div className="relative w-full max-w-[400px] transition-transform duration-300 ease-out">
@@ -196,14 +216,14 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
                             : null}
                         </h3>
                         {(experience.duration_days || experience.duration_nights) && (
-                        <span className="text-[10px] sm:text-[12px] lg:text-[14px] font-host-grotesk font-normal leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
-                          {experience.duration_days && experience.duration_nights
-                            ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
-                            : experience.duration_days
-                              ? `(${experience.duration_days}D`
-                              : `${experience.duration_nights}N)`}
-                        </span>
-                      )}
+                          <span className="text-[10px] sm:text-[12px] lg:text-[14px] font-host-grotesk font-normal leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
+                            {experience.duration_days && experience.duration_nights
+                              ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
+                              : experience.duration_days
+                                ? `(${experience.duration_days}D`
+                                : `${experience.duration_nights}N)`}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </SwiperSlide>

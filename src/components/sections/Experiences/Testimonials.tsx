@@ -7,6 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import newChevronLeft from "../../../../public/images/new_chevron_left.png"
+import newChevronRight from "../../../../public/images/new_chevron_right.png"
 
 interface Testimonial {
   id: string;
@@ -20,51 +22,52 @@ interface Testimonial {
 const Testimonials: React.FC<{ packageId: string }> = ({ packageId }) => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const [swiper, setSwiper] = useState<any>(null);
   const skeletonCards = Array(2).fill(0);
 
   useEffect(() => {
-  const fetchTestimonials = async () => {
-    try {
-      setLoading(true);
+    const fetchTestimonials = async () => {
+      try {
+        setLoading(true);
 
-      // Choose endpoint based on whether packageId exists or not
-      const endpoint = packageId
-        ? `/api/testimonials?package=${packageId}&is_approved=true`
-        : `/api/testimonials?is_approved=true`;
+        // Choose endpoint based on whether packageId exists or not
+        const endpoint = packageId
+          ? `/api/testimonials?package=${packageId}&is_approved=true`
+          : `/api/testimonials?is_approved=true`;
 
-      console.log("Fetching testimonials from:", endpoint);
+        console.log("Fetching testimonials from:", endpoint);
 
-      const res = await fetch(endpoint);
+        const res = await fetch(endpoint);
 
-      if (!res.ok) {
-        console.error("Failed to fetch testimonials:", res.status);
+        if (!res.ok) {
+          console.error("Failed to fetch testimonials:", res.status);
+          setTestimonials([]);
+          return;
+        }
+
+        const data = await res.json();
+        const formatted =
+          data?.results?.map((item: any) => ({
+            id: item.id,
+            content: item.content,
+            rating: item.rating,
+            tripTitle: item.trip_title,
+            reviewer_name: item.reviewer_name || "Anonymous",
+            reviewer_avatar: item.reviewer_avatar || "/images/default-avatar.jpg",
+          })) || [];
+
+        setTestimonials(formatted);
+      } catch (error) {
+        console.error("Testimonials fetch error:", error);
         setTestimonials([]);
-        return;
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await res.json();
-      const formatted =
-        data?.results?.map((item: any) => ({
-          id: item.id,
-          content: item.content,
-          rating: item.rating,
-          tripTitle: item.trip_title,
-          reviewer_name: item.reviewer_name || "Anonymous",
-          reviewer_avatar: item.reviewer_avatar || "/images/default-avatar.jpg",
-        })) || [];
-
-      setTestimonials(formatted);
-    } catch (error) {
-      console.error("Testimonials fetch error:", error);
-      setTestimonials([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Always fetch — even if packageId is empty string
-  fetchTestimonials();
-}, [packageId]);
+    // Always fetch — even if packageId is empty string
+    fetchTestimonials();
+  }, [packageId]);
 
   if (loading)
     return (
@@ -133,10 +136,30 @@ const Testimonials: React.FC<{ packageId: string }> = ({ packageId }) => {
             </p>
           </div>
           <div className="relative mt-6">
+            {/* Left Chevron */}
+            <Image
+              src={newChevronLeft}
+              alt="left swiper"
+              height={1000}
+              width={1000}
+              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -left-3 md:-left-5 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+              onClick={() => swiper?.slidePrev()}
+            />
+            {/* Right Chevron */}
+            <Image
+              src={newChevronRight}
+              alt="right swiper"
+              height={1000}
+              width={1000}
+              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -right-3 md:-right-5 top-1/2 -translate-y-1/2 swiper-button-next-custom"
+              onClick={() => swiper?.slideNext()}
+            />
             <Swiper
+              onSwiper={setSwiper}
               modules={[Autoplay, Pagination]}
               spaceBetween={24}
               slidesPerView={1}
+              loop={true}
               autoplay={{
                 delay: 5000,
                 disableOnInteraction: false,

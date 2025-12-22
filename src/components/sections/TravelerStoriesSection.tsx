@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import RatingBar from '@/components/ui/RatingBar';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import toast, { Toaster } from 'react-hot-toast';
+import newChevronLeft from "../../../public/images/new_chevron_left.png"
+import newChevronRight from "../../../public/images/new_chevron_right.png"
 
 interface TestimonialProfile {
   id: string;
@@ -21,9 +23,19 @@ interface Testimonial {
   profile: TestimonialProfile;
 }
 
-const TravelerStoriesSection: React.FC = () => {
+interface TravelerStoriesSectionProps {
+  title: string;
+  description: string;
+}
+
+
+const TravelerStoriesSection: React.FC<TravelerStoriesSectionProps> = ({
+  title,
+  description,
+}) => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
+  const swiperRef = useRef<any>(null);
 
   // comment box state
   const [comment, setComment] = useState("");
@@ -107,13 +119,13 @@ const TravelerStoriesSection: React.FC = () => {
               className="text-[30px] sm:text-[35px] lg:text-[40px] font-light italic leading-[33px] sm:leading-[44px] lg:leading-[55px] font-noto-serif"
               style={{ color: '#000000' }}
             >
-              Traveler Stories
+              {title}
             </h2>
             <p
               className="text-[14px] sm:text-[16px] lg:text-[18px] font-host-grotesk font-light leading-relaxed mt-4 max-w-[320px] min-465:max-w-[350px] w-full pr-32 sm:pr-20 lg:pr-0"
               style={{ color: '#312E29' }}
             >
-              Stories shared by explorers who turned trips into lasting memories.
+              {description}
             </p>
           </div>
 
@@ -147,8 +159,28 @@ const TravelerStoriesSection: React.FC = () => {
               <Image src="/aphos.png" alt="Aphos" width={50} height={50} className="object-contain" />
             </div>
 
+            {/* Left Chevron */}
+            <Image
+              src={newChevronLeft}
+              alt="left swiper"
+              height={1000}
+              width={1000}
+              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -left-5 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+              onClick={() => swiperRef.current?.slidePrev()}
+            />
+            {/* Right Chevron */}
+            <Image
+              src={newChevronRight}
+              alt="right swiper"
+              height={1000}
+              width={1000}
+              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -right-5 top-1/2 -translate-y-1/2 swiper-button-next-custom"
+              onClick={() => swiperRef.current?.slideNext()}
+            />
+
             <Swiper
-              modules={[Autoplay, Pagination]}
+              ref={swiperRef}
+              modules={[Autoplay, Pagination, Navigation]}
               spaceBetween={24}
               slidesPerView={1}
               autoplay={{
@@ -158,6 +190,10 @@ const TravelerStoriesSection: React.FC = () => {
               pagination={{
                 clickable: true,
                 dynamicBullets: true,
+              }}
+              navigation={{
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom',
               }}
               breakpoints={{
                 640: {
@@ -170,6 +206,7 @@ const TravelerStoriesSection: React.FC = () => {
                 },
               }}
               className="w-full testimonial-swiper pb-12"
+              loop={true}
             >
               {testimonials.map((testimonial) => (
                 <SwiperSlide key={testimonial.id}>
@@ -201,7 +238,7 @@ const TravelerStoriesSection: React.FC = () => {
                     </h3>
 
                     {/* Description */}
-                    <p className="text-[16px] font-host-grotesk font-normal leading-relaxed italic" style={{ color: '#312E29' }}>
+                    <p className="text-[16px] font-host-grotesk font-normal leading-relaxed italic p-4" style={{ color: '#312E29' }}>
                       {testimonial.content}
                     </p>
                   </div>

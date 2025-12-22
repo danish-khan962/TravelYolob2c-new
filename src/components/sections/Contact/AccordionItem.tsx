@@ -39,20 +39,20 @@ const AccordionItem = () => {
       {FAQ.map((item, index) => (
         <div
           key={index}
-          className="bg-white rounded-lg shadow-sm"
+          className="bg-white rounded-xl shadow-sm"
         >
           {/* Header */}
           <div
-            className="flex justify-between items-center cursor-pointer"
+            className="flex justify-between items-center cursor-pointer px-8 py-4"
             onClick={() => toggleAccordion(index)}
           >
-            <p className="text-[#312E29] text-[16px] md:text-[20px] font-medium font-host-grotesk px-8 py-4">
+            <p className="text-[#312E29] text-[16px] md:text-[20px] font-medium font-host-grotesk">
               {item.question}
             </p>
             {openIndex === index ? (
-              <FiChevronUp className="text-[#6C3B3F] text-[25px] md:text-[30px]" />
+              <FiChevronUp className="text-[#6C3B3F] text-[25px] md:text-[30px] flex-shrink-0" />
             ) : (
-              <FiChevronDown className="text-[#6C3B3F] text-[25px] md:text-[30px]" />
+              <FiChevronDown className="text-[#6C3B3F] text-[25px] md:text-[30px] flex-shrink-0" />
             )}
           </div>
 
@@ -66,8 +66,8 @@ const AccordionItem = () => {
             }}
           >
             {openIndex === index && (
-              <div className="bg-[#F4F4F4] p-6">
-                <p className="text-[#000000] text-[14px] md:text-[18px] font-normal font-host-grotesk">
+              <div className="bg-[#63605B] p-6 rounded-b-xl">
+                <p className="text-[#ffffff] text-[14px] md:text-[18px] font-normal font-host-grotesk">
                   {item.answer}
                 </p>
               </div>

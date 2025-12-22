@@ -16,6 +16,7 @@ import SignatureExperiencesWrapper from '@/components/sections/SignatureExperien
 
 import ChevronsLeft from "../../public/images/double_chevrons_left.png"
 import ChevronsRight from "../../public/images/double_chevrons_right.png"
+
 import Image from 'next/image';
 import { SignatureExperiencesSectionHandle } from '@/components/sections/SignatureExperiencesSection';
 
@@ -177,7 +178,7 @@ const HomePage: React.FC = () => {
                 <h1 className="text-[24px] sm:text-[28px] md:text-[32px] lg:text-[40px] font-light italic leading-[40px] sm:leading-[55px] md:leading-[65px] lg:leading-[79px] capitalize mb-2 sm:mb-4 lg:mb-[8px] text-balance font-noto-serif">
                   Dream Destinations, Designed For You.
                 </h1>
-                <div className='grid grid-cols-2 items-center gap-[60px]'>
+                {/* <div className='grid grid-cols-2 items-center gap-[60px]'>
                   <Image
                     src={ChevronsLeft}
                     alt='left chevrons'
@@ -194,7 +195,7 @@ const HomePage: React.FC = () => {
                     className='cursor-pointer'
                     onClick={() => sigControlRef.current?.next?.()}
                   />
-                </div>
+                </div> */}
               </div>
               <p className="text-[#312E29] text-[14px] sm:text-[16px] md:text-[18px] font-host-grotesk font-light leading-[19px] sm:leading-[22px] md:leading-[24px] lg:leading-[27px] mb-[28px] sm:mb-[36px] lg:mb-[48px] mt-3 sm:mt-4 lg:mt-5 max-w-[535px] w-full">
                 From romantic coastlines to vibrant cities and hidden retreats, discover places that inspire your wanderlust and turn every journey into a story worth telling.
@@ -255,7 +256,10 @@ const HomePage: React.FC = () => {
         <CuratedProcessSection />
 
         {/* Traveler Stories Section */}
-        <TravelerStoriesSection />
+        <TravelerStoriesSection
+        title='Traveler Stories'
+        description='Stories shared by explorers who turned trips into lasting memories.'
+        />
 
         {/* Call to Action Section */}
         <CallToActionSection />

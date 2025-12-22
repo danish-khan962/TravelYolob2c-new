@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
+import newChevronLeft from "../../../public/images/new_chevron_left.png"
+import newChevronRight from "../../../public/images/new_chevron_right.png"
 
 interface TravelCategory {
     id: string;
@@ -80,14 +82,25 @@ const BeyondItinerarySection: React.FC = () => {
     const itemsToShow = isMobile ? 1 : 3;
     const maxIndex = totalItems - itemsToShow;
 
-    const handleNext = () => {
-        swiperRef.current?.slideNext();
-        setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
+    // const handleNext = () => {
+    //     swiperRef.current?.slideNext();
+    //     setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
+    // };
+
+    // const handlePrev = () => {
+    //     swiperRef.current?.slidePrev();
+    //     setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    // };
+    const handleTopNext = () => {
+        if (swiperRef.current) {
+            swiperRef.current.slideNext();
+        }
     };
 
-    const handlePrev = () => {
-        swiperRef.current?.slidePrev();
-        setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    const handleTopPrev = () => {
+        if (swiperRef.current) {
+            swiperRef.current.slidePrev();
+        }
     };
 
     const getVisibleCategories = () => {
@@ -95,7 +108,7 @@ const BeyondItinerarySection: React.FC = () => {
     };
 
     // Calculate progress (0 to 1)
-    const progress = maxIndex > 0 ? currentIndex / maxIndex : 0;
+    // const progress = maxIndex > 0 ? currentIndex / maxIndex : 0;
 
     return (
         <>
@@ -183,7 +196,7 @@ const BeyondItinerarySection: React.FC = () => {
 
                     {/* Navigation Arrows with Progress Bar */}
                     <div className="flex gap-2 sm:gap-4 items-center">
-                        <button
+                        {/* <button
                             onClick={handlePrev}
                             className="w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                             aria-label="Previous slide"
@@ -191,10 +204,10 @@ const BeyondItinerarySection: React.FC = () => {
                         >
                             <Image src="/images/img_xmlid_222.svg" alt="Previous" width={8} height={14} />
                             <Image src="/images/img_xmlid_222.svg" alt="Previous" width={8} height={14} />
-                        </button>
+                        </button> */}
 
                         {/* Progress Bar */}
-                        <div className="w-[80px] sm:w-[100px] md:w-[120px] mx-2">
+                        {/* <div className="w-[80px] sm:w-[100px] md:w-[120px] mx-2">
                             <div className="w-full h-[3px] bg-[#E7E7E7] rounded-full relative overflow-hidden">
                                 <div
                                     className="absolute top-0 left-0 h-full bg-black rounded-full transition-all duration-300 ease-out"
@@ -203,9 +216,9 @@ const BeyondItinerarySection: React.FC = () => {
                                     }}
                                 />
                             </div>
-                        </div>
+                        </div> */}
 
-                        <button
+                        {/* <button
                             onClick={handleNext}
                             className="w-8 h-8 flex items-center justify-center cursor-pointer hover:bg-gray-100 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                             aria-label="Next slide"
@@ -213,7 +226,7 @@ const BeyondItinerarySection: React.FC = () => {
                         >
                             <Image src="/images/img_arrow_right.svg" alt="Next" width={8} height={14} />
                             <Image src="/images/img_arrow_right.svg" alt="Next" width={8} height={14} />
-                        </button>
+                        </button> */}
                     </div>
                 </div>
 
@@ -240,6 +253,24 @@ const BeyondItinerarySection: React.FC = () => {
                             swiperRef.current = swiper;
                         }}
                     >
+                        {/* Left Swiper Top */}
+                        <Image
+                            src={newChevronLeft}
+                            alt="left swiper"
+                            height={1000}
+                            width={1000}
+                            className="h-14 w-14 absolute z-50 cursor-pointer left-2 md:left-4 lg:left-6 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                            onClick={handleTopPrev}
+                        />
+                        {/* Right swiper top */}
+                        <Image
+                            src={newChevronRight}
+                            alt="right swiper"
+                            height={1000}
+                            width={1000}
+                            className="h-14 w-14 absolute z-50 cursor-pointer right-2 md:right-4 lg:right-6 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                            onClick={handleTopNext}
+                        />
                         {travelCategories.map((category) => (
                             <SwiperSlide key={category.id} style={{ width: '33.3333%' }}>
                                 <Link href={category.hrefUrl} className="block">

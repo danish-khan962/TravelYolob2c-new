@@ -10,6 +10,8 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import newChevronLeft from "../../../../public/images/new_chevron_left.png"
+import newChevronRight from "../../../../public/images/new_chevron_right.png"
 
 interface Experience {
   id: string;
@@ -212,6 +214,24 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
                   setActiveIndex(initialSlideIndex);
                 }}
               >
+                {/* Left Swiper Top */}
+                <Image
+                  src={newChevronLeft}
+                  alt="left swiper"
+                  height={1000}
+                  width={1000}
+                  className="h-14 w-14 absolute z-100 cursor-pointer left-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                  onClick={handlePrevSlide}
+                />
+                {/* Right swiper top */}
+                <Image
+                  src={newChevronRight}
+                  alt="right swiper"
+                  height={1000}
+                  width={1000}
+                  className="h-14 w-14 absolute z-100 cursor-pointer right-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                  onClick={handleNextSlide}
+                />
                 {experiences.map((experience, index) => (
                   <SwiperSlide key={index}>
                     <Link href={`/experiences/package?slug=${experience.slug}&category=${parentSlug}`}>
@@ -325,6 +345,15 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
         .signature-experiences-swiper .swiper-slide-active {
           z-index: 10;
         }
+
+        .swiper-button-prev-custom,
+        .swiper-button-next-custom {
+        z-index: 100 !important;
+        }
+
+      .signature-experiences-swiper {
+      z-index: 1;
+      }
       `}</style>
     </div>
   );
