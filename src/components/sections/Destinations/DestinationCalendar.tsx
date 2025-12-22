@@ -1,18 +1,20 @@
-// DestinationCalendar.tsx
 'use client'
 import { useEffect, useState } from 'react'
 import { DateRange } from 'react-date-range'
-import { GoTriangleDown, GoTriangleUp } from 'react-icons/go'
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 import './customCalendar.css'
 
 export default function DestinationCalendar({
     onDataChange,
-    resetTrigger
+    resetTrigger,
+    travelersError, // New prop
+    datesError      // New prop
 }: {
     onDataChange?: (data: any) => void;
     resetTrigger?: boolean;
+    travelersError?: boolean;
+    datesError?: boolean;
 }) {
     const [dateRange, setDateRange] = useState([
         {
@@ -22,9 +24,7 @@ export default function DestinationCalendar({
         },
     ])
 
-
     const [budget, setBudget] = useState([3000, 75000])
-    const [isDestinationOpen, setIsDestinationOpen] = useState(false)
     const [travelers, setTravelers] = useState('')
     const [destination, setDestination] = useState('')
     const [datesTouched, setDatesTouched] = useState(false)
@@ -33,6 +33,18 @@ export default function DestinationCalendar({
     const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     const maxMonth = now.getMonth() + 6
     const maxDate = new Date(now.getFullYear(), maxMonth + 1, 0)
+
+    // Handle Reset
+    useEffect(() => {
+        setTravelers('')
+        setBudget([3000, 75000])
+        setDatesTouched(false)
+        setDateRange([{
+            startDate: null as Date | null,
+            endDate: null as Date | null,
+            key: 'selection'
+        }])
+    }, [resetTrigger])
 
     useEffect(() => {
         if (!onDataChange) return;
@@ -48,7 +60,6 @@ export default function DestinationCalendar({
         const number_of_travellers = travelers ? parseInt(travelers) : null;
         const budget_min = budget[0] != null ? Number(budget[0]) : null;
         const budget_max = budget[1] != null ? Number(budget[1]) : null;
-        const travel_budget = budget_min;
 
         onDataChange({
             destination,
@@ -58,49 +69,20 @@ export default function DestinationCalendar({
             start_date,
             end_date,
             number_of_travellers,
-            travel_budget,
+            travel_budget: budget_min,
         });
     }, [destination, travelers, budget, dateRange, datesTouched, onDataChange]);
 
     return (
         <div className='flex flex-col md:flex-row gap-y-8 gap-x-10 bg-[#FAFAFA] px-4 md:px-6 lg:px-8 py-[60px] md:py-8 rounded-xl font-host-grotesk max-w-[866px] w-full'>
             <div className='max-w-[700px] w-full space-y-6'>
-                {/* <div>
-          <label className='block mb-2 font-normal text-[20px] ml-2'>Plan your journey</label>
-          <div className='relative'>
-            <select
-              className='w-full appearance-none bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border border-[#98B6E2] pr-10'
-              onFocus={() => setIsDestinationOpen(true)}
-              onBlur={() => setIsDestinationOpen(false)}
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-            >
-              <option value="" disabled>
-                Select a destination to begin your journey.
-              </option>
-              <option value="Maldives">Maldives</option>
-              <option value="India">India</option>
-              <option value="Japan">Japan</option>
-              <option value="Thailand">Thailand</option>
-              <option value="Vietnam">Vietnam</option>
-              <option value="Cambodia">Cambodia</option>
-              <option value="Indonesia">Indonesia</option>
-            </select>
-            {isDestinationOpen ? (
-              <GoTriangleUp className='pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-[#6C3B3F] text-xl' />
-            ) : (
-              <GoTriangleDown className='pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-[#6C3B3F] text-xl' />
-            )}
-          </div>
-        </div> */}
-
                 <div>
                     <label className='block mb-2 font-normal text-[20px] ml-2'>Number of travellers</label>
                     <div className='relative'>
                         <input
                             type="number"
                             min={1}
-                            className='w-full bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border border-[#98B6E2] focus:outline-none'
+                            className={`w-full bg-white rounded-md p-4 text-[#989898] text-[14px] lg:text-[18px] border focus:outline-none ${travelersError ? 'border-red-500' : 'border-[#98B6E2]'}`}
                             value={travelers}
                             onChange={e => {
                                 const val = e.target.value
@@ -108,7 +90,6 @@ export default function DestinationCalendar({
                                     setTravelers(val)
                                 }
                             }}
-                            aria-label="Number of travelers"
                             placeholder="Enter number of travelers"
                         />
                     </div>
@@ -136,7 +117,7 @@ export default function DestinationCalendar({
 
             <div className='flex-1'>
                 <p className='block mb-2 font-normal text-[20px] text-start sm:text-center'>When would you like to travel?</p>
-                <div className="calendar-wrapper">
+                <div className={`calendar-wrapper rounded-lg border ${datesError ? 'border-red-500' : 'border-transparent'}`}>
                     <DateRange
                         editableDateInputs={true}
                         onChange={(item: any) => {
