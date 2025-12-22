@@ -84,7 +84,7 @@ const page = () => {
 
 
                 {/* Itinerary Plans & Live Map*/}
-                <div className=' mt-[55px] sm:mt-[70px]'>
+                <div className=' mt-[40px] sm:mt-[55px]'>
                     <h1 className='text-[32px] sm:text-[40px] text-[#000000] font-noto-serif font-light italic'>Itinerary Plan</h1>
                     <div className='flex flex-col md:flex-row justify-between items-center gap-y-[129px] gap-x-[68px]'>
                         <div>
@@ -98,9 +98,9 @@ const page = () => {
 
 
                 {/*  What is included | Accordion */}
-                <div className='mt-[55px] sm:mt-[70px]'>
+                <div className='-mt-16 md:-mt-5'>
                     <WhatIsIncluded />
-                    <div className='hidden sm:flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start gap-4 mt-[100px] sm:mt-[148px]'>
+                    <div className='hidden sm:flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start gap-4 mt-[50px] sm:mt-[65px]'>
                         <button
                             onClick={handleBookNow}
                             className="w-full sm:w-[223px] h-[54px] bg-[#312E29] text-white rounded-full cursor-pointer hover:scale-105 transition-all ease-in-out duration-200"

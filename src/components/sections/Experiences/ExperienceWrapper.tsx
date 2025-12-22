@@ -6,10 +6,10 @@ const ExperienceWrapper = forwardRef<ExperienceDesktopHandle, any>((props, ref) 
   return (
     <>
       <ExperienceMobile
-        applySigTransforms={() => {}}
-        scheduleSigTransforms={() => {}}
+        applySigTransforms={() => { }}
+        scheduleSigTransforms={() => { }}
         sigCarouselRef={React.createRef()}
-        scrollSigCarousel={() => {}}
+        scrollSigCarousel={() => { }}
       />
 
       <ExperienceDesktop

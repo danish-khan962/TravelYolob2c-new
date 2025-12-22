@@ -158,9 +158,10 @@ const page = () => {
           </p>
         </div>
 
-        <div className='w-full sm:w-screen mt-[56px] sm:mt-[100px]'>
-          <ExperienceWrapper ref={sigControlRef} />
-        </div>
+      </div>
+
+      <div className='w-full mt-[56px] sm:mt-[100px]'>
+        <ExperienceWrapper ref={sigControlRef} />
       </div>
 
 

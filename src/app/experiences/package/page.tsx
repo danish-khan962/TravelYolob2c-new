@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation'
 import ItinerarySkeleton from '@/components/sections/Itinerary/ItinerarySkeleton'
 import BookingModal from '@/components/common/BookingModal'
 import ItineararyBookingModal from '@/components/common/ItineraryBookingModal'
+import TravelerStoriesSection from '@/components/sections/TravelerStoriesSection'
 
 const LeafletMap = dynamic(() => import('@/components/sections/Itinerary/LeafletMap'), {
     ssr: false,
@@ -67,7 +68,7 @@ const PackageContent = () => {
 
             {/* Overview */}
             <div className='w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8'>
-                <div className='flex flex-col items-start mt-[86px] sm:mt-[157px]'>
+                <div className='flex flex-col items-start mt-[55px] sm:mt-[70px]'>
                     <h1 className='text-[32px] sm:text-[40px] text-[#6C3B3F] font-noto-serif font-light italic'>Overview</h1>
                     <div
                         className='max-w-[911px] w-full font-host-grotesk font-light text-start text-base sm:text-[20px] mt-[18px] sm:mt-[24px] sm:leading-snug text-[#312E29] pr-0 sm:pr-2'
@@ -86,7 +87,7 @@ const PackageContent = () => {
 
 
                 {/* Itinerary Plans & Live Map*/}
-                <div className='mt-[121px] sm:mt-[139px]'>
+                <div className='mt-[40px] sm:mt-[55px]'>
                     <h1 className='text-[32px] sm:text-[40px] text-[#000000] font-noto-serif font-light italic'>Itinerary Plan</h1>
                     <div className='flex flex-col md:flex-row justify-between items-center gap-y-[129px] gap-x-[68px]'>
                         <div>
@@ -100,9 +101,9 @@ const PackageContent = () => {
 
 
                 {/*  What is included | Accordion */}
-                <div className='mt-[80px] sm:mt-[160px]'>
+                <div className='-mt-16 md:-mt-5'>
                     <WhatIsIncluded />
-                    <div className='hidden sm:flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start gap-4 mt-[100px] sm:mt-[148px]'>
+                    <div className='hidden sm:flex flex-col sm:flex-row justify-center items-center sm:justify-start sm:items-start gap-4 mt-[50px] sm:mt-[65px]'>
                         <button
                             onClick={handleBookNow}
                             className="w-full sm:w-[223px] h-[54px] bg-[#312E29] text-white rounded-full cursor-pointer hover:scale-105 transition-all ease-in-out duration-200"
@@ -118,10 +119,11 @@ const PackageContent = () => {
 
 
             {/* Testimonials */}
-            <div className='bg-[#F9F9F9] mt-[106px] sm:mt-[211px] pb-[94px] sm:pb-[218px]'>
-                <div className='w-full pt-[124px] md:pt-[192px]'>
-                    <Testimonials packageId="" />
-                </div>
+            <div className='bg-[#F9F9F9] mt-[55px] sm:mt-[70px] pb-[94px] sm:pb-[218px]'>
+                <TravelerStoriesSection
+                    title={"Testimonials"}
+                    description={"Stories shared by explorers who turned trips into lasting memories."}
+                />
             </div>
 
 
