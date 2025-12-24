@@ -41,7 +41,7 @@ export default function RootLayout({
               },
             }}
           />
-          <Banner />
+          {/* <Banner /> */}
           <BannerMobile />
           <Header />
           <main>

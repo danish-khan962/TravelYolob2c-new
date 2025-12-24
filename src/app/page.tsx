@@ -159,8 +159,6 @@ const HomePage: React.FC = () => {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Not Just Travel Section */}
-        <NotJustTravelSection />
 
         {/* Signature Travel Experiences Section */}
         {/*
@@ -246,6 +244,10 @@ const HomePage: React.FC = () => {
           </Link>
         </div>
 
+
+        {/* Not Just Travel Section */}
+        <NotJustTravelSection />
+        
         {/* Beyond the Itinerary & Travel Categories Section */}
         <BeyondItinerarySection />
 

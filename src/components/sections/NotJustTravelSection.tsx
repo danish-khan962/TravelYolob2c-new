@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import { Autoplay } from 'swiper/modules';
 
 const travelItems = [
   {
@@ -50,7 +51,7 @@ const travelItems = [
 
 const NotJustTravelSection: React.FC = () => {
   return (
-    <section className="w-full h-auto sm:h-[1120px] md:h-[630px] lg:h-[700px] bg-global-10 py-[48px] sm:py-[68px] lg:py-[96px] mt-[-1px]">
+    <section className="w-full h-auto sm:h-[1120px] md:h-[630px] lg:h-[700px] bg-global-10 py-[48px] sm:py-[68px] lg:py-[96px] mt-8 md:mt-10 lg:mt-12">
       <div className="w-full  max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-[24px] sm:text-[32px] lg:text-[40px] font-light italic leading-[33px] sm:leading-[44px] lg:leading-[55px] text-global-1 mb-[54px] sm:mb-[76px] lg:mb-[108px] font-noto-serif">
           <span className="uppercase">N</span>
@@ -61,7 +62,16 @@ const NotJustTravelSection: React.FC = () => {
 
         {/* Mobile View: Swiper with centered text inside image */}
         <div className="block sm:hidden">
-          <Swiper spaceBetween={16} slidesPerView={1.1} className="w-full" loop={true}>
+          <Swiper
+            spaceBetween={16}
+            slidesPerView={1.1}
+            className="w-full"
+            loop={true}
+            modules={[Autoplay]}
+            autoplay={true}
+            simulateTouch={false}
+            allowTouchMove={false}
+          >
             {travelItems.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="relative flex items-center justify-center text-center w-full h-[371px] mb-6">

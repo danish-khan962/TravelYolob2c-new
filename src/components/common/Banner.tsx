@@ -11,7 +11,7 @@ const Banner = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
-    <div className='hidden sm:flex w-screen bg-[#FFFFFF] sticky top-0 z-50'>
+    <div className='hidden sm:flex w-screen bg-[#FFFFFF]'>
       <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 bg-[#FFFFFF] py-3">
         <div className="flex items-center justify-between relative">
 

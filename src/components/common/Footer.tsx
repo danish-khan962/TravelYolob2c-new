@@ -284,7 +284,10 @@ const Footer = () => {
                             Copyright © {year} TravelYollo. All Rights Reserved.
                         </p>
                         <p className='text-[14px] text-[#C9C9C9] font-host-grotesk font-light'>
-                            Design and Developed by <span className='font-semibold'>ID8NXT</span>
+                            Design and Developed by <span></span>
+                            <Link href={"https://www.id8nxt.com/brandsolutions"} target='_blank'>
+                                <span className='font-semibold'>ID8NXT</span>
+                            </Link>
                         </p>
                     </div>
                 </div>
@@ -295,7 +298,10 @@ const Footer = () => {
                 <div className='w-screen bg-[#161616] flex flex-col gap-1 justify-center text-center'>
                     <p className='w-full max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 text-[14px] mt-[22px] text-[#C9C9C9] font-host-grotesk font-light'> Copyright © {year} TravelYollo. All Rights Reserved.</p>
                     <p className='text-[14px] text-[#C9C9C9] font-host-grotesk font-light mb-[80px]'>
-                        Design and Developed by <span className='font-semibold'>ID8NXT</span>
+                        Design and Developed by <span></span>
+                        <Link href={"https://www.id8nxt.com/brandsolutions"} target='_blank'>
+                            <span className='font-semibold'>ID8NXT</span>
+                        </Link>
                     </p>
                 </div>
             </div>

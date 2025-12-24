@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import Banner from './Banner';
 
 export interface HeaderProps {
   className?: string;
@@ -40,8 +41,16 @@ export function Header({ className = '' }: HeaderProps): JSX.Element {
   const slugify = (title: string) =>
     title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
+
+  // sticky z-[999] top-0 sm:top-14 md:top-[70px]
+
   return (
-    <header className={`sticky z-[999] top-0 sm:top-14 md:top-[70px] w-full bg-header-1 ${className}`}>
+    <section className='flex flex-col gap-0 sticky z-[999] top-0'>
+
+      {/*  */}
+      <Banner />
+
+      <header className={`w-full bg-header-1 ${className}`}>
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between sm:justify-center items-center py-4 sm:py-6 gap-2">
           {/* Logo */}
@@ -280,6 +289,7 @@ export function Header({ className = '' }: HeaderProps): JSX.Element {
         </nav>
       </div>
     </header>
+    </section>
   );
 }
 
