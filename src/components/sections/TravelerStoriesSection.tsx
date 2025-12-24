@@ -165,7 +165,7 @@ const TravelerStoriesSection: React.FC<TravelerStoriesSectionProps> = ({
               alt="left swiper"
               height={1000}
               width={1000}
-              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -left-5 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -left-5 top-[calc(50%-24px)] -translate-y-1/2 swiper-button-prev-custom"
               onClick={() => swiperRef.current?.slidePrev()}
             />
             {/* Right Chevron */}
@@ -174,12 +174,15 @@ const TravelerStoriesSection: React.FC<TravelerStoriesSectionProps> = ({
               alt="right swiper"
               height={1000}
               width={1000}
-              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -right-5 top-1/2 -translate-y-1/2 swiper-button-next-custom"
+              className="h-12 w-12 md:h-14 md:w-14 absolute z-50 cursor-pointer -right-5 top-[calc(50%-24px)] -translate-y-1/2 swiper-button-next-custom"
               onClick={() => swiperRef.current?.slideNext()}
             />
 
             <Swiper
               ref={swiperRef}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
               modules={[Autoplay, Pagination, Navigation]}
               spaceBetween={24}
               slidesPerView={1}

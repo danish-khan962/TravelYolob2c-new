@@ -263,7 +263,7 @@ const SignatureExperiencesSection = forwardRef<
                 alt="left swiper"
                 height={1000}
                 width={1000}
-                className="h-14 w-14 absolute z-100 cursor-pointer left-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                className="h-14 w-14 absolute z-100 cursor-pointer left-2 top-[calc(50%+25px)] -translate-y-1/2 swiper-button-prev-custom"
                 onClick={handlePrevSlide}
               />
               {/* Right swiper top */}
@@ -272,7 +272,7 @@ const SignatureExperiencesSection = forwardRef<
                 alt="right swiper"
                 height={1000}
                 width={1000}
-                className="h-14 w-14 absolute z-100 cursor-pointer right-2 top-1/2 -translate-y-1/2 swiper-button-prev-custom"
+                className="h-14 w-14 absolute z-100 cursor-pointer right-2 top-[calc(50%+25px)] -translate-y-1/2 swiper-button-next-custom"
                 onClick={handleNextSlide}
               />
               {displayData.map((experience, index) => (
