@@ -37,7 +37,7 @@ const Timeline = ({ packageSlug }: { packageSlug: string }) => {
     return (
       <div className="relative w-full mt-[36px] sm:mt-[73px] animate-pulse">
         {/* Vertical line */}
-        <div className="absolute left-[25px] top-0 h-full bg-[#E4D2A4]/60 w-[2px] -translate-x-1/2" />
+        <div className="absolute left-[25px] top-0 h-[calc(100%-55px)] bg-[#E4D2A4]/60 w-[2px] -translate-x-1/2" />
 
         <div className="space-y-[42px]">
           {[1, 2, 3, 4,].map((_, index) => (
@@ -71,7 +71,7 @@ const Timeline = ({ packageSlug }: { packageSlug: string }) => {
   return (
     <div className="relative w-full mt-[36px] sm:mt-[73px]">
       {/* Vertical line */}
-      <div className="absolute left-[25px] top-0 h-full bg-[#E4D2A4] w-[2px] -translate-x-1/2" />
+      <div className="absolute left-[25px] top-0 h-[calc(100%-55px)] bg-[#E4D2A4] w-[2px] -translate-x-1/2" />
 
       {/* Timeline items */}
       <div className="space-y-[42px]">
