@@ -88,20 +88,13 @@ const Hero = () => {
         ))}
 
         {/* Black Tint Overlay */}
-        <div className="absolute inset-0 z-10">
+        <div className="absolute inset-0 z-10 pointer-events-none">
           <Image
             src={Black_Tint_for_Image}
-            alt="overlay desktop"
+            alt="overlay"
             fill
             priority
-            className="object-cover w-full h-full hidden sm:block"
-          />
-          <Image
-            src={Black_Tint_Mobile}
-            alt="overlay mobile"
-            fill
-            priority
-            className="object-cover w-full h-full block sm:hidden max-[500px]:block"
+            className="object-cover w-full h-full object-right"
           />
         </div>
 
