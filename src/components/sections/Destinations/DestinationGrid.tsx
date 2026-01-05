@@ -32,54 +32,57 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [screenWidth, setScreenWidth] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-  const fetchDestinations = async () => {
-    try {
-      const params = new URLSearchParams({ package_type: 'destination' });
-      if (regionId) params.append('regions', regionId);
-      if (seasonId) params.append('seasons', seasonId);
+    const fetchDestinations = async () => {
+      try {
+        const params = new URLSearchParams({ package_type: 'destination' });
+        if (regionId) params.append('regions', regionId);
+        if (seasonId) params.append('seasons', seasonId);
 
-      let allData: any[] = [];
-      let page = 1;
-      let hasMore = true;
+        let allData: any[] = [];
+        let page = 1;
+        let hasMore = true;
 
-      while (hasMore) {
-        const pageParams = new URLSearchParams(params);
-        pageParams.append('page', String(page));
+        while (hasMore) {
+          const pageParams = new URLSearchParams(params);
+          pageParams.append('page', String(page));
 
-        const res = await fetch(`/api/packages/?${pageParams.toString()}`);
-        if (!res.ok) throw new Error(`Failed to fetch destinations: ${res.status}`);
+          const res = await fetch(`/api/packages/?${pageParams.toString()}`);
+          if (!res.ok) throw new Error(`Failed to fetch destinations: ${res.status}`);
 
-        const data = await res.json();
-        const results = data.results || [];
+          const data = await res.json();
+          const results = data.results || [];
 
-        allData.push(...results);
+          allData.push(...results);
 
-        if (data.next) {
-          page++;
-        } else {
-          hasMore = false;
+          if (data.next) {
+            page++;
+          } else {
+            hasMore = false;
+          }
         }
+
+        const formattedData = allData.map((pkg: any) => ({
+          id: pkg.id,
+          slug: pkg.slug,
+          title: pkg.title || "Untitled",
+          duration: pkg.duration_days && pkg.duration_nights
+            ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
+            : "",
+          image: pkg.image_portrait || "",
+        }));
+
+        setDestinations(formattedData);
+      } catch (err) {
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      const formattedData = allData.map((pkg: any) => ({
-        id: pkg.id,
-        slug: pkg.slug,
-        title: pkg.title || "Untitled",
-        duration: pkg.duration_days && pkg.duration_nights
-          ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
-          : "",
-        image: pkg.image_portrait || "",
-      }));
-
-      setDestinations(formattedData);
-    } catch (err) {
-    }
-  };
-
-  fetchDestinations();
-}, [regionId, seasonId]);
+    fetchDestinations();
+  }, [regionId, seasonId]);
 
 
 
@@ -107,6 +110,8 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
       setVisibleCount((prev) => Math.min(prev + 3, destinations.length));
     }
   };
+
+
 
   return (
     <div className="max-w-[1400px] w-full mx-auto">
@@ -157,16 +162,31 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
       )}
 
       {/* Grid */}
-      {destinations.length > 0 && (
+      {/* Grid or Skeleton */}
+      {isLoading ? (
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-[20px] sm:gap-y-6 justify-items-center">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className={`w-full ${index % 3 === 1 ? 'lg:-translate-y-[10%]' : ''} transition-transform duration-300`}
+            >
+              <div className="relative max-w-[450px] mx-auto w-full h-[510px] sm:h-[550px] md:h-[580px] lg:h-[610px] rounded-xl overflow-hidden bg-gray-200 animate-pulse shadow-sm border border-gray-100">
+                <div className="absolute bottom-0 left-0 w-full h-[80px] bg-white/90 px-6 flex justify-between items-center">
+                  <div className="space-y-3 w-full">
+                    <div className="h-4 bg-gray-300 rounded-full w-[75%]" />
+                    <div className="h-3 bg-gray-300 rounded-full w-[45%]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : destinations.length > 0 && (
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-[20px] sm:gap-y-6 justify-items-center">
           {destinationsToShow.map((dest, index) => (
             <div
-              key={index}
-              className={`
-                w-full
-                ${index % 3 === 1 ? 'lg:-translate-y-[10%]' : ''}
-                transition-transform duration-300
-              `}
+              key={dest.id || index}
+              className={`w-full ${index % 3 === 1 ? 'lg:-translate-y-[10%]' : ''} transition-transform duration-300`}
             >
               <DestinationCard
                 title={
