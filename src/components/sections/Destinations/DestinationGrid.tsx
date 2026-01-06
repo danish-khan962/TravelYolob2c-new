@@ -14,6 +14,7 @@ interface Destination {
   image: string;
   id: string;
   slug: string;
+  price?: number;
 }
 
 interface DestinationGridProps {
@@ -67,11 +68,12 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
         const formattedData = allData.map((pkg: any) => ({
           id: pkg.id,
           slug: pkg.slug,
-          title: pkg.title || "Untitled",
+          title: pkg.title || "~~~",
           duration: pkg.duration_days && pkg.duration_nights
             ? `(${pkg.duration_days}D / ${pkg.duration_nights}N)`
             : "",
           image: pkg.image_portrait || "",
+          price: pkg.price || "",
         }));
 
         setDestinations(formattedData);
@@ -203,6 +205,7 @@ const DestinationGrid: React.FC<DestinationGridProps> = ({
                 duration={dest.duration}
                 image={dest.image}
                 slug={dest.slug}
+                price={dest.price ? Math.floor(Number(dest.price)) : 0}
               />
             </div>
           ))}

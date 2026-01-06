@@ -20,6 +20,7 @@ interface Experience {
   duration_days?: number | string;
   duration_nights?: number | string;
   image?: string;
+  price?: number;
 }
 
 interface ExperienceDesktopProps {
@@ -99,10 +100,11 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
             ...results.map((item: any) => ({
               id: item.id || "",
               slug: item.slug || item.id || "",
-              title: item.title || "Untitled",
+              title: item.title || "~~~",
               duration_days: item.duration_days || "",
               duration_nights: item.duration_nights || "",
               image: item.image_portrait || "",
+              price: item.price || "",
             }))
           );
 
@@ -316,15 +318,20 @@ const ExperienceDesktop = forwardRef<ExperienceDesktopHandle, ExperienceDesktopP
                         <h3 className="text-[14px] sm:text-[16px] font-host-grotesk font-medium leading-[20px] sm:leading-[22px] lg:leading-[26px] text-black flex-1">
                           {renderTitleWithBreaks(experience.title)}
                         </h3>
-                        {(experience.duration_days || experience.duration_nights) && (
+                        <div className="flex flex-col justify-start items-start gap-y-1">
+                          {(experience.duration_days || experience.duration_nights) && (
+                            <span className="text-[10px] sm:text-[12px] lg:text-[14px] font-host-grotesk font-normal leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
+                              {experience.duration_days && experience.duration_nights
+                                ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
+                                : experience.duration_days
+                                  ? `(${experience.duration_days}D`
+                                  : `${experience.duration_nights}N)`}
+                            </span>
+                          )}
                           <span className="text-[10px] sm:text-[12px] lg:text-[14px] font-host-grotesk font-normal leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
-                            {experience.duration_days && experience.duration_nights
-                              ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
-                              : experience.duration_days
-                                ? `(${experience.duration_days}D`
-                                : `${experience.duration_nights}N)`}
+                            ${experience.price ? Math.floor(Number(experience.price)) : 0}*
                           </span>
-                        )}
+                        </div>
                       </div>
                     </div>
                   </Link>

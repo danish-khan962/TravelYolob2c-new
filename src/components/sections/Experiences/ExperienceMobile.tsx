@@ -20,6 +20,7 @@ interface Experience {
   duration_days?: number | string;
   duration_nights?: number | string;
   image?: string;
+  price?: number;
 }
 
 interface ExperienceMobileProps {
@@ -41,7 +42,7 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
 }) => {
   const params = useParams();
   const parentSlug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug || 'romantic-escapes';
-    const stableSlug = React.useMemo(() => parentSlug, [parentSlug]);
+  const stableSlug = React.useMemo(() => parentSlug, [parentSlug]);
 
   const [activeIndex, setActiveIndex] = useState(2);
   const [progress, setProgress] = useState(0);
@@ -87,79 +88,80 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
     return () => window.removeEventListener('resize', updateLoop);
   }, []);
 
-  
+
   useEffect(() => {
-  async function fetchExperiences() {
-    try {
-      const subtypeRes = await fetch("/api/experience-subtypes");
-      if (!subtypeRes.ok) {
-        setExperiences([]);
-        setIsLoop(false);
-        return;
-      }
-
-      const subtypeJson = await subtypeRes.json();
-      const subtypeList: any[] = subtypeJson?.data?.results || [];
-
-      const matchedSubtype = subtypeList.find(
-        (item) => slugify(item.name) === stableSlug
-      );
-
-      if (!matchedSubtype) {
-        setExperiences([]);
-        setIsLoop(false);
-        return;
-      }
-
-      const subtypeId = matchedSubtype.id;
-
-      let allData: Experience[] = [];
-      let page = 1;
-      const pageSize = 20;
-      let hasMore = true;
-
-      while (hasMore) {
-        const res = await fetch(
-          `/api/packages?package_type=experience&experience_subtypes=${subtypeId}&page=${page}`
-        );
-
-        if (!res.ok) {
+    async function fetchExperiences() {
+      try {
+        const subtypeRes = await fetch("/api/experience-subtypes");
+        if (!subtypeRes.ok) {
           setExperiences([]);
           setIsLoop(false);
           return;
         }
 
-        const json = await res.json();
-        const results = json.results || [];
+        const subtypeJson = await subtypeRes.json();
+        const subtypeList: any[] = subtypeJson?.data?.results || [];
 
-        const mapped: Experience[] = results.map((item: any) => ({
-          id: item.id || "",
-          slug: item.slug || item.id || "",
-          title: item.title || "Untitled",
-          duration_days: item.duration_days || "",
-          duration_nights: item.duration_nights || "",
-          image: item.image_portrait || "",
-        }));
+        const matchedSubtype = subtypeList.find(
+          (item) => slugify(item.name) === stableSlug
+        );
 
-        allData.push(...mapped);
-
-        if (results.length < pageSize) {
-          hasMore = false;
-        } else {
-          page++;
+        if (!matchedSubtype) {
+          setExperiences([]);
+          setIsLoop(false);
+          return;
         }
+
+        const subtypeId = matchedSubtype.id;
+
+        let allData: Experience[] = [];
+        let page = 1;
+        const pageSize = 20;
+        let hasMore = true;
+
+        while (hasMore) {
+          const res = await fetch(
+            `/api/packages?package_type=experience&experience_subtypes=${subtypeId}&page=${page}`
+          );
+
+          if (!res.ok) {
+            setExperiences([]);
+            setIsLoop(false);
+            return;
+          }
+
+          const json = await res.json();
+          const results = json.results || [];
+
+          const mapped: Experience[] = results.map((item: any) => ({
+            id: item.id || "",
+            slug: item.slug || item.id || "",
+            title: item.title || "~~~",
+            duration_days: item.duration_days || "",
+            duration_nights: item.duration_nights || "",
+            image: item.image_portrait || "",
+            price: item.price || "",
+          }));
+
+          allData.push(...mapped);
+
+          if (results.length < pageSize) {
+            hasMore = false;
+          } else {
+            page++;
+          }
+        }
+
+        setExperiences(allData);
+        setIsLoop(window.innerWidth >= 640 && allData.length > 1);
+      } catch {
+        setExperiences([]);
+        setIsLoop(false);
       }
-
-      setExperiences(allData);
-      setIsLoop(window.innerWidth >= 640 && allData.length > 1);
-    } catch {
-      setExperiences([]);
-      setIsLoop(false);
     }
-  }
 
-  fetchExperiences();
-}, [stableSlug]);
+    fetchExperiences();
+  }, [stableSlug]);
 
 
 
@@ -268,15 +270,20 @@ const ExperienceMobile: React.FC<ExperienceMobileProps> = ({
                               ))
                               : null}
                           </h3>
-                          {(experience.duration_days || experience.duration_nights) && (
-                            <span className="text-[10px] sm:text-[12px] lg:text-[14px] font-host-grotesk font-normal leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
-                              {experience.duration_days && experience.duration_nights
-                                ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
-                                : experience.duration_days
-                                  ? `(${experience.duration_days}D`
-                                  : `${experience.duration_nights}N)`}
+                          <div className='flex flex-col justify-start items-start gap-y-1'>
+                            {(experience.duration_days || experience.duration_nights) && (
+                              <span className="text-[12px] sm:text-[13px] lg:text-[14px] font-host-grotesk font-medium leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
+                                {experience.duration_days && experience.duration_nights
+                                  ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
+                                  : experience.duration_days
+                                    ? `(${experience.duration_days}D`
+                                    : `${experience.duration_nights}N)`}
+                              </span>
+                            )}
+                            <span className="text-[12px] sm:text-[13px] lg:text-[14px] font-host-grotesk font-medium leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
+                              ${experience.price ? Math.floor(Number(experience.price)) : 0}*
                             </span>
-                          )}
+                          </div>
                         </div>
                       </div>
                     </Link>

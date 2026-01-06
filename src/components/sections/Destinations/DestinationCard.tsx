@@ -10,9 +10,10 @@ interface DestinationCardProps {
   image: string;
   id: string;
   slug: string;
+  price?: number;
 }
 
-const DestinationCard: React.FC<DestinationCardProps> = ({ title, duration, image, slug, id}) => {
+const DestinationCard: React.FC<DestinationCardProps> = ({ title, duration, image, slug, id, price }) => {
   return (
     <div className="relative max-w-[450px] w-full h-[510px] sm:h-[550px] md:h-[580px] lg:h-[610px] rounded-xl overflow-hidden shadow-lg cursor-pointer">
       <Link href={`/destinations/${slug}`}>
@@ -31,9 +32,14 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ title, duration, imag
           <h3 className="text-[16px] sm:text-[20px] font-medium leading-snug font-host-grotesk text-black line-clamp-2">
             {title}
           </h3>
-          <p className="text-[14px] font-host-grotesk text-black opacity-80 whitespace-nowrap ml-2">
-            {duration}
-          </p>
+          <div className='flex flex-col justify-start items-start gap-y-1'>
+            <p className="text-[14px] font-host-grotesk text-black opacity-80 whitespace-nowrap ml-2">
+              {duration}
+            </p>
+            <p className="text-[14px] font-host-grotesk text-black opacity-80 whitespace-nowrap ml-2">
+              ${price}*
+            </p>
+          </div>
         </div>
       </Link>
     </div>

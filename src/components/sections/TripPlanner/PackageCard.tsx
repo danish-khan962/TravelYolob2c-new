@@ -9,9 +9,10 @@ interface PackageCardProps {
     duration: string;
     image: string;
     slug: string;
+    price?: number;
 }
 
-const PackageCard: React.FC<PackageCardProps> = ({ title, duration, image, slug }) => {
+const PackageCard: React.FC<PackageCardProps> = ({ title, duration, image, slug, price }) => {
     return (
             <div className="relative max-w-[450px] w-full h-[510px] sm:h-[550px] md:h-[580px] lg:h-[610px] rounded-xl overflow-hidden shadow-lg">
 
@@ -29,7 +30,14 @@ const PackageCard: React.FC<PackageCardProps> = ({ title, duration, image, slug 
 
                 <div className="absolute bottom-2 left-5 right-5 z-20 text-black flex flex-row justify-between items-end">
                     <h3 className="text-[16px] sm:text-[20px] font-medium leading-snug font-host-grotesk line-clamp-2">{title}</h3>
-                    <p className="text-[14px] opacity-80 whitespace-nowrap font-host-grotesk">{`(${duration})`}</p>
+                    <div className='flex flex-col justify-start items-start gap-y-1'>
+                        <p className="text-[14px] opacity-80 whitespace-nowrap font-host-grotesk">
+                            {`(${duration})`}
+                        </p>
+                        <p className="text-[14px] opacity-80 whitespace-nowrap font-host-grotesk">
+                            {`$${price}*`}
+                        </p>
+                    </div>
                 </div>
             </div>
     );

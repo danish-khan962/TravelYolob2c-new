@@ -13,7 +13,8 @@ interface Destination {
   title: string;
   duration: string;
   image: string;
-  slug: string
+  slug: string;
+  price?: number;
 }
 
 const PackageCardGrid: React.FC = () => {
@@ -37,6 +38,7 @@ const PackageCardGrid: React.FC = () => {
               : "",
           image: pkg.image || "/images/default-package.jpg",
           slug: pkg.slug || "",
+          price: pkg.price ? Number(pkg.price) : null,
         })) || [];
 
         setDestinations(formatted);
@@ -49,7 +51,6 @@ const PackageCardGrid: React.FC = () => {
   }, []);
 
   const renderTitle = (title: string) => {
-    // Support for titles using '||' as line breaks
     return title.split('||').map((line, idx) => (
       <React.Fragment key={idx}>
         {line}
@@ -80,6 +81,7 @@ const PackageCardGrid: React.FC = () => {
               title={renderTitle(dest.title)}
               duration={dest.duration}
               image={dest.image}
+              price={dest.price ? Math.floor(dest.price) : 0}
             />
           </SwiperSlide>
         ))}

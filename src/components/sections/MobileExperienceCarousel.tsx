@@ -16,6 +16,7 @@ interface Destination {
   duration_days?: number | string;
   duration_nights?: number | string;
   image?: string;
+  price?: number;
 }
 
 interface MobileExperienceCarouselProps {
@@ -86,10 +87,11 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
           const results = json.results || [];
 
           const mapped: Destination[] = results.map((item: any) => ({
-            title: item.title || "Untitled",
+            title: item.title || "~~~",
             duration_days: item.duration_days || "",
             duration_nights: item.duration_nights || "",
             image: item.image_portrait || "",
+            price: item.price || "",
           }));
 
           allData.push(...mapped);
@@ -215,15 +217,20 @@ const MobileExperienceCarousel: React.FC<MobileExperienceCarouselProps> = ({
                             ))
                             : null}
                         </h3>
-                        {(experience.duration_days || experience.duration_nights) && (
-                          <span className="text-[10px] sm:text-[12px] lg:text-[14px] font-host-grotesk font-normal leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
-                            {experience.duration_days && experience.duration_nights
-                              ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
-                              : experience.duration_days
-                                ? `(${experience.duration_days}D`
-                                : `${experience.duration_nights}N)`}
+                        <div className='flex flex-col justify-start items-start gap-y-1'>
+                          {(experience.duration_days || experience.duration_nights) && (
+                            <span className="text-[12px] sm:text-[13px] lg:text-[14px] font-host-grotesk font-medium leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
+                              {experience.duration_days && experience.duration_nights
+                                ? `(${experience.duration_days}D / ${experience.duration_nights}N)`
+                                : experience.duration_days
+                                  ? `(${experience.duration_days}D`
+                                  : `${experience.duration_nights}N)`}
+                            </span>
+                          )}
+                          <span className="text-[12px] sm:text-[13px] lg:text-[14px] font-host-grotesk font-medium leading-[13px] sm:leading-[16px] lg:leading-[19px] text-black ml-2 whitespace-nowrap">
+                            ${experience.price ? Math.floor(Number(experience.price)) : 0}*
                           </span>
-                        )}
+                        </div>
                       </div>
                     </div>
                   </SwiperSlide>

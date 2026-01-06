@@ -63,7 +63,13 @@ const PackageContent = () => {
     return (
         <div>
             {/* Hero section */}
-            <Hero title={pkg.title} image={pkg.image_landscape || pkg.image} duration={`(${pkg.duration_days}D / ${pkg.duration_nights}N)`} />
+            <Hero 
+                title={pkg.title} 
+                image_landscape={pkg.image_landscape || pkg.image} 
+                image_portrait={pkg.image_portrait || pkg.image}
+                duration={`${pkg.duration_days}D / ${pkg.duration_nights}N`} 
+                price={pkg.price ? Math.floor(pkg.price) : 0}
+            />
 
 
             {/* Overview */}

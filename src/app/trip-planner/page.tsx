@@ -29,6 +29,7 @@ const Page: React.FC = () => {
             pkg.duration_days && pkg.duration_nights
               ? `${pkg.duration_days}D / ${pkg.duration_nights}N`
               : "",
+          price: pkg.price ? Math.floor(Number(pkg.price)) : null,
         }));
         setDestinations(formatted);
       } catch (err) {
@@ -54,6 +55,7 @@ const Page: React.FC = () => {
             pkg.duration_days && pkg.duration_nights
               ? `${pkg.duration_days}D / ${pkg.duration_nights}N`
               : "",
+          price: pkg.price ? Math.floor(Number(pkg.price)) : null,
         }));
         setSuggestedPackages(formatted || []);
       } catch (err) {

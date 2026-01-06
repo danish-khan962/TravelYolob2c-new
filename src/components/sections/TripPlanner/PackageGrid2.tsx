@@ -8,6 +8,7 @@ type Destination = {
   duration: string;
   image: string;
   slug:string;
+  price?:number;
 };
 
 type Props = {
@@ -33,6 +34,7 @@ const PackageGrid2: React.FC<Props> = ({ destinations }) => {
                 title={formattedTitle}
                 duration={dest.duration}
                 image={dest.image}
+                price={dest.price ? Math.floor(Number(dest.price)) : 0}
               />
             </div>
           );
