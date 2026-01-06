@@ -60,8 +60,8 @@ const Hero = ({ title, image_landscape, image_portrait, duration, price }: { tit
 
         {/* Days and Price block */}
         <div className="w-full flex justify-center items-center absolute bottom-0 z-50">
-            <p className="font-host-grotesk bg-[#000000]/60 backdrop-blur-sm font-light italic text-[17px] sm:text-[20px] md:text-[22px] lg:text-[25px] capitalize py-3 px-6 text-white rounded-t">
-              Duration:{duration} <span className="mx-4"> | </span> Cost:${price}*
+            <p className="font-host-grotesk bg-[#000000]/60 backdrop-blur-sm font-light italic text-[17px] sm:text-[20px] md:text-[22px] lg:text-[25px] py-3 px-6 text-white rounded-t">
+              Starting from <span className="font-medium"> ${price} </span> per person*
             </p>
         </div>
       </div>
